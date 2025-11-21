@@ -1,0 +1,18 @@
+Instalar en el equipo:
+-Composer
+-7zip
+-Git
+
+#Para instalar un proyecto sin usar el asistente de configuración
+composer create-project laravel/laravel example-app 
+
+Tmb se puede especificar la versión exacta de laravel que desea con el comando:
+composer create-project laravel/laravel my-laravel-project ^11
+
+#Para crear un proyecton con el instalador
+composer global require laravel/installer
+laravel new example-app
+
+#Al importar un proyecto sin la carpeta vendor, ejecutar: composer install
+
+
