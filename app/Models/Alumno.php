@@ -8,17 +8,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Alumno extends Model
 {
+    protected $table = 'alumno';
+    // Definimos qué campos se pueden rellenar automáticamente al crear un alumno
     protected $fillable = ['NRE','nombre', 'apellidos', 'curso', 'profesor_id', 'aula_id'];
 
-    // El alumno pertenece a un aula
+    // RELACIÓN: Un alumno pertenece a una sola aula (Muchos a 1)
     public function aula(): BelongsTo
     {
+        // El alumno tiene una columna 'aula_id' que lo conecta con su aula
         return $this->belongsTo(Aula::class);
     }
 
+    // RELACIÓN: Un alumno puede tener muchos registros o fichajes (1 a Muchos)
     public function registros(): HasMany
     {
-        // Al usar 'id', Laravel ya sabe cómo conectarlos, solo necesitas el nombre de la clase
+        // Buscamos todos los registros que tengan el ID de este alumno
         return $this->hasMany(Registro::class);
     }
 }
