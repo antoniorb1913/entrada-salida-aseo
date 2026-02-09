@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('registros', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('apellidos', 100);
-            $table->string('pass');
-            $table->string('rol', 20)->default('profesor'); 
-            $table->string('curso', 10)->nullable(); 
-        
-            $table->foreignId('aula_id')->nullable()->constrained('aulas');
-        
+            $table->foreignId('alumno_id')->constrained('alumnos');
+            $table->foreignId('profesor_id')->constrained('profesors');
+            $table->datetime("fecha_salida");
+            $table->datetime("fecha_entrada");
             $table->timestamps();
         });
     }

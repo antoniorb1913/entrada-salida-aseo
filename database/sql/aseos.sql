@@ -31,7 +31,7 @@ CREATE TABLE alumno (
     nre INT UNIQUE,
     nombre varchar(50),
     apellidos varchar(100),
-    curso varchar(5),
+    curso varchar(50),
     profesor_id int,
     aula_id int,
     created_at TIMESTAMP NULL,

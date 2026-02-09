@@ -15,6 +15,8 @@ class Registro extends Model
         'fecha_salida'
     ];
 
+    protected $hidden = ["updated_at", "created_at"];
+
     // RELACIÓN: Indica que este registro pertenece a un único alumno
     public function alumno(): BelongsTo
     {

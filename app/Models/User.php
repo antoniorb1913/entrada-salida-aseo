@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     // Indica que este modelo usa tu tabla 'profesor'
-    protected $table = 'profesor';
+    protected $table = 'profesors';
 
     /**
      * Atributos que se pueden asignar masivamente.
@@ -21,15 +21,17 @@ class User extends Authenticatable
         'nombre',     
         'apellidos',  
         'email',
-        'password',    
-        'curso',      
-        'rol',    
+        'password',       
+        'rol'    
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'updated_at', 
+        'created_at'
     ];
+
 
     protected function casts(): array
     {

@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Alumno extends Model
 {
-    protected $table = 'alumno';
+    protected $table = 'alumnos';
     // Definimos qué campos se pueden rellenar automáticamente al crear un alumno
-    protected $fillable = ['NRE','nombre', 'apellidos', 'curso', 'profesor_id', 'aula_id'];
+    protected $fillable = ['nre','nombre', 'apellidos', 'curso'];
+
+    protected $hidden = ["updated_at", "created_at"];
 
     // RELACIÓN: Un alumno pertenece a una sola aula (Muchos a 1)
     public function aula(): BelongsTo
