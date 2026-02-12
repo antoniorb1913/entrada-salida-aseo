@@ -14,7 +14,7 @@ class CursoSeeder extends Seeder
     public function run(): void
     {
         // 1. ESO (1º a 4º, letras A a D)
-        foreach (['1', '2', '3', '4'] as $nivel) {
+        foreach (['1º', '2º', '3º', '4º'] as $nivel) {
             foreach (['A', 'B', 'C', 'D'] as $letra) {
                 Curso::create([
                     'etapas' => Etapas::ESO, 
@@ -24,7 +24,7 @@ class CursoSeeder extends Seeder
             }
         }
         // 2. Bachillerato (1º y 2º, letras A a D)
-        foreach (['1', '2'] as $nivel) {
+        foreach (['1º', '2º'] as $nivel) {
             foreach (['ARTES', 'CIENCIA', 'HUMANIDADES CCSS'] as $letra) {
                 Curso::create([
                     'etapas' => Etapas::BACHILLERATO,
@@ -34,35 +34,35 @@ class CursoSeeder extends Seeder
             }
         }
         // 3. FP Grado Medio (SMR) - 1º y 2º
-        foreach (['1', '2'] as $nivel) {
+        foreach (['1º', '2º'] as $nivel) {
             Curso::create([
                 'etapas' => Etapas::FP,
-                'nivel'  => $nivel,
-                'letra'  => 'SMR',
+                'nivel'  => 'SMR',
+                'letra'  => $nivel,
             ]);
         }
         // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1', '2'] as $nivel) {
+        foreach (['1º', '2º'] as $nivel) {
             Curso::create([
                 'etapas' => Etapas::FP,
-                'nivel'  => $nivel,
-                'letra'  => 'DAW',
+                'nivel'  => 'DAW',
+                'letra'  => $nivel,
             ]);
         }
         // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1', '2'] as $nivel) {
+        foreach (['1º', '2º'] as $nivel) {
             Curso::create([
                 'etapas' => Etapas::FP,
-                'nivel'  => $nivel,
-                'letra'  => 'BASICA INFORMATICA',
+                'nivel'  => 'BASICA INFORMATICA',
+                'letra'  => $nivel,
             ]);
         }
         // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1', '2'] as $nivel) {
+        foreach (['1º', '2º'] as $nivel) {
             Curso::create([
                 'etapas' => Etapas::FP,
-                'nivel'  => $nivel,
-                'letra'  => 'BASICA VEHICULOS',
+                'nivel'  => 'BASICA VEHICULOS',
+                'letra'  => $nivel,
             ]);
         }
     }

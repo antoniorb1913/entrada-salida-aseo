@@ -6,15 +6,15 @@ use App\Models\Curso;
 
 class CursoService
 {
-
-    public function getEtapasUnicas() {
+    public function getEtapasUnicas() 
+    {
         return Curso::distinct()->pluck('etapas');
     }
     
+    // Asegúrate de que este nombre sea exacto: getNivelesPorEtapa
     public function getNivelesPorEtapa($etapa)
     {
-        // Usamos whereRaw para que busque sin importar si es ESO o eso
-        return Curso::whereRaw('UPPER(etapas) = ?', [strtoupper($etapa)])
+        return Curso::where('etapas', strtoupper($etapa))
                     ->distinct()
                     ->pluck('nivel');
     }

@@ -23,11 +23,11 @@ class AccesoController extends Controller
         return view('etapas', compact('etapas'));
     }
 
-    public function niveles($etapa)
-    {
-        $niveles = $this->cursoService->getNivelesPorEtapa($etapa);
-        
+public function niveles($etapa)
+{
+    $niveles = $this->cursoService->getNivelesPorEtapa($etapa);
     
-        return view('acceso-niveles', compact('niveles', 'etapa'));
-    }
+
+    return view('acceso-niveles', compact('niveles', 'etapa'));
+}
 }
