@@ -23,7 +23,6 @@ class CursoSeeder extends Seeder
                 ]);
             }
         }
-
         // 2. Bachillerato (1º y 2º, letras A a D)
         foreach (['1', '2'] as $nivel) {
             foreach (['ARTES', 'CIENCIA', 'HUMANIDADES CCSS'] as $letra) {
@@ -34,7 +33,6 @@ class CursoSeeder extends Seeder
                 ]);
             }
         }
-
         // 3. FP Grado Medio (SMR) - 1º y 2º
         foreach (['1', '2'] as $nivel) {
             Curso::create([
@@ -43,7 +41,6 @@ class CursoSeeder extends Seeder
                 'letra'  => 'SMR',
             ]);
         }
-
         // 4. FP Grado Superior (DAW) - 1º y 2º
         foreach (['1', '2'] as $nivel) {
             Curso::create([
@@ -52,7 +49,6 @@ class CursoSeeder extends Seeder
                 'letra'  => 'DAW',
             ]);
         }
-
         // 4. FP Grado Superior (DAW) - 1º y 2º
         foreach (['1', '2'] as $nivel) {
             Curso::create([

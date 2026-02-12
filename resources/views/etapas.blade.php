@@ -38,7 +38,7 @@
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('profesor') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i> Volver
             </a>
         </div>
@@ -52,29 +52,16 @@
             </div>
 
             <div class="row justify-content-center g-4">
-                {{-- Esto lo ideal es recorrerlo con un @foreach($etapas as $etapa) --}}
-                
-                <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('acceso.niveles', ['etapa' => Etapas::ESO]) }}" class="card-step bg-primary text-white shadow">
-                        <i class="bi bi-mortarboard"></i>
-                        <span>ESO</span>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('acceso.niveles', ['etapa' => Etapas::BACHILLERATO]) }}" class="card-step bg-success text-white shadow">
-                        <i class="bi bi-book"></i>
-                        <span>BACHILLERATO</span>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('acceso.niveles', ['etapa' => Etapas::FP]) }}" class="card-step bg-warning text-dark shadow">
-                        <i class="bi bi-tools"></i>
-                        <span>FP</span>
-                    </a>
-                </div>
-
+                {{-- Recorremos las etapas que vienen del controlador --}}
+                @foreach($etapas as $etapa)
+                    <div class="col-12 col-md-4 col-lg-3">
+                        {{-- Pasamos la $etapa directamente a la ruta --}}
+                        <a href="{{ route('acceso.niveles', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
+                            <i class="bi bi-mortarboard"></i>
+                            <span class="text-uppercase fw-bold">{{ $etapa }}</span>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </main>
