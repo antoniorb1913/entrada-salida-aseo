@@ -59,11 +59,8 @@
                 <i class="bi bi-search-heart me-2"></i>Página Consulta
             </span>
             <div class="d-flex gap-2">
-                <a href="{{ url()->previous() }}" class="btn btn-outline-secondary d-flex align-items-center">
-                    <i class="bi bi-arrow-left me-2"></i> Volver
-                </a>
                 <a href="{{ route('logout') }}" class="btn btn-outline-danger d-flex align-items-center">
-                    <i class="bi bi-box-arrow-right me-2"></i> Salir
+                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                 </a>
             </div>
         </div>

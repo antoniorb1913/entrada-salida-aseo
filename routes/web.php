@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\AccesoController; 
-use App\Http\Controllers\ConsultaController;
 
 // --- RUTAS PÚBLICAS ---
 // Si el usuario no está logueado, Laravel lo mandará aquí por defecto
@@ -31,12 +29,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/letras/{etapa}/{nivel}', [AccesoController::class, 'letras'])->name('acceso.letras');
         
         // Paso 4: Ver Lista de Alumnos
+        // Esta ruta ya la tienes, pero confírmala:
         Route::get('/alumnos/{curso_id}', [AccesoController::class, 'alumnos'])->name('acceso.alumnos');
     });
-
-    // 3. Otras Funciones
-    Route::get('/alumnos/modificar', [AlumnoController::class, 'index'])->name('modificar');
-    Route::get('/historial', [ConsultaController::class, 'index'])->name('consultas');
 
     // 4. Salida
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

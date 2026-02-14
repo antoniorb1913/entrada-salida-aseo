@@ -54,7 +54,7 @@
     <nav class="navbar navbar-custom py-3 shadow-sm">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-person-workspace me-2"></i>Página Profesor
+                <i class="bi bi-person-workspace me-2"></i>Bienvenido . {{ ucfirst(Auth::user()->nombre) }}
             </span>
             <a href="{{ route('logout') }}" class="btn btn-outline-danger d-flex align-items-center">
                 <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="col-12 col-md-5 col-lg-4">
-                    <a href="{{ route('consultas') }}" class="card-btn bg-info text-white shadow">
+                    <a href="#" class="card-btn bg-info text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>
