@@ -102,10 +102,3 @@ El sistema utiliza **Rutas Nombradas** para facilitar el mantenimiento y evitar 
 * `/profesor` -> `route('profesor')`
 * `/acceso-baño` -> `route('acceso')`
 * `/alumnos/modificar` -> `route('modificar')`
-
----
-
-## Próximos Pasos
-* [ ] Implementar el selector de aula tras el login.
-* [ ] Crear la vista de lista de cursos y alumnos con botones de acción (Salida/Entrada).
-* [ ] Generar reportes de tiempo de uso por alumno.
