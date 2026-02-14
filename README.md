@@ -46,7 +46,6 @@ La base de datos `aseos_DB` utiliza un diseño relacional con **Foreign Keys** p
 | Tabla | Descripción |
 | :--- | :--- |
 | **profesor** | Usuarios del sistema (profesores) con roles y credenciales. |
-| **aula** | Listado de clases/cursos del instituto. |
 | **alumno** | Información de los estudiantes vinculados a un aula. |
 | **registro** | Historial de tiempos (ID alumno, ID profesor, salida y entrada). |
 
@@ -103,9 +102,20 @@ El sistema utiliza **Rutas Nombradas** para facilitar el mantenimiento y evitar 
 * `/acceso-baño` -> `route('acceso')`
 * `/alumnos/modificar` -> `route('modificar')`
 
+Fecha --> 26/12/2025 - 06/01/2026
+
 ---
 
-## Próximos Pasos
-* [ ] Implementar el selector de aula tras el login.
-* [ ] Crear la vista de lista de cursos y alumnos con botones de acción (Salida/Entrada).
-* [ ] Generar reportes de tiempo de uso por alumno.
+
+## "Acceso al Baño", Implementacion de la tabla Cursos.
+
+* Atributos:
+  * - Etapa (enum) -> Aquí se guardan las etapas (ESO, BACHILLERATO, FP).
+  * - Nivel (string) -> Aquí se guardaran los niveles (1º, 2º, 3º, 4º )
+  * - Letra (string) -> Aquí se guardaran la letra (A, B, C, D)
+
+Para luego poder hacer consutas y poder filtrar dependiendo de lo que queramos que se vea.
+
+En la documentación/Manual usuario esta un Manual de usuario del prototipo que llevamos.
+
+Fecha --> 06/02/206 - 14/02/2026
