@@ -119,9 +119,4 @@ Para luego poder hacer consutas y poder filtrar dependiendo de lo que queramos q
 En la documentación/Manual usuario esta un Manual de usuario del prototipo que llevamos.
 
 Fecha --> 06/02/206 - 14/02/2026
-<<<<<<< HEAD
 
-
-prueba
-=======
->>>>>>> d0b2e2ced5fe2fde4e2a9e44927dc56a7bcf9928
