@@ -18,8 +18,8 @@ class ProfesorSeeder extends Seeder
             'email'     => 'cipri@profesor.com',
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
-            'password'  => Hash::make('1234'), 
-            'rol'       => 'profesor',
+            'password'  => Hash::make('1234'),      
+            'rol'       => 'profesor'
         ]);
 
         User::create([
@@ -29,7 +29,7 @@ class ProfesorSeeder extends Seeder
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
             'password'  => Hash::make('1234'), 
-            'rol'       => 'admin',
+            'rol'       => 'admin'
 
         ]);
 
@@ -40,7 +40,7 @@ class ProfesorSeeder extends Seeder
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
             'password'  => Hash::make('1234'), 
-            'rol'       => 'consulta',
+            'rol'       => 'consulta'
 
         ]);
     }

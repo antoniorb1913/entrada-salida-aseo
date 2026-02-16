@@ -31,7 +31,6 @@ CREATE TABLE alumno (
     nre INT UNIQUE,
     nombre varchar(50),
     apellidos varchar(100),
-    curso varchar(5),
     profesor_id int,
     aula_id int,
     created_at TIMESTAMP NULL,
@@ -49,6 +48,10 @@ CREATE TABLE registro (
     updated_at TIMESTAMP NULL
 );
 
+CREATE TABLE curso (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    
+);
 -- ======================================================
 -- 2. DEFINICIÓN DE FOREIGN KEYS
 -- ======================================================

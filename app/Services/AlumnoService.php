@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Alumno;
+
 class AlumnoService
 {
     /**
@@ -10,5 +12,9 @@ class AlumnoService
     public function __construct()
     {
         //
+    }
+
+    public function getAllAlum() {
+        return Alumno::all();
     }
 }

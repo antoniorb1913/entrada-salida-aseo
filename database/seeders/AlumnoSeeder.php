@@ -12,15 +12,31 @@ class AlumnoSeeder extends Seeder
     // Este método se ejecuta cuando lanzas el comando 'php artisan db:seed'
     public function run(): void
     {
-        $aula = Aula::create(['nombre' => 'Aula 0.9']);
-        // Creamos el primer usuario (alumno) de forma manual
         Alumno::create([
             'nre'    => '793120',
             'nombre'    => 'antonio', 
             'apellidos' => 'rodriguez',
-            'curso'     => '2ºDAW',
-            'profesor_id'     => 1,
-            'aula_id'  => $aula->id, 
+            'curso_id'     => 26
+            
         ]);
+        Alumno::create([
+            'nre'    => '793120',
+            'nombre'    => 'Paco', 
+            'apellidos' => 'rodriguez',
+            'curso_id'     => 19
+        ]);
+        Alumno::create([
+            'nre'    => '793120',
+            'nombre'    => 'Juan', 
+            'apellidos' => 'rodriguez',
+            'curso_id'     => 13
+        ]);
+        Alumno::create([
+            'nre'    => '793120',
+            'nombre'    => 'ibra', 
+            'apellidos' => 'hanaoui',
+            'curso_id'     => 26
+        ]);
+
     }
 }

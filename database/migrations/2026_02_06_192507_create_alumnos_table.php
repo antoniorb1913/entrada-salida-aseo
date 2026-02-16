@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('alumnos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('apellidos', 100);
-            $table->string('curso', 10);
-
-            $table->foreignId('aula_id')->nullable()->constrained('aulas');
-            $table->foreignId('profesor_id')->nullable()->constrained('profesors');
-
+            $table->string("nre");
+            $table->string('nombre');
+            $table->string('apellidos');
+            $table->foreignId("curso_id")->constrained("cursos");
             $table->timestamps();
-
         });
     }
 

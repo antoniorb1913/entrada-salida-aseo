@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Alumno extends Model
 {
-    protected $table = 'alumno';
-    // Definimos qué campos se pueden rellenar automáticamente al crear un alumno
-    protected $fillable = ['NRE','nombre', 'apellidos', 'curso', 'profesor_id', 'aula_id'];
+    protected $table = 'alumnos';
 
-    // RELACIÓN: Un alumno pertenece a una sola aula (Muchos a 1)
-    public function aula(): BelongsTo
-    {
-        // El alumno tiene una columna 'aula_id' que lo conecta con su aula
-        return $this->belongsTo(Aula::class);
-    }
 
-    // RELACIÓN: Un alumno puede tener muchos registros o fichajes (1 a Muchos)
+    protected $fillable = ['nre','nombre', 'apellidos', 'curso_id'];
+
+    protected $hidden = ["updated_at", "created_at"];
+    
+
     public function registros(): HasMany
     {
-        // Buscamos todos los registros que tengan el ID de este alumno
         return $this->hasMany(Registro::class);
+    }
+    
+    public function cursos(): HasMany
+    {
+        return $this->hasMany(Curso::class);
     }
 }
