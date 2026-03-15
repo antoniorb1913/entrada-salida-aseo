@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="col-12 col-md-5 col-lg-4">
-                    <a href="#" class="card-btn bg-info text-white shadow">
+                    <a href="{{ route('acceso') }}" class="card-btn bg-info text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>

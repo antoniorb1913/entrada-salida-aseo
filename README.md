@@ -128,4 +128,11 @@ Fecha --> 06/02/206 - 14/02/2026
 - añadir enpoint en web.php de entrada y salda.
 
 
+
+## Implementacion de tiempo de espera
+
+ - modificaciones en la navegación entre páginas
+ - se ha implementado en "RegistroService" la logica de limitación de veces que se
+ - puede ir al baño y tiempo de espera mientras alguien esté fuera en el baño.
+  
 Fecha --> 15/03/2026
