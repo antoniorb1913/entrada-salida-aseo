@@ -136,3 +136,12 @@ Fecha --> 06/02/206 - 14/02/2026
  - puede ir al baño y tiempo de espera mientras alguien esté fuera en el baño.
   
 Fecha --> 15/03/2026
+
+
+
+
+### Implementaciones nuevas visuales en el registro de entrada y salida.
+
+- Cuando has alcanzado el limite de salidas que salga algo como "Limite alcanzado".
+- Contador de tiempo para volver a salir en el cuadrado de "salida".
+- Cambiar el color de boton de salida en los otros alumnos cuando un alumno esta fuera (color: gris).
