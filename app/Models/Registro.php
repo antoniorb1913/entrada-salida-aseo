@@ -4,15 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Enums\Estado;
 
 class Registro extends Model
 {
 
     protected $fillable = [
         'alumno_id', 
-        'profesor_id', 
-        'fecha_entrada', 
-        'fecha_salida'
+        'profesor_id',
+        'curso_id',
+        'fecha_salida',
+        'fecha_entrada',
+        'estado',
+    ];
+
+    protected $casts = [
+        'estado' => Estado::class,
+        'fecha_salida' => 'datetime',
+        'fecha_entrada' => 'datetime',
     ];
 
     protected $hidden = ["updated_at", "created_at"];

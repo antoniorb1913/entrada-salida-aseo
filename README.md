@@ -119,3 +119,13 @@ Para luego poder hacer consutas y poder filtrar dependiendo de lo que queramos q
 En la documentación/Manual usuario esta un Manual de usuario del prototipo que llevamos.
 
 Fecha --> 06/02/206 - 14/02/2026
+
+
+## Registro entrada y salida al baño
+
+- añadir un enum de estado -> fuera, en_clase.
+- hacer ser controller y el service.
+- añadir enpoint en web.php de entrada y salda.
+
+
+Fecha --> 15/03/2026

@@ -76,7 +76,7 @@
             <div class="row justify-content-center g-4">
                 
                 <div class="col-12 col-md-5 col-lg-4">
-                    <a href="{{ route('consultas') }}" class="card-btn bg-info text-white shadow">
+                    <a href="{{ route('consulta') }}" class="card-btn bg-info text-white shadow">
                         <i class="bi bi-table"></i>
                         <span>Ver Historial General</span>
                     </a>

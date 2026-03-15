@@ -81,14 +81,15 @@
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('modificar') }}" class="card-btn bg-secondary text-white shadow">
+                    {{-- Cambiamos {{ route('modificar') }} por # --}}
+                    <a href="#" class="card-btn bg-secondary text-white shadow">
                         <i class="bi bi-pencil-square"></i>
                         <span>Modificar</span>
                     </a>
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('consultas') }}" class="card-btn bg-info text-white shadow">
+                    <a href="{{ route('consulta') }}" class="card-btn bg-info text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>

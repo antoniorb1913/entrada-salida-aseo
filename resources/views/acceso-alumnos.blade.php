@@ -11,11 +11,16 @@
         .student-card { 
             transition: all 0.2s; 
             border-radius: 15px; 
-            border: none;
+            border: 2px solid transparent; 
         }
         .student-card:hover { 
             background-color: #e9ecef; 
             transform: scale(1.02);
+        }
+        /* Resaltado visual cuando están fuera */
+        .on-break {
+            border-color: #dc3545 !important;
+            background-color: #fff5f5 !important;
         }
     </style>
 </head>
@@ -29,18 +34,48 @@
 
     <div class="container">
         <h2 class="text-center mb-4 fw-bold">Selecciona al Alumno</h2>
+        
+        {{-- Banner verde eliminado --}}
+
         <div class="row g-3">
             @forelse($alumnos as $alumno)
+                @php
+                    $registroActivo = $alumno->registros->where('estado', \App\Enums\Estado::FUERA)->first();
+                @endphp
                 <div class="col-md-6 col-lg-4">
-                    <div class="card student-card shadow-sm p-3">
+                    <div class="card student-card shadow-sm p-3 {{ $registroActivo ? 'on-break' : '' }}">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h6 class="mb-0 fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</h6>
+                                
+                                @php
+                                    $salidasHoy = $alumno->registros->filter(function($reg) {
+                                        return \Carbon\Carbon::parse($reg->fecha_salida)->isToday();
+                                    })->count();
+                                @endphp
+                                <small class="text-muted d-block">Salidas hoy: <strong>{{ $salidasHoy }}</strong></small>
+
+                                {{-- Indicador de texto rojo mantenido --}}
+                                @if($registroActivo)
+                                    <small class="text-danger fw-bold"><i class="bi bi-dot"></i> En el baño</small>
+                                @endif
                             </div>
-                            {{-- Aquí irá el botón para registrar la salida al baño --}}
-                            <button class="btn btn-primary btn-sm">
-                                <i class="bi bi- megaphone"></i> Salida
-                            </button>
+
+                            @if(!$registroActivo)
+                                <form action="{{ route('registro.salida', $alumno->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-megaphone"></i> Salida
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('registro.entrada', $alumno->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="bi bi-arrow-left-circle"></i> Volver
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -51,5 +86,7 @@
             @endforelse
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@ class LoginService
         if ($user->rol === 'admin') {
             return 'admin';
         } else if ($user->rol === 'profesor') {
+            
             return 'profesor';
         }
         return 'consulta';

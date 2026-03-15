@@ -29,9 +29,9 @@ class AccesoController extends Controller
     {
         $niveles = $this->cursoService->getNivelesPorEtapa($etapa);
         
-
         return view('acceso-niveles', compact('niveles', 'etapa'));
     }
+
     public function letras($etapa, $nivel)
     {
         // Obtenemos las letras (ej: A, B, C o ARTES, CIENCIA)
@@ -39,6 +39,7 @@ class AccesoController extends Controller
 
         return view('acceso-letras', compact('letras', 'etapa', 'nivel'));
     }
+    
     
     public function alumnos($curso_id)
     {
