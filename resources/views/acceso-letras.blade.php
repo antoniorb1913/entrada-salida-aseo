@@ -48,7 +48,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 3: Selecciona la Letra/Grupo</h2>
-                <p class="text-muted text-uppercase">Curso: <strong>{{ $etapa }} {{ $nivel }}º</strong></p>
+                <p class="text-muted text-uppercase">Curso: <strong>{{ $etapa }} {{ $nivel }}</strong></p>
             </div>
 
             <div class="row justify-content-center g-4">

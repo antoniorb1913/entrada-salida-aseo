@@ -27,15 +27,25 @@
 <body>
     <nav class="navbar bg-white shadow-sm py-3 mb-4">
         <div class="container">
-            <span class="fw-bold"><i class="bi bi-person-badge me-2"></i> {{ $curso->etapas }} {{ $curso->nivel }}º {{ $curso->letra }}</span>
-            <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm">Volver</a>
+            <span class="fw-bold"><i class="bi bi-person-badge me-2"></i> {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</span>
+            
+            {{-- ARREGLO 1: Botón volver con ruta real de Laravel para evitar el problema del historial --}}
+            <a href="{{ route('acceso.letras', ['etapa' => $curso->etapas, 'nivel' => $curso->nivel]) }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
         </div>
     </nav>
 
     <div class="container">
         <h2 class="text-center mb-4 fw-bold">Selecciona al Alumno</h2>
         
-        {{-- Banner verde eliminado --}}
+        {{-- ARREGLO 2: Alerta roja para los mensajes de error (tiempo de espera o límite de salidas) --}}
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <div class="row g-3">
             @forelse($alumnos as $alumno)

@@ -26,6 +26,12 @@ class AlumnoSeeder extends Seeder
             'curso_id'     => 19
         ]);
         Alumno::create([
+            'nre'    => '793121',
+            'nombre'    => 'Ibra', 
+            'apellidos' => 'rodriguez',
+            'curso_id'     => 19
+        ]);
+        Alumno::create([
             'nre'    => '793120',
             'nombre'    => 'Juan', 
             'apellidos' => 'rodriguez',
