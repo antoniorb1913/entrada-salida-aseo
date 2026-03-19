@@ -142,6 +142,8 @@ Fecha --> 15/03/2026
 
 ### Implementaciones nuevas visuales en el registro de entrada y salida.
 
-- Cuando has alcanzado el limite de salidas que salga algo como "Limite alcanzado".
-- Contador de tiempo para volver a salir en el cuadrado de "salida".
-- Cambiar el color de boton de salida en los otros alumnos cuando un alumno esta fuera (color: gris).
+- Cuando has alcanzado el limite de salidas que salga algo como "Limite alcanzado". OK
+- Contador de tiempo para volver a salir en el cuadrado de "salida". OK
+- Cambiar el color de boton de salida en los otros alumnos cuando un alumno esta fuera (color: gris). OK
+
+Fecha --> 19/03/2026
