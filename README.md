@@ -120,3 +120,8 @@ En la documentación/Manual usuario esta un Manual de usuario del prototipo que 
 
 Fecha --> 06/02/206 - 14/02/2026
 
+
+Instalar Socialite
+
+composer config audit.ignore PKSA-rkkf-636k-qjb3 PKSA-4s4z-t146-6123 PKSA-z3gr-8qht-p93v --append
+composer require laravel/socialite

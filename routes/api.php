@@ -8,6 +8,3 @@ use App\Http\Controllers\AlumnoController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-// Esta ruta solo se activará en /api/list/alum
-Route::get("/list/alum", [AlumnoController::class, "getAllAlum"]);
