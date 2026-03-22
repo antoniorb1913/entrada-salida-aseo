@@ -36,4 +36,12 @@ class Registro extends Model
     {
         return $this->belongsTo(User::class, 'profesor_id');
     }
+
+/**
+     * Relación: Un registro pertenece a un curso.
+     */
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 }

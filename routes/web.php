@@ -34,4 +34,19 @@ Route::middleware('auth')->group(function () {
 
     // 4. Salida de sesión
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    // --- SISTEMA DE CONSULTAS Y FILTROS ---
+    Route::prefix('registros')->group(function () {
+        // Menú principal
+        Route::get('/', [\App\Http\Controllers\ConsultaController::class, 'index'])->name('registros');
+
+        // Formularios de filtro
+        Route::get('/filtro-fecha', [\App\Http\Controllers\ConsultaController::class, 'formFecha'])->name('consulta.fecha');
+        Route::get('/filtro-grupo', [\App\Http\Controllers\ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
+        Route::get('/filtro-profesor', [\App\Http\Controllers\ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
+        Route::get('/filtro-alumno', [\App\Http\Controllers\ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
+
+        // Resultados
+        Route::get('/resultados', [\App\Http\Controllers\ConsultaController::class, 'resultados'])->name('registros.resultados');
+    });
 });
+
