@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistroRequest;
 use Illuminate\Http\Request;
-use App\Models\Registro;
+use App\Services\RegistroService; // Importamos el servicio
 use App\Models\Curso;
-use App\Models\User; // Asegúrate de que este es el modelo de tus profesores
+use App\Models\User;
 
 class ConsultaController extends Controller
 {
+    protected $registroService;
+
+    // Inyectamos el servicio en el constructor
+    public function __construct(RegistroService $registroService)
+    {
+        $this->registroService = $registroService;
+    }
+
     public function index() {
         return view('consultas-registros');
     }
@@ -23,7 +32,7 @@ class ConsultaController extends Controller
     }
 
     public function formProfesor() {
-        $profesores = User::all(); // O User::role('profesor')->get() si usas roles
+        $profesores = User::all();
         return view('form_profesor', compact('profesores'));
     }
 
@@ -31,32 +40,12 @@ class ConsultaController extends Controller
         return view('form_alumno');
     }
 
-    public function resultados(Request $request) {
-        // Si entran sin elegir ningún filtro, los devolvemos al menú
-        if (!$request->hasAny(['fecha', 'curso_id', 'profesor_id', 'alumno_id'])) {
-            return redirect()->route('consulta')->with('error', 'Por favor, selecciona al menos un filtro para buscar.');
-        }
+    public function resultados(RegistroRequest $request) 
+    {
+        // Toda la lógica de filtrado ahora vive en el Service
+        $registros = $this->registroService->buscarRegistros($request);
 
-        // Preparamos la consulta (Eager Loading para que vaya muy rápido)
-        $query = Registro::with(['alumno', 'curso', 'profesor']);
-
-        // Aplicamos los filtros que hayan llegado
-        if ($request->filled('fecha')) {
-            $query->whereDate('fecha_salida', $request->fecha);
-        }
-        if ($request->filled('curso_id')) {
-            $query->where('curso_id', $request->curso_id);
-        }
-        if ($request->filled('profesor_id')) {
-            $query->where('profesor_id', $request->profesor_id);
-        }
-        if ($request->filled('alumno_id')) {
-            $query->where('alumno_id', $request->alumno_id);
-        }
-
-        // Ordenamos por los más recientes y paginamos de 15 en 15
-        $registros = $query->latest('fecha_salida')->paginate(15);
-
+        // Devolvemos la vista de la tabla
         return view('tabla-resultados', compact('registros'));
     }
 }

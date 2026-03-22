@@ -73,4 +73,39 @@ class RegistroService
             ]);
         }
     }
+
+    public function buscarRegistros($request)
+    {
+        // Carga relaciones (Eager Loading) para evitar el problema N+1
+        $query = Registro::with(['alumno', 'curso', 'profesor']);
+    
+        // 1. PRIORIDAD: Rango de fechas (incluye día único si inicio == fin)
+        if ($request->filled('fecha_inicio') && $request->filled('fecha_fin')) {
+            $query->whereDate('fecha_salida', '>=', $request->fecha_inicio)
+                ->whereDate('fecha_salida', '<=', $request->fecha_fin);
+        } 
+        // 2. BACKUP: Por si acaso algún formulario viejo solo manda 'fecha'
+        elseif ($request->filled('fecha')) {
+            $query->whereDate('fecha_salida', $request->fecha);
+        }
+    
+        // Filtro por Grupo/Curso
+        if ($request->filled('curso_id')) {
+            $query->where('curso_id', $request->curso_id);
+        }
+    
+        // Filtro por Profesor
+        if ($request->filled('profesor_id')) {
+            $query->where('profesor_id', $request->profesor_id);
+        }
+    
+        // Filtro por Alumno
+        if ($request->filled('alumno_id')) {
+            $query->where('alumno_id', $request->alumno_id);
+        }
+    
+        // Ordenar por la salida más reciente y paginar
+        // Usamos appends para que al cambiar de página en la tabla se mantengan los filtros en la URL
+        return $query->orderBy('fecha_salida', 'desc')->paginate(15);
+    }
 }

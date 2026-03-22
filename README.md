@@ -147,3 +147,18 @@ Fecha --> 15/03/2026
 - Cambiar el color de boton de salida en los otros alumnos cuando un alumno esta fuera (color: gris). OK
 
 Fecha --> 19/03/2026
+
+## Implementar Funcionamiento de la consulta de registro por fecha y exportar en Excel.
+
+- Pagina de filtrar por.. .
+- Pagina para cada uno de los filtros.
+- Filtro por fecha y exportar en excel.
+
+Exportar por Excel:
+    - Referencia --> https://docs.laravel-excel.com/3.1/getting-started/
+      1. Instalar composer require "maatwebsite/excel.
+      2. Crear el archivo Export php artisan make:export RegistroExport --model=Registro.
+      3. Añadir metodo en el RegistroController y en RegistroService.
+      4. Crear enpoint en el web.php y su respetivo enlace en la view.
+
+Fecha --> 22/03/2026

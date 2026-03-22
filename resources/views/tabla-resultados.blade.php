@@ -7,78 +7,148 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; padding-top: 40px; }
-        .table-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; }
-        .table thead th { background-color: #ffc107; color: #212529; text-transform: uppercase; border-bottom: none; padding: 15px; }
-        .table tbody td { padding: 15px; vertical-align: middle; }
+        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        .table-card { 
+            background-color: #ffffff; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            border: none; 
+        }
+        .table thead th { 
+            background-color: #ffc107; 
+            color: #212529; 
+            text-transform: uppercase; 
+            border-bottom: none; 
+            padding: 15px; 
+            font-size: 0.85rem; 
+            letter-spacing: 1px; 
+        }
+        .table tbody td { 
+            padding: 15px; 
+            vertical-align: middle; 
+        }
+        .avatar-circle { 
+            width: 35px; 
+            height: 35px; 
+            background-color: #eee; 
+            border-radius: 50%; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: 
+            center; 
+            margin-right: 10px; 
+            font-weight: bold; 
+            color: #666; 
+        }
+        .navbar-custom{
+            background-color:#fff;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .main-content{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container mb-5">
-        
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold text-secondary"><i class="bi bi-list-check me-2"></i>Registros de Salidas</h2>
-            {{-- Este botón te devuelve a TUS botones amarillos --}}
-            <a href="{{ route('registros') }}" class="btn btn-dark shadow-sm rounded-pill px-4">
-                <i class="bi bi-arrow-left me-2"></i>Volver a Filtros
-            </a>
+    <nav class="navbar navbar-custom py-3 shadow-sm">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-dark fw-bold"><i class="bi bi-list-check me-2 text-warning"></i>Registros</span>
+            <a href="{{ route('consulta.fecha') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver a fecha</a>
         </div>
+    </nav>
+    <main class="main-content">
+        <div class="container mb-5">
+            <div class="table-card p-3">
+                <div class="d-flex gap-2 mb-3">
+                    <a href="{{ route('consulta.exportar', request()->query()) }}" class="btn btn-success shadow-sm rounded-pill px-4">
+                        <i class="bi bi-file-earmark-excel me-2"></i>Exportar a Excel
+                    </a>
+                </div>
+                <div class="table-responsive">  
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Alumno/a</th>
+                                <th>Curso</th>
+                                <th>Profesor/a</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">Salida</th>
+                                <th class="text-center">Entrada</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($registros as $reg)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="fw-bold">{{ $reg->alumno->apellidos ?? 'Sin Apellido' }}, {{ $reg->alumno->nombre ?? 'Sin Nombre' }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->etapas ?? '' }}: {{ $reg->curso->letra ?? '' }}</span></td>
+                                    
+                                    {{-- ARREGLO AQUÍ: El modelo User suele tener 'name', no 'nombre' y 'apellidos' por defecto --}}
+                                    <td>
+                                        <i class="bi bi-person-workspace me-1 text-muted"></i>
+                                        {{ $reg->profesor->apellidos ?? 'No asignado' }}, {{ $reg->profesor->nombre ?? 'No asignado' }}
+                                    </td>
 
-        <div class="table-card p-3">
-            <div class="table-responsive">  
-                <table class="table table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>Alumno/a</th>
-                            <th>Curso</th>
-                            <th>Profesor/a</th>
-                            <th>Fecha</th>
-                            <th>Salida</th>
-                            <th>Entrada</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($registros as $reg)
-                            <tr>
-                                <td class="fw-bold">{{ $reg->alumno->apellidos ?? '' }}, {{ $reg->alumno->nombre ?? '' }}</td>
-                                <td>{{ $reg->curso->etapas ?? '' }} {{ $reg->curso->nivel ?? '' }} {{ $reg->curso->letra ?? '' }}</td>
-                                {{-- Busca la celda del profesor y asegúrate de que ponga esto --}}
-                                <td>{{ $reg->profesor->apellidos ?? 'No asignado' }}, {{ $reg->profesor->nombre ?? 'No asignado' }} </td>
-                                <td>{{ \Carbon\Carbon::parse($reg->fecha_salida)->format('d/m/Y') }}</td>
-                                <td><span class="badge bg-light text-dark border">{{ \Carbon\Carbon::parse($reg->fecha_salida)->format('H:i') }}</span></td>
-                                <td>
-                                    @if($reg->fecha_entrada)
-                                        <span class="badge bg-light text-dark border">{{ \Carbon\Carbon::parse($reg->fecha_entrada)->format('H:i') }}</span>
-                                    @else
-                                        <span class="text-muted">---</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($reg->estado->value === 'FUERA')
-                                        <span class="badge bg-danger">En el baño</span>
-                                    @else
-                                        <span class="badge bg-success">Volvió</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-center py-5">
-                                    <i class="bi bi-folder-x text-muted mb-3" style="font-size: 3rem;"></i>
-                                    <h5 class="fw-bold text-secondary">No hay datos</h5>
-                                    <p class="text-muted">No encontramos salidas al baño con este filtro.</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="d-flex justify-content-center mt-4">
-                {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                    <td class="text-center small text-secondary">
+                                        {{ \Carbon\Carbon::parse($reg->fecha_salida)->format('d/m/Y') }}
+                                    </td>
+                                    
+                                    <td class="text-center">
+                                        <span class="badge bg-light text-dark border font-monospace">
+                                            {{ \Carbon\Carbon::parse($reg->fecha_salida)->format('H:i') }}
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if($reg->fecha_entrada)
+                                            <span class="badge bg-light text-dark border font-monospace">{{ \Carbon\Carbon::parse($reg->fecha_entrada)->format('H:i') }}</span>
+                                        @else
+                                            <span class="text-muted small">--:--</span>
+                                        @endif
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if($reg->estado->value === 'FUERA')
+                                            <span class="badge rounded-pill bg-danger px-3">FUERA</span>
+                                        @else
+                                            <span class="badge rounded-pill bg-success px-3">EN CLASE</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center py-5">
+                                        <div class="py-4">
+                                            <i class="bi bi-clipboard-x text-muted mb-3" style="font-size: 4rem; opacity: 0.3;"></i>
+                                            <h5 class="fw-bold text-secondary">No se han encontrado registros</h5>
+                                            <p class="text-muted">Prueba a seleccionar otro filtro o rango de fechas.</p>
+                                            <a href="{{ route('registros') }}" class="btn btn-outline-secondary btn-sm rounded-pill mt-2">Limpiar búsqueda</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                
+                {{-- Paginación centrada --}}
+                @if($registros->hasPages())
+                    <div class="d-flex justify-content-center mt-4 pb-2">
+                        {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
+                    </div>
+                @endif
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\RegistroService;
 use Illuminate\Support\Facades\Auth;
-
+use App\Exports\RegistrosExport;
+use App\Http\Requests\RegistroRequest;
+use Maatwebsite\Excel\Facades\Excel;
 class RegistroController extends Controller
 {
     protected $registroService;
@@ -34,5 +36,22 @@ class RegistroController extends Controller
     {
         $this->registroService->registrar_entrada_alumno($alumno_id);
         return back()->with('status', 'Alumno ha vuelto a clase.');
+    }
+
+    // ... dentro de la clase RegistroController ...
+
+    public function exportar(RegistroRequest $request) 
+    {
+        // 1. Obtenemos el objeto (que viene paginado con 15 registros por tu Service)
+        $paginador = $this->registroService->buscarRegistros($request);
+    
+        // 2. Extraemos la colección de datos (los 15 registros)
+        $registros = $paginador->getCollection(); 
+    
+        // 3. Nombre del archivo
+        $nombreArchivo = 'reporte_salidas_' . now()->format('d-m-Y') . '.xlsx';
+    
+        // 4. Se lo pasamos al Exportador (Excel ahora recibirá la lista limpia)
+        return Excel::download(new RegistrosExport($registros), $nombreArchivo);
     }
 }

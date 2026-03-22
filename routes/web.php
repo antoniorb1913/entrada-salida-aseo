@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AccesoController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\RegistroController; 
 
 // --- RUTAS PÚBLICAS ---
@@ -37,16 +38,17 @@ Route::middleware('auth')->group(function () {
     // --- SISTEMA DE CONSULTAS Y FILTROS ---
     Route::prefix('registros')->group(function () {
         // Menú principal
-        Route::get('/', [\App\Http\Controllers\ConsultaController::class, 'index'])->name('registros');
+        Route::get('/', [ConsultaController::class, 'index'])->name('registros');
 
         // Formularios de filtro
-        Route::get('/filtro-fecha', [\App\Http\Controllers\ConsultaController::class, 'formFecha'])->name('consulta.fecha');
-        Route::get('/filtro-grupo', [\App\Http\Controllers\ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
-        Route::get('/filtro-profesor', [\App\Http\Controllers\ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
-        Route::get('/filtro-alumno', [\App\Http\Controllers\ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
+        Route::get('/filtro-fecha', [ConsultaController::class, 'formFecha'])->name('consulta.fecha');
+        Route::get('/filtro-grupo', [ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
+        Route::get('/filtro-profesor', [ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
+        Route::get('/filtro-alumno', [ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
 
         // Resultados
-        Route::get('/resultados', [\App\Http\Controllers\ConsultaController::class, 'resultados'])->name('registros.resultados');
+        Route::get('/resultados', [ConsultaController::class, 'resultados'])->name('registros.resultados');
+
+        Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
     });
 });
-
