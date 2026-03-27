@@ -7,6 +7,7 @@ use App\Models\Alumno;
 use App\Models\Registro;
 use Carbon\Carbon;
 
+
 class RegistroService
 {
     public function registrar_salida_alumno($alumno_id, $profesor_id)

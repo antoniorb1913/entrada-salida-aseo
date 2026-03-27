@@ -156,7 +156,7 @@ Fecha --> 19/03/2026
 
 Exportar por Excel:
     - Referencia --> https://docs.laravel-excel.com/3.1/getting-started/
-      1. Instalar composer require "maatwebsite/excel.
+      1. Instalar composer require "maatwebsite/excel".
       2. Crear el archivo Export php artisan make:export RegistroExport --model=Registro.
       3. Añadir metodo en el RegistroController y en RegistroService.
       4. Crear enpoint en el web.php y su respetivo enlace en la view.

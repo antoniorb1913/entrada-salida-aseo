@@ -118,7 +118,7 @@
                                     </td>
 
                                     <td class="text-center">
-                                        @if($reg->estado->value === 'FUERA')
+                                        @if($reg->estado->value === 'fuera')
                                             <span class="badge rounded-pill bg-danger px-3">FUERA</span>
                                         @else
                                             <span class="badge rounded-pill bg-success px-3">EN CLASE</span>

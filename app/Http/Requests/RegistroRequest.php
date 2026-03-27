@@ -29,6 +29,7 @@ class RegistroRequest extends FormRequest
             'curso_id'      => 'nullable|exists:cursos,id',
             'profesor_id'   => 'nullable|exists:users,id',
             'alumno_id'     => 'nullable|exists:alumnos,id',
+            'estado'        => 'nullable|string',
         ];
     }
     
