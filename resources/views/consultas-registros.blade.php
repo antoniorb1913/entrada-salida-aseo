@@ -43,7 +43,7 @@
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-search me-2 text-primary"></i>Consultas
             </span>
-            <a href="{{ route('profesor') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('admin') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i> Volver al Panel
             </a>
         </div>

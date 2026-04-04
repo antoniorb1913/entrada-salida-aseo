@@ -28,13 +28,13 @@
                         <i class="bi bi-people-fill text-primary mb-3" style="font-size: 4rem;"></i>
                         <h3 class="fw-bold text-secondary mb-4">Filtro por Grupo</h3>
                         
-                        <form action="{{ route('consulta.resultados') }}" method="GET">
+                        <form action="{{ route('registros.resultados') }}" method="GET">
                             <div class="mb-4 text-start">
                                 <label class="small fw-bold text-muted ms-2">SELECCIONA EL CURSO</label>
                                 <select name="curso_id" class="form-select form-select-lg mt-1" required>
                                     <option value="" selected disabled>Elige un curso...</option>
                                     @foreach($cursos as $curso)
-                                        <option value="{{ $curso->id }}">{{ $curso->etapas }} {{ $curso->nivel }}º {{ $curso->letra }}</option>
+                                        <option value="{{ $curso->id }}">{{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</option>
                                     @endforeach
                                 </select>
                             </div>
