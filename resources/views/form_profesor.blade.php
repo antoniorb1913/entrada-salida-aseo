@@ -41,7 +41,7 @@
                         <i class="bi bi-person-video3 text-success mb-3" style="font-size: 4rem;"></i>
                         <h3 class="fw-bold text-secondary mb-4">Filtro por Profesor/a</h3>
                         
-                        <form action="{{ route('consulta.resultados') }}" method="GET">
+                        <form action="{{ route('registros.resultados') }}" method="GET">
                             <div class="mb-4 text-start">
                                 <label class="small fw-bold text-muted ms-2">SELECCIONA AL DOCENTE</label>
                                 <select name="profesor_id" class="form-select form-select-lg mt-1" required>

@@ -45,7 +45,7 @@
                     <div class="form-card text-center">
                         <i class="bi bi-person-badge text-warning mb-3" style="font-size: 4rem;"></i>
                         <h3 class="fw-bold text-secondary mb-4">Filtro por Alumno</h3>
-                        <form action="{{ route('consulta.resultados') }}" method="GET">
+                        <form action="{{ route('registros.resultados') }}" method="GET">
                             <input type="number" name="alumno_id" class="form-control form-control-lg mb-4" placeholder="ID del Alumno (ej: 2)" required>
                             <button type="submit" class="btn btn-warning btn-lg rounded-pill fw-bold px-5 text-dark">Ver Registros</button>
                         </form>

@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('consulta') }}" class="card-btn bg-info text-white shadow">
+                    <a href="{{ route('registros') }}" class="card-btn bg-info text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>
