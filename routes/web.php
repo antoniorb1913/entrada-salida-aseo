@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\ConsultaController;
-use App\Http\Controllers\RegistroController; 
+use App\Http\Controllers\RegistroController;
+use App\Http\Middleware\SoloDireccion;
 
 // --- RUTAS PÚBLICAS ---
 Route::view('/', "login")->name('login');
@@ -39,10 +40,8 @@ Route::middleware('auth')->group(function () {
     // 5. ZONA EXCLUSIVA (BLOQUEADA PARA EL PROFESOR)
     // ==========================================================
     // ¡AQUÍ ESTÁ EL CAMBIO! Llamamos al middleware oficial
-    Route::middleware(\App\Http\Middleware\SoloDireccion::class)->group(function () {
+    Route::middleware(SoloDireccion::class)->group(function () {
         
-        // Vista de consulta protegida
-        Route::view('/consulta', "consulta")->name('consulta');
 
         // --- SISTEMA DE CONSULTAS Y FILTROS ---
         Route::prefix('registros')->group(function () {
@@ -51,7 +50,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/filtro-grupo', [ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
             Route::get('/filtro-profesor', [ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
             Route::get('/filtro-alumno', [ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
+
             Route::get('/resultados', [ConsultaController::class, 'resultados'])->name('registros.resultados');
+
+
             Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
         });
     });

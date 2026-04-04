@@ -33,15 +33,5 @@ class ProfesorSeeder extends Seeder
 
         ]);
 
-        User::create([
-            'nombre'    => 'consulta', 
-            'apellidos' => 'consulta',
-            'email'     => 'consulta@consulta.com',
-            
-            // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
-            'password'  => Hash::make('1234'), 
-            'rol'       => 'consulta'
-
-        ]);
     }
 }
