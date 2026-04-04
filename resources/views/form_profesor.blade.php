@@ -2,26 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Filtro Profesor</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+
     <style>
-        body{background-color:#f4f7f6;min-height:100vh;display:flex;flex-direction:column;}
-        .navbar-custom{
-            background-color:#fff; 
-            border-bottom: 2px solid #dee2e6;
+        body { 
+            background-color: #f4f7f6; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .main-content{
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 40px 0;
+        .navbar-custom { 
+            background-color: #fff; 
+            border-bottom: 2px solid #dee2e6; 
         }
-        .form-card{
-            background-color: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            padding: 40px 0; 
+        }
+        .form-card { 
+            background-color: #fff; 
+            border-radius: 20px; 
+            padding: 40px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        }
+        
+        /* Personalización de TomSelect para que encaje con tu diseño */
+        .ts-wrapper.form-select-lg .ts-control {
+            border-radius: 10px !important;
+            padding: 12px 15px !important;
+            font-size: 1.1rem !important;
+            border: 1px solid #dee2e6;
+        }
+        .ts-dropdown {
+            border-radius: 10px !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
         }
     </style>
 </head>
@@ -39,21 +62,23 @@
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="form-card text-center">
                         <i class="bi bi-person-video3 text-success mb-3" style="font-size: 4rem;"></i>
-                        <h3 class="fw-bold text-secondary mb-4">Filtro por Profesor/a</h3>
+                        <h3 class="fw-bold text-secondary mb-2">Filtro por Profesor/a</h3>
+                        <p class="text-muted mb-4">Escribe el nombre o apellidos para filtrar los resultados</p>
                         
                         <form action="{{ route('registros.resultados') }}" method="GET">
                             <div class="mb-4 text-start">
-                                <label class="small fw-bold text-muted ms-2">SELECCIONA AL DOCENTE</label>
-                                <select name="profesor_id" class="form-select form-select-lg mt-1" required>
-                                    <option value="" selected disabled>Elige un profesor/a...</option>
-                                    @foreach($profesores as $profe)
-                                        <option value="{{ $profe->id }}">{{ $profe->nombre }}</option>
+                                <label class="small fw-bold text-muted mb-2 ms-1 text-uppercase">Listado de Profesores</label>
+                                
+                                <select id="buscador-profesores" name="user_id" class="form-select-lg" required>
+                                    <option value=""></option>
+                                    @foreach($profesores as $profesor)
+                                        <option value="{{ $profesor->id }}">{{ $profesor->apellidos }} ,{{ $profesor->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             
-                            <button type="submit" class="btn btn-success btn-lg rounded-pill fw-bold px-5 w-100 shadow-sm">
-                                Ver Registros
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill fw-bold px-5 w-100 shadow-sm mt-2">
+                                <i class="bi bi-file-earmark-text me-2"></i>Ver Registros
                             </button>
                         </form>
                     </div>
@@ -61,7 +86,26 @@
             </div>
         </div>
     </main>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#buscador-profesores", {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                allowEmptyOption: true,
+                maxOptions: 100, // Aumentado para institutos
+                render: {
+                    no_results: function(data, escape) {
+                        return '<div class="no-results py-2 px-3 text-danger small">No se encontró al profesor "' + escape(data.input) + '"</div>';
+                    }
+                },
+                placeholder: "Escriba nombre del profesor...",
+            });
+        });
+    </script>
 </body>
 </html>

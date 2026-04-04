@@ -39,7 +39,7 @@ class ConsultaController extends Controller
     }
 
     public function formProfesor() {
-        $profesores = $alumnos = $this->profesorService->getAllProf(); 
+        $profesores = $this->profesorService->getAllProf(); 
         return view('form_profesor', compact('profesores'));
     }
 

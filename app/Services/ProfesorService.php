@@ -14,7 +14,7 @@ class ProfesorService
         //
     }
     public function getAllProf() {
-        $alumnos = User::orderBy('nombre', 'asc')->get(); 
-        return $alumnos;
+        $profesores = User::orderBy('nombre', 'asc')->get(); 
+        return $profesores;
     }
 }

@@ -51,12 +51,8 @@
 <body>
     <nav class="navbar navbar-custom py-3 shadow-sm">
         <div class="container">
-            <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-search me-2 text-warning"></i>Consultas Instituto
-            </span>
-            <a href="{{ route('registros') }}" class="btn btn-outline-secondary rounded-pill">
-                <i class="bi bi-arrow-left me-2"></i>Volver
-            </a>
+            <span class="navbar-brand mb-0 h1 text-dark fw-bold"><i class="bi bi-search me-2 text-success"></i>Consultas</span>
+            <a href="{{ route('registros') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
         </div>
     </nav>
 
@@ -66,7 +62,7 @@
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="form-card text-center">
                         <i class="bi bi-person-badge text-warning mb-3" style="font-size: 4rem;"></i>
-                        <h3 class="fw-bold text-secondary mb-2">Filtro por Alumno</h3>
+                        <h3 class="fw-bold text-secondary mb-2">Filtro por Alumno/a</h3>
                         <p class="text-muted mb-4">Escribe el nombre o apellidos para filtrar los resultados</p>
                         
                         <form action="{{ route('registros.resultados') }}" method="GET">
@@ -74,7 +70,7 @@
                                 <label class="small fw-bold text-muted mb-2 ms-1 text-uppercase">Listado de Alumnos</label>
                                 
                                 <select id="buscador-alumnos" name="alumno_id" class="form-select-lg" required>
-                                    <option value="">Buscar por nombre...</option>
+                                    <option value=""></option>
                                     @foreach($alumnos as $alumno)
                                         <option value="{{ $alumno->id }}">{{ $alumno->apellidos }} ,{{ $alumno->nombre }}</option>
                                     @endforeach

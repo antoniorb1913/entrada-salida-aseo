@@ -162,3 +162,20 @@ Exportar por Excel:
       4. Crear enpoint en el web.php y su respetivo enlace en la view.
 
 Fecha --> 22/03/2026
+
+## Redirecciones de los filtros.
+
+  1. Dejar solo dos campos de fecha desde y hasta.
+  2. referencias en los blande de los filtros y ajustes.
+
+Fecha --> 27/03/2026
+
+## Rol consultas, view Profesor y input autocomplete.
+
+  1. Quitar el rol de consultas, ya que solo vamos a usar el de profesor y admin. (consulta.blade, ProfesorSeeder y diferentes referencias a esa view).
+  2. El profesor solo tiene acceso a realizar salidas y entradas de aseo, no puede realizar consultas. (web.php, etapas.blade).
+  3. Implementar u imput autocompletable en los filtro de alumno y profesor. (ConsultaController -> AlumnoService y ProfesorService).
+
+
+Fecha --> 04/04/2026
+
