@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Alumno;
+use App\Models\User;
 
-class AlumnoService
+class ProfesorService
 {
     /**
      * Create a new class instance.
@@ -13,8 +13,8 @@ class AlumnoService
     {
         //
     }
-    public function getAllAlum() {
-        $alumnos = Alumno::orderBy('nombre', 'asc')->get(); 
+    public function getAllProf() {
+        $alumnos = User::orderBy('nombre', 'asc')->get(); 
         return $alumnos;
     }
 }

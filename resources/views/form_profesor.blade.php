@@ -47,7 +47,7 @@
                                 <select name="profesor_id" class="form-select form-select-lg mt-1" required>
                                     <option value="" selected disabled>Elige un profesor/a...</option>
                                     @foreach($profesores as $profe)
-                                        <option value="{{ $profe->id }}">{{ $profe->name }}</option>
+                                        <option value="{{ $profe->id }}">{{ $profe->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -57,7 +57,7 @@
     <nav class="navbar navbar-custom py-3 shadow-sm">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold"><i class="bi bi-list-check me-2 text-warning"></i>Registros</span>
-            <a href="{{ route('consulta.fecha') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver a fecha</a>
+            <a href="{{ route('registros') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
         </div>
     </nav>
     <main class="main-content">
