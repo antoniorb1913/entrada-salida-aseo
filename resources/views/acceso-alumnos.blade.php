@@ -1,3 +1,4 @@
+-- Active: 1773588849952@@127.0.0.1@5432@aseos_db
 @php
     // Usamos el valor que viene del controlador o 300 (5 min) por defecto
     $tiempoEspera = $tiempoEsperaSegundos ?? 300; 
@@ -28,8 +29,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista de Alumnos</title>
 
-    {{-- 1. QUITAMOS el meta refresh (para que no parpadee la página) --}}
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -59,8 +58,8 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h2 class="text-center mb-3 fw-bold">Selecciona al Alumno</h2><br><br>
+    <div class="container mb-5">
+        <h2 class="text-center mb-5 fw-bold">Selecciona al Alumno</h2>
 
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
@@ -69,14 +68,13 @@
             </div>
         @endif
 
-        {{-- 2. EL CARTEL (Añadimos un ID al span del tiempo) --}}
         @if($segundosFaltantes > 0)
-            <div class="text-center mb-4">
+            <div class="text-center mb-5">
                 <span class="badge bg-primary text-white fs-4 p-3 shadow-sm rounded-pill">
                     <i class="bi bi-stopwatch me-1"></i> Siguiente salida en: 
                     <span id="timer-display">{{ gmdate('i:s', $segundosFaltantes) }}</span>
                 </span>
-            </div><br><br>
+            </div>
         @endif
 
         <div class="row g-3">
@@ -94,45 +92,58 @@
                                 <h6 class="mb-0 fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</h6>
                                 
                                 @if($salidasHoy >= 3)
-                                    <span class="text-danger" style="font-weight: bold; font-size: 0.9em;">Has alcanzado el límite</span>
+                                    <div class="mt-1">
+                                        <span class="text-danger bg-danger-subtle px-2 py-1 rounded" style="font-weight: bold; font-size: 0.8em;">Has alcanzado el límite</span>
+                                    </div>
                                 @else
-                                    <span class="text-muted" style="font-size: 0.9em;">Salidas hoy: {{ $salidasHoy }}</span>
+                                    {{-- AQUÍ ESTÁ LA MAGIA DE LA PRIVACIDAD --}}
+                                    <div class="d-flex align-items-center text-muted mt-1" style="font-size: 0.9em;">
+                                        <span>Salidas hoy: </span>
+                                        <span class="ms-1 fw-bold salidas-numero" style="display: none;">{{ $salidasHoy }}</span>
+                                        <span class="ms-1 fw-bold salidas-asteriscos">***</span>
+                                        <button type="button" class="btn btn-link text-secondary p-0 ms-2 btn-toggle-ojito" title="Mostrar/Ocultar">
+                                            <i class="bi bi-eye-slash-fill"></i>
+                                        </button>
+                                    </div>
                                 @endif
 
                                 @if($registroActivo)
-                                    <br><small class="text-danger fw-bold"><i class="bi bi-dot"></i> En el baño</small>
+                                    <div class="mt-1"><small class="text-danger fw-bold"><i class="bi bi-dot"></i> En el baño</small></div>
                                 @endif
                             </div>
 
-                            @if(!$registroActivo)
-                                @if($salidasHoy < 3)
-                                    <form action="{{ route('registro.salida', $alumno->id) }}" method="POST">
+                            {{-- Botones de acción --}}
+                            <div class="ms-2">
+                                @if(!$registroActivo)
+                                    @if($salidasHoy < 3)
+                                        <form action="{{ route('registro.salida', $alumno->id) }}" method="POST">
+                                            @csrf
+                                            @if($segundosFaltantes > 0)
+                                                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                                    <i class="bi bi-hourglass-split"></i> Espera
+                                                </button>
+                                            @else
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="bi bi-door-open"></i> Salida
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @endif
+                                @else
+                                    <form action="{{ route('registro.entrada', $alumno->id) }}" method="POST">
                                         @csrf
-                                        @if($segundosFaltantes > 0)
-                                            <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                                <i class="bi bi-hourglass-split"></i> Espera
-                                            </button>
-                                        @else
-                                            <button type="submit" class="btn btn-primary btn-sm">
-                                                <i class="bi bi-megaphone"></i> Salida
-                                            </button>
-                                        @endif
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="bi bi-arrow-left-circle"></i> Volver
+                                        </button>
                                     </form>
                                 @endif
-                            @else
-                                <form action="{{ route('registro.entrada', $alumno->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        <i class="bi bi-arrow-left-circle"></i> Volver
-                                    </button>
-                                </form>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col-12 text-center">
-                    <div class="alert alert-info">No hay alumnos registrados en este curso.</div>
+                    <div class="alert alert-info border-0 shadow-sm">No hay alumnos registrados en este curso.</div>
                 </div>
             @endforelse
         </div>
@@ -140,27 +151,55 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- 3. JAVASCRIPT SIMPLE --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let faltan = {{ intval($segundosFaltantes) }}; // Pasamos los segundos de PHP a JS
+            
+            // --- 1. Lógica del Cronómetro ---
+            let faltan = {{ intval($segundosFaltantes) }}; 
             const display = document.getElementById('timer-display');
 
             if (faltan > 0 && display) {
                 const interval = setInterval(() => {
                     faltan--;
-                    
                     if (faltan <= 0) {
                         clearInterval(interval);
-                        window.location.reload(); // Recarga solo cuando llega a 0 para activar botones
+                        window.location.reload(); 
                     } else {
-                        // Formatear minutos y segundos
                         let m = Math.floor(faltan / 60);
                         let s = faltan % 60;
                         display.innerText = (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
                     }
                 }, 1000);
             }
+
+            // --- 2. Lógica del Ojito de Privacidad ---
+            const botonesOjito = document.querySelectorAll('.btn-toggle-ojito');
+
+            botonesOjito.forEach(boton => {
+                boton.addEventListener('click', function(e) {
+                    e.preventDefault(); // Evita que haga cosas raras si haces clic muy rápido
+                    
+                    const contenedor = this.closest('div');
+                    const numeroReal = contenedor.querySelector('.salidas-numero');
+                    const asteriscos = contenedor.querySelector('.salidas-asteriscos');
+                    const icono = this.querySelector('i');
+
+                    if (numeroReal.style.display === 'none') {
+                        // Mostrar número
+                        numeroReal.style.display = 'inline';
+                        asteriscos.style.display = 'none';
+                        icono.classList.remove('bi-eye-slash-fill');
+                        icono.classList.add('bi-eye-fill', 'text-primary');
+                    } else {
+                        // Ocultar número
+                        numeroReal.style.display = 'none';
+                        asteriscos.style.display = 'inline';
+                        icono.classList.remove('bi-eye-fill', 'text-primary');
+                        icono.classList.add('bi-eye-slash-fill');
+                    }
+                });
+            });
+
         });
     </script>
 </body>

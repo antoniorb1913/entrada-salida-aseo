@@ -15,8 +15,9 @@ Route::middleware('auth')->group(function () {
     
     // 1. Dashboards según rol
     Route::view('/admin', "admin")->name('admin');
-    Route::view('/profesor', "profesor")->name('profesor');
-    Route::view('/consulta', "consulta")->name('consulta');
+    
+    // REDIRECCIÓN: El profesor se salta su página y va directo a los cursos
+    Route::redirect('/profesor', '/acceso')->name('profesor');
 
     // 2. Flujo de Selección para ir al Baño
     Route::prefix('acceso')->group(function () {
@@ -27,28 +28,31 @@ Route::middleware('auth')->group(function () {
     });
 
     // 3. Lógica de Registro (Salida y Entrada)
-    // Registro de Salida (Crea el registro inicial)
     Route::post('/registrar-salida/{alumno_id}', [RegistroController::class, 'registrar_salida_alumno'])->name('registro.salida');
-    
-    // Registro de Entrada (Cierra el registro existente)
     Route::post('/registrar-entrada/{alumno_id}', [RegistroController::class, 'registrar_entrada_alumno'])->name('registro.entrada');
 
     // 4. Salida de sesión
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    // --- SISTEMA DE CONSULTAS Y FILTROS ---
-    Route::prefix('registros')->group(function () {
-        // Menú principal
-        Route::get('/', [ConsultaController::class, 'index'])->name('registros');
 
-        // Formularios de filtro
-        Route::get('/filtro-fecha', [ConsultaController::class, 'formFecha'])->name('consulta.fecha');
-        Route::get('/filtro-grupo', [ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
-        Route::get('/filtro-profesor', [ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
-        Route::get('/filtro-alumno', [ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
 
-        // Resultados
-        Route::get('/resultados', [ConsultaController::class, 'resultados'])->name('registros.resultados');
+    // ==========================================================
+    // 5. ZONA EXCLUSIVA (BLOQUEADA PARA EL PROFESOR)
+    // ==========================================================
+    // ¡AQUÍ ESTÁ EL CAMBIO! Llamamos al middleware oficial
+    Route::middleware(\App\Http\Middleware\SoloDireccion::class)->group(function () {
+        
+        // Vista de consulta protegida
+        Route::view('/consulta', "consulta")->name('consulta');
 
-        Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
+        // --- SISTEMA DE CONSULTAS Y FILTROS ---
+        Route::prefix('registros')->group(function () {
+            Route::get('/', [ConsultaController::class, 'index'])->name('registros');
+            Route::get('/filtro-fecha', [ConsultaController::class, 'formFecha'])->name('consulta.fecha');
+            Route::get('/filtro-grupo', [ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
+            Route::get('/filtro-profesor', [ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
+            Route::get('/filtro-alumno', [ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
+            Route::get('/resultados', [ConsultaController::class, 'resultados'])->name('registros.resultados');
+            Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
+        });
     });
 });

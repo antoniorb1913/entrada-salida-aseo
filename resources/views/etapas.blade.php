@@ -34,18 +34,34 @@
 <body>
 
     <nav class="navbar navbar-custom py-3 shadow-sm">
-        <div class="container">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
-            <a href="{{ route('profesor') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left me-2"></i> Volver
-            </a>
+            
+            {{-- EL BOTÓN DINÁMICO: Cerrar Sesión para el Profe, Volver para el Admin --}}
+            @if(auth()->user()->rol === 'profesor')
+                <a href="{{ route('logout') }}" class="btn btn-outline-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                </a>
+            @else
+                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i> Volver al Panel
+                </a>
+            @endif
         </div>
     </nav>
 
     <main class="main-content">
         <div class="container">
+            
+            {{-- Mensaje de Error (Si intentan entrar en Consultas sin permiso, aquí les sale el aviso) --}}
+            @if(session('error'))
+                <div class="alert alert-danger text-center mb-4 shadow-sm">
+                    <i class="bi bi-shield-lock-fill me-2"></i> {{ session('error') }}
+                </div>
+            @endif
+
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
                 <p class="text-muted">¿De qué etapa es el alumno?</p>
@@ -55,7 +71,6 @@
                 {{-- Recorremos las etapas que vienen del controlador --}}
                 @foreach($etapas as $etapa)
                     <div class="col-12 col-md-4 col-lg-3">
-                        {{-- Pasamos la $etapa directamente a la ruta --}}
                         <a href="{{ route('acceso.niveles', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
                             <i class="bi bi-mortarboard"></i>
                             <span class="text-uppercase fw-bold">{{ $etapa }}</span>
