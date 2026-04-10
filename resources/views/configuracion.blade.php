@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configuración del Sistema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f4f7f6; padding-top: 20px; }
+        .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
+        .form-label { font-weight: bold; color: #495057; }
+        .student-list { max-height: 350px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 10px; padding: 10px; background: #fafafa;}
+    </style>
+</head>
+<body>
+    <div class="container mb-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-secondary"><i class="bi bi-gear-fill me-2 text-primary"></i>Configuración Global</h2>
+            <a href="{{ route('admin') }}" class="btn btn-dark shadow-sm rounded-pill px-4">
+                <i class="bi bi-arrow-left me-2"></i>Volver
+            </a>
+        </div>
+
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <form action="{{ route('configuracion.guardar') }}" method="POST">
+            @csrf
+            
+            <div class="row">
+                {{-- AJUSTES GLOBALES --}}
+                <div class="col-lg-5">
+                    <div class="config-card">
+                        <h4 class="fw-bold mb-4 border-bottom pb-2"><i class="bi bi-sliders text-info me-2"></i>Límites</h4>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Límite de salidas diarias</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-door-open"></i></span>
+                                <input type="number" name="max_salidas" class="form-control" value="{{ $maxSalidas }}" min="1" required>
+                                <span class="input-group-text">veces</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Tiempo de espera (Penalización)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-stopwatch"></i></span>
+                                <input type="number" name="tiempo_espera" class="form-control" value="{{ $tiempoEsperaMinutos }}" min="0" required>
+                                <span class="input-group-text">minutos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- BUSCADOR Y EXCEPCIONES --}}
+                <div class="col-lg-7">
+                    <div class="config-card">
+                        <h4 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-heart text-danger me-2"></i>Excepciones Médicas</h4>
+                        
+                        {{-- EL BUSCADOR --}}
+                        <div class="input-group mb-3 shadow-sm">
+                            <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="buscadorAlumnos" class="form-control border-start-0 ps-0" placeholder="Buscar por nombre, apellidos o curso...">
+                        </div>
+
+                        <div class="student-list" id="listaAlumnos">
+                            @foreach($alumnos as $alumno)
+                                @php
+                                    // Extraemos el valor seguro para evitar el error del Enum
+                                    $etapaNombre = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
+                                    $nivelNombre = $alumno->curso->nivel ?? '';
+                                    $letraNombre = $alumno->curso->letra ?? '';
+                                    
+                                    // Creamos un string de busqueda limpio
+                                    $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $etapaNombre . ' ' . $nivelNombre . ' ' . $letraNombre);
+                                @endphp
+
+                                <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
+                                    <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="alumno_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
+                                    <label class="form-check-label d-flex justify-content-between w-100" for="alumno_{{ $alumno->id }}">
+                                        <span class="fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</span>
+                                        <span class="badge bg-secondary">{{ $etapaNombre }} {{ $nivelNombre }}{{ $letraNombre }}</span>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mt-2">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm fw-bold">
+                    <i class="bi bi-floppy-fill me-2"></i>Guardar Configuración
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
+            let filtro = this.value.toLowerCase();
+            let alumnos = document.querySelectorAll('.student-item');
+
+            alumnos.forEach(function(alumno) {
+                let texto = alumno.getAttribute('data-search');
+                if (texto.includes(filtro)) {
+                    alumno.style.display = 'block';
+                } else {
+                    alumno.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

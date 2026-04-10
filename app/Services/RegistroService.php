@@ -6,7 +6,7 @@ use App\Enums\Estado;
 use App\Models\Alumno;
 use App\Models\Registro;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB; // Añadido para poder consultar la configuración
 
 class RegistroService
 {
@@ -15,17 +15,18 @@ class RegistroService
         $alumno = Alumno::findOrFail($alumno_id);
         $hoy = now()->toDateString();
         
-        // --- CONFIGURACIÓN FIJA (5 MINUTOS) ---
-        $limiteSalidas = 3;
-        $tiempoEsperaSegundos = 300; // 5 minutos exactos
+        // --- CONFIGURACIÓN DINÁMICA (DESDE LA BASE DE DATOS) ---
+        $limiteSalidas = DB::table('configuraciones')->where('clave', 'max_salidas')->value('valor') ?? 3;
+        $tiempoEsperaSegundos = DB::table('configuraciones')->where('clave', 'tiempo_espera_segundos')->value('valor') ?? 300;
 
         // 1. Límite de salidas diarias
         $salidasHoy = Registro::where('alumno_id', $alumno_id)
                             ->whereDate('fecha_salida', $hoy)
                             ->count();
 
-        if ($salidasHoy >= $limiteSalidas) {
-            return ['success' => false, 'error' => 'Límite de salidas alcanzado por hoy.'];
+        // LA MAGIA: Comprobamos si choca con el límite Y además NO tiene excepción médica
+        if ($salidasHoy >= $limiteSalidas && !$alumno->excepcion_limite) {
+            return ['success' => false, 'error' => "Límite de salidas alcanzado por hoy ($limiteSalidas)."];
         }
 
         // 2. Salidas escalonadas (Solo si el anterior sigue fuera)

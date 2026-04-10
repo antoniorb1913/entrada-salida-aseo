@@ -1,7 +1,8 @@
--- Active: 1773588849952@@127.0.0.1@5432@aseos_db
 @php
-    // Usamos el valor que viene del controlador o 300 (5 min) por defecto
-    $tiempoEspera = $tiempoEsperaSegundos ?? 300; 
+    // 1. OBTENEMOS LA CONFIGURACIÓN REAL DE LA BASE DE DATOS
+    $maxSalidas = \Illuminate\Support\Facades\DB::table('configuraciones')->where('clave', 'max_salidas')->value('valor') ?? 3;
+    $tiempoEspera = \Illuminate\Support\Facades\DB::table('configuraciones')->where('clave', 'tiempo_espera_segundos')->value('valor') ?? 300; 
+    
     $segundosFaltantes = 0;
     $ultimaSalida = null;
     
@@ -46,6 +47,15 @@
             border-color: #dc3545 !important;
             background-color: #fff5f5 !important;
         }
+        /* Estrellita para las excepciones médicas */
+        .excepcion-badge { 
+            position: absolute; 
+            top: -10px; 
+            right: -10px; 
+            font-size: 1.4rem; 
+            color: #ffc107; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -84,22 +94,29 @@
                     $salidasHoy = $alumno->registros->filter(function($reg) {
                         return \Carbon\Carbon::parse($reg->fecha_salida)->isToday();
                     })->count();
+
+                    // 2. LA LÓGICA MAESTRA: Ha llegado al límite SOLO SI (no tiene excepción Y tiene >= salidas maximas)
+                    $limiteAlcanzado = !$alumno->excepcion_limite && ($salidasHoy >= $maxSalidas);
                 @endphp
+                
                 <div class="col-md-6 col-lg-4">
-                    <div class="card student-card shadow-sm p-3 {{ $registroActivo ? 'on-break' : '' }}">
+                    <div class="card student-card shadow-sm p-3 position-relative {{ $registroActivo ? 'on-break' : '' }}">
+                        
+
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h6 class="mb-0 fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</h6>
                                 
-                                @if($salidasHoy >= 3)
+                                @if($limiteAlcanzado)
                                     <div class="mt-1">
-                                        <span class="text-danger bg-danger-subtle px-2 py-1 rounded" style="font-weight: bold; font-size: 0.8em;">Has alcanzado el límite</span>
+                                        <span class="text-danger bg-danger-subtle px-2 py-1 rounded" style="font-weight: bold; font-size: 0.8em;">Límite alcanzado ({{ $maxSalidas }})</span>
                                     </div>
                                 @else
-                                    {{-- AQUÍ ESTÁ LA MAGIA DE LA PRIVACIDAD --}}
                                     <div class="d-flex align-items-center text-muted mt-1" style="font-size: 0.9em;">
                                         <span>Salidas hoy: </span>
-                                        <span class="ms-1 fw-bold salidas-numero" style="display: none;">{{ $salidasHoy }}</span>
+                                        <span class="ms-1 fw-bold salidas-numero" style="display: none;">
+                                            {{ $salidasHoy }} {{ $alumno->excepcion_limite ? '(Sin límite)' : "/ $maxSalidas" }}
+                                        </span>
                                         <span class="ms-1 fw-bold salidas-asteriscos">***</span>
                                         <button type="button" class="btn btn-link text-secondary p-0 ms-2 btn-toggle-ojito" title="Mostrar/Ocultar">
                                             <i class="bi bi-eye-slash-fill"></i>
@@ -115,7 +132,8 @@
                             {{-- Botones de acción --}}
                             <div class="ms-2">
                                 @if(!$registroActivo)
-                                    @if($salidasHoy < 3)
+                                    {{-- 3. EL BOTÓN OBEDECE A LA NUEVA LÓGICA --}}
+                                    @if(!$limiteAlcanzado)
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST">
                                             @csrf
                                             @if($segundosFaltantes > 0)
@@ -177,7 +195,7 @@
 
             botonesOjito.forEach(boton => {
                 boton.addEventListener('click', function(e) {
-                    e.preventDefault(); // Evita que haga cosas raras si haces clic muy rápido
+                    e.preventDefault(); 
                     
                     const contenedor = this.closest('div');
                     const numeroReal = contenedor.querySelector('.salidas-numero');

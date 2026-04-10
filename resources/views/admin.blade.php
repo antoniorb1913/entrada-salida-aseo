@@ -80,11 +80,10 @@
                     </a>
                 </div>
 
-                <div class="col-12 col-md-4 col-lg-3">
-                    {{-- Cambiamos {{ route('modificar') }} por # --}}
-                    <a href="#" class="card-btn bg-secondary text-white shadow">
-                        <i class="bi bi-pencil-square"></i>
-                        <span>Modificar</span>
+<div class="col-12 col-md-4 col-lg-3">
+                    <a href="{{ route('configuracion.index') }}" class="card-btn bg-secondary text-white shadow">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>Configuración</span>
                     </a>
                 </div>
 

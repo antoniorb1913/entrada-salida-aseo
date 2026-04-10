@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AccesoController;
+use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Middleware\SoloDireccion;
@@ -55,6 +56,11 @@ Route::middleware('auth')->group(function () {
 
 
             Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
+            //------------------ Panel de configuración ----------------------//
+
+            // Rutas del Panel de Configuración
+            Route::get('/configuracion', [ConfiguracionController::class, 'index'])->name('configuracion.index');
+            Route::post('/configuracion', [ConfiguracionController::class, 'guardar'])->name('configuracion.guardar');
         });
     });
 });
