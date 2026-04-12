@@ -3,19 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Services\ConfiguracionService;
+use App\Models\Configuracion;
 use App\Models\Alumno;
 
 class ConfiguracionController extends Controller
 {
+    protected $configuracionService;
+
+    public function __construct(ConfiguracionService $configuracionService)
+    {
+        $this->configuracionService = $configuracionService;
+    }
+
     public function index()
     {
-        // Rescatamos los valores o ponemos los de por defecto
-        $maxSalidas = DB::table('configuraciones')->where('clave', 'max_salidas')->value('valor') ?? 3;
-        $tiempoEsperaSegundos = DB::table('configuraciones')->where('clave', 'tiempo_espera_segundos')->value('valor') ?? 300;
+        // 1. Usamos el nuevo método centralizado del Modelo
+        $config = Configuracion::todas();
         
-        // Convertimos los segundos a minutos para que el admin lo entienda mejor
-        $tiempoEsperaMinutos = $tiempoEsperaSegundos / 60;
+        // 2. Pasamos a minutos solo para la vista (la lógica de conversión vive aquí o en el Service)
+        $maxSalidas = $config->max_salidas;
+        $tiempoEsperaMinutos = $config->tiempo_espera / 60;
 
         $alumnos = Alumno::with('curso')->orderBy('curso_id')->orderBy('apellidos')->get();
 
@@ -24,24 +32,18 @@ class ConfiguracionController extends Controller
 
     public function guardar(Request $request)
     {
-        // 1. Guardar salidas
-        DB::table('configuraciones')->updateOrInsert(
-            ['clave' => 'max_salidas'],
-            ['valor' => $request->max_salidas, 'updated_at' => now()]
+        // El camarero (Controller) le pasa el pedido al cocinero (Service)
+        
+        // 1. Guardar límites (el Service se encargará de pasarlo a segundos)
+        $this->configuracionService->guardarLimites(
+            $request->max_salidas, 
+            $request->tiempo_espera
         );
 
-        // 2. Guardar tiempo (multiplicamos los minutos del formulario por 60 para guardar segundos)
-        DB::table('configuraciones')->updateOrInsert(
-            ['clave' => 'tiempo_espera_segundos'],
-            ['valor' => $request->tiempo_espera * 60, 'updated_at' => now()]
+        // 2. Gestionar alumnos VIP
+        $this->configuracionService->actualizarExcepciones(
+            $request->excepciones ?? []
         );
-
-        // 3. Reiniciar excepciones y aplicar las nuevas
-        Alumno::query()->update(['excepcion_limite' => false]);
-
-        if ($request->has('excepciones')) {
-            Alumno::whereIn('id', $request->excepciones)->update(['excepcion_limite' => true]);
-        }
 
         return redirect()->route('configuracion.index')->with('success', 'Configuración guardada correctamente.');
     }

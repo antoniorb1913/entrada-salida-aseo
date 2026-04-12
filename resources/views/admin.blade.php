@@ -58,7 +58,9 @@
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-shield-lock me-2 text-primary"></i>Página Admin
             </span>
-            <a href="{{ route('logout') }}" class="btn btn-outline-danger d-flex align-items-center">
+            <a href="{{ route('logout') }}" 
+            class="btn btn-outline-danger d-flex align-items-center"
+            onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
                 <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
             </a>
         </div>

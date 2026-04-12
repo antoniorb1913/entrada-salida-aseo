@@ -40,7 +40,6 @@ Route::middleware('auth')->group(function () {
     // ==========================================================
     // 5. ZONA EXCLUSIVA (BLOQUEADA PARA EL PROFESOR)
     // ==========================================================
-    // ¡AQUÍ ESTÁ EL CAMBIO! Llamamos al middleware oficial
     Route::middleware(SoloDireccion::class)->group(function () {
         
 

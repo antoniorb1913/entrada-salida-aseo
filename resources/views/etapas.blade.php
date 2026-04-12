@@ -41,7 +41,9 @@
             
             {{-- EL BOTÓN DINÁMICO: Cerrar Sesión para el Profe, Volver para el Admin --}}
             @if(auth()->user()->rol === 'profesor')
-                <a href="{{ route('logout') }}" class="btn btn-outline-danger">
+                <a href="{{ route('logout') }}" 
+                class="btn btn-outline-danger d-flex align-items-center"
+                onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
                     <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                 </a>
             @else

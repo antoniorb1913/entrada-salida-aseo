@@ -179,3 +179,10 @@ Fecha --> 27/03/2026
 
 Fecha --> 04/04/2026
 
+## Panel de configuración.
+
+  1. Creación de archivos: Model Configuracion, table configurations, ConfiguracionController, ConfiguracionService y configuracion.blade.
+  2. añadir enpoint en web.php
+  3. Configurar limite de salida, tiempo de espera y sin limite (por si un alumno por prescripcion medica tiene que mucha al baño).
+  
+  Fecha --> 10/04/2026 - 12/04/2026

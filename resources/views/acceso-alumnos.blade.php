@@ -1,11 +1,15 @@
 @php
-    // 1. OBTENEMOS LA CONFIGURACIÓN REAL DE LA BASE DE DATOS
-    $maxSalidas = \Illuminate\Support\Facades\DB::table('configuraciones')->where('clave', 'max_salidas')->value('valor') ?? 3;
-    $tiempoEspera = \Illuminate\Support\Facades\DB::table('configuraciones')->where('clave', 'tiempo_espera_segundos')->value('valor') ?? 300; 
+    // 1. Cargamos el "pack" de configuración centralizado
+    $config = \App\Models\Configuracion::todas();
+    
+    // Asignamos las variables que ya usa el resto de tu HTML
+    $maxSalidas = $config->max_salidas;
+    $tiempoEspera = $config->tiempo_espera; 
     
     $segundosFaltantes = 0;
     $ultimaSalida = null;
     
+    // Buscamos si hay alguien fuera para el cronómetro global del curso
     foreach($alumnos as $a) {
         $regActivo = $a->registros->where('estado', \App\Enums\Estado::FUERA)->first();
         if ($regActivo) {

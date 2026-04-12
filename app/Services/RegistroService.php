@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Enums\Estado;
 use App\Models\Alumno;
 use App\Models\Registro;
+use App\Models\Configuracion; // Asegúrate de que esté el import
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB; // Añadido para poder consultar la configuración
 
 class RegistroService
 {
@@ -15,21 +15,24 @@ class RegistroService
         $alumno = Alumno::findOrFail($alumno_id);
         $hoy = now()->toDateString();
         
-        // --- CONFIGURACIÓN DINÁMICA (DESDE LA BASE DE DATOS) ---
-        $limiteSalidas = DB::table('configuraciones')->where('clave', 'max_salidas')->value('valor') ?? 3;
-        $tiempoEsperaSegundos = DB::table('configuraciones')->where('clave', 'tiempo_espera_segundos')->value('valor') ?? 300;
+        // --- CONFIGURACIÓN DINÁMICA CENTRALIZADA ---
+        // Llamamos al método "todas" que nos devuelve el objeto con las reglas
+        $config = Configuracion::todas();
 
         // 1. Límite de salidas diarias
         $salidasHoy = Registro::where('alumno_id', $alumno_id)
                             ->whereDate('fecha_salida', $hoy)
                             ->count();
 
-        // LA MAGIA: Comprobamos si choca con el límite Y además NO tiene excepción médica
-        if ($salidasHoy >= $limiteSalidas && !$alumno->excepcion_limite) {
-            return ['success' => false, 'error' => "Límite de salidas alcanzado por hoy ($limiteSalidas)."];
+        // Usamos $config->max_salidas en lugar de la variable suelta
+        if ($salidasHoy >= $config->max_salidas && !$alumno->excepcion_limite) {
+            return [
+                'success' => false, 
+                'error' => "Límite de salidas alcanzado por hoy ({$config->max_salidas})."
+            ];
         }
 
-        // 2. Salidas escalonadas (Solo si el anterior sigue fuera)
+        // 2. Salidas escalonadas
         $ultimaSalidaClase = Registro::where('curso_id', $alumno->curso_id)
                                     ->whereDate('fecha_salida', $hoy)
                                     ->latest('fecha_salida')
@@ -38,8 +41,9 @@ class RegistroService
         if ($ultimaSalidaClase && $ultimaSalidaClase->estado === Estado::FUERA) {
             $segundosDesdeSalida = intval(Carbon::parse($ultimaSalidaClase->fecha_salida)->diffInSeconds(now()));
             
-            if ($segundosDesdeSalida < $tiempoEsperaSegundos) {
-                $faltan = $tiempoEsperaSegundos - $segundosDesdeSalida;
+            // Usamos $config->tiempo_espera
+            if ($segundosDesdeSalida < $config->tiempo_espera) {
+                $faltan = $config->tiempo_espera - $segundosDesdeSalida;
                 $tiempoFormateado = gmdate('i:s', $faltan);
 
                 return [
@@ -49,7 +53,7 @@ class RegistroService
             }
         }
 
-        // 3. Registro de la salida
+        // 3. Registro de la salida (El resto se queda igual)
         Registro::create([
             'alumno_id'    => $alumno_id,
             'profesor_id'  => $profesor_id,
@@ -60,7 +64,7 @@ class RegistroService
 
         return ['success' => true];
     }
-
+    
     public function registrar_entrada_alumno($alumno_id)
     {
         $registro = Registro::where('alumno_id', $alumno_id)
