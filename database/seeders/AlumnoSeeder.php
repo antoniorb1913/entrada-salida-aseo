@@ -19,7 +19,7 @@ class AlumnoSeeder extends Seeder
 
         foreach ($cursos as $curso) {
             // 2. Por cada curso, creamos 20 alumnos
-            for ($i = 1; $i <= 20; $i++) {
+            for ($i = 1; $i <= 25; $i++) {
                 Alumno::create([
                     // Generamos un NRE aleatorio de 6-7 cifras único
                     'nre'       => $faker->unique()->numberBetween(100000, 999999),
