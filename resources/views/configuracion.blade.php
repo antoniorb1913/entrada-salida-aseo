@@ -113,12 +113,20 @@
     
     <script>
         document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
-            let filtro = this.value.toLowerCase();
+            // 1. Función para quitar tildes y diacríticos de un texto
+            const normalizarTexto = (texto) => {
+                return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            };
+    
+            // 2. Normalizamos lo que el usuario ha escrito
+            let filtro = normalizarTexto(this.value);
             let alumnos = document.querySelectorAll('.student-item');
-
+    
             alumnos.forEach(function(alumno) {
-                let texto = alumno.getAttribute('data-search');
-                if (texto.includes(filtro)) {
+                // 3. Normalizamos el texto de búsqueda del alumno (que ya viene del data-search)
+                let textoAlumno = normalizarTexto(alumno.getAttribute('data-search'));
+                
+                if (textoAlumno.includes(filtro)) {
                     alumno.style.display = 'block';
                 } else {
                     alumno.style.display = 'none';
