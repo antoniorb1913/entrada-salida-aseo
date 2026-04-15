@@ -95,7 +95,6 @@
                                             <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
                                                 {{ $alumno->apellidos }}, {{ $alumno->nombre }}
                                             </span>
-                                            
                                             {{-- Badge del curso (Fijo y alineado a la derecha) --}}
                                             <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1.5 fw-bold flex-shrink-0 ms-auto">
                                                 <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivelNombre }} {{ $letraNombre }} {{ $etapaNombre }}
