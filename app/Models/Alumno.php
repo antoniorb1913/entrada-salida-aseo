@@ -16,14 +16,13 @@ class Alumno extends Model
     protected $hidden = ["updated_at", "created_at"];
     
 
-    // RELACIÓN: Un alumno puede tener muchos registros o fichajes (1 a Muchos)
     public function registros(): HasMany
     {
         return $this->hasMany(Registro::class);
     }
     
-    public function cursos(): HasMany
+    public function cursos(): BelongsTo
     {
-        return $this->hasMany(Curso::class);
+        return $this->belongsTo(Curso::class);
     }
 }

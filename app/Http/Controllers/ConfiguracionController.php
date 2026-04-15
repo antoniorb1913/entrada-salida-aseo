@@ -25,7 +25,7 @@ class ConfiguracionController extends Controller
         $maxSalidas = $config->max_salidas;
         $tiempoEsperaMinutos = $config->tiempo_espera / 60;
 
-        $alumnos = Alumno::with('curso')->orderBy('curso_id')->orderBy('apellidos')->get();
+        $alumnos = Alumno::with('cursos')->orderBy('curso_id')->orderBy('apellidos')->get();
 
         return view('configuracion', compact('maxSalidas', 'tiempoEsperaMinutos', 'alumnos'));
     }

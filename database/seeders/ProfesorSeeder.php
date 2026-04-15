@@ -13,9 +13,9 @@ class ProfesorSeeder extends Seeder
     {
         // Creamos el primer usuario (administrador/profesor) de forma manual
         User::create([
-            'nombre'    => 'cipri', 
+            'nombre'    => 'Cipriano ', 
             'apellidos' => 'garcia hermandez',
-            'email'     => 'cipri@profesor.com',
+            'email'     => 'cipriano.gracia@murciaeduca.es',
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
             'password'  => Hash::make('1234'),      
