@@ -90,9 +90,16 @@
 
                                     <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
                                         <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="alumno_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
-                                        <label class="form-check-label d-flex justify-content-between w-100" for="alumno_{{ $alumno->id }}">
-                                            <span class="fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</span>
-                                            <span class="badge bg-secondary">{{ $etapaNombre }} {{ $nivelNombre }}{{ $letraNombre }}</span>
+                                        <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="alumno_{{ $alumno->id }}">
+                                            {{-- Nombre del alumno (Sin truncate y con flex-grow) --}}
+                                            <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
+                                                {{ $alumno->apellidos }}, {{ $alumno->nombre }}
+                                            </span>
+                                            
+                                            {{-- Badge del curso (Fijo y alineado a la derecha) --}}
+                                            <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1.5 fw-bold flex-shrink-0 ms-auto">
+                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivelNombre }} {{ $letraNombre }} {{ $etapaNombre }}
+                                            </span>
                                         </label>
                                     </div>
                                 @endforeach

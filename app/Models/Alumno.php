@@ -21,7 +21,7 @@ class Alumno extends Model
         return $this->hasMany(Registro::class);
     }
     
-    public function cursos(): BelongsTo
+    public function curso(): BelongsTo
     {
         return $this->belongsTo(Curso::class);
     }
