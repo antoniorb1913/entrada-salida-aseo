@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellidos');
             $table->foreignId("curso_id")->constrained("cursos");
+            $table->boolean('excepcion_limite')->default(false);
             $table->timestamps();
         });
     }

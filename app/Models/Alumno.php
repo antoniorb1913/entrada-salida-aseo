@@ -11,11 +11,12 @@ class Alumno extends Model
     protected $table = 'alumnos';
 
 
-    protected $fillable = ['nre','nombre', 'apellidos', 'curso_id'];
+    protected $fillable = ['nre','nombre', 'apellidos', 'curso_id', 'excepcion_limite'];
 
     protected $hidden = ["updated_at", "created_at"];
     
 
+    // RELACIÓN: Un alumno puede tener muchos registros o fichajes (1 a Muchos)
     public function registros(): HasMany
     {
         return $this->hasMany(Registro::class);
@@ -24,9 +25,5 @@ class Alumno extends Model
     public function cursos(): HasMany
     {
         return $this->hasMany(Curso::class);
-    }
-    public function curso()
-    {
-        return $this->belongsTo(Curso::class);
     }
 }
