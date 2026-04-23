@@ -82,7 +82,7 @@
                         <label for="nameInput" class="form-label fw-semibold">Nombre de usuario</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" class="form-control bg-light border-start-0" id="nameInput" name="nombre" placeholder="Ej: cipri" required autofocus>
+                            <input type="text" class="form-control bg-light border-start-0" id="nameInput" name="nombre" placeholder="Ej: cipriano" required autofocus>
                         </div>
                     </div>
 
