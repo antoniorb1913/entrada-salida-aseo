@@ -13,7 +13,7 @@ class ProfesorSeeder extends Seeder
     {
         // Creamos el primer usuario (administrador/profesor) de forma manual
         User::create([
-            'nombre'    => 'Cipriano ', 
+            'nombre'    => 'Cipriano', 
             'apellidos' => 'garcia hermandez',
             'email'     => 'cipriano.gracia@murciaeduca.es',
             
