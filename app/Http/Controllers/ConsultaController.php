@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistroRequest;
 use App\Models\Alumno;
 use Illuminate\Http\Request;
-use App\Services\RegistroService; // Importamos el servicio
+use App\Services\RegistroService;
 use App\Models\Curso;
 use App\Models\User;
 use App\Services\AlumnoService;
@@ -17,7 +17,6 @@ class ConsultaController extends Controller
     protected $alumnoService;
     protected $profesorService;
 
-    // Inyectamos el servicio en el constructor
     public function __construct(RegistroService $registroService, AlumnoService $alumnoService, ProfesorService $profesorService)
     {
         $this->registroService = $registroService;
@@ -29,30 +28,39 @@ class ConsultaController extends Controller
         return view('consultas-registros');
     }
 
+    // --- TODOS APUNTAN A LA MISMA VISTA 'consultas-filtros' ---
+
     public function formFecha() {
-        return view('form_fecha');
+        return view('filtros-consultas', ['tipo' => 'fecha']);
     }
 
     public function formGrupo() {
         $cursos = Curso::all();
-        return view('form_grupo', compact('cursos'));
+        return view('filtros-consultas', [
+            'cursos' => $cursos, 
+            'tipo' => 'grupo'
+        ]);
     }
 
     public function formProfesor() {
         $profesores = $this->profesorService->getAllProf(); 
-        return view('form_profesor', compact('profesores'));
+        return view('filtros-consultas', [
+            'profesores' => $profesores, 
+            'tipo' => 'profesor'
+        ]);
     }
 
     public function formAlumno() {
         $alumnos = $this->alumnoService->getAllAlum(); 
-        return view('form_alumno', compact('alumnos'));
+        return view('filtros-consultas', [
+            'alumnos' => $alumnos, 
+            'tipo' => 'alumno'
+        ]);
     }
+
     public function resultados(RegistroRequest $request) 
     {
-        // Toda la lógica de filtrado ahora vive en el Service
         $registros = $this->registroService->buscarRegistros($request);
-
-        // Devolvemos la vista de la tabla
         return view('tabla-resultados', compact('registros'));
     }
 }
