@@ -104,7 +104,7 @@
         </div>
         
         <p class="text-center text-muted mt-4">
-            <small>&copy; 2026 IES Sistema de Control</small>
+            <small>&copy; 2026 IES Antonio Hellín Costa</small>
         </p>
     </main>
 
