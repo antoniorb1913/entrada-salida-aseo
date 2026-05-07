@@ -54,10 +54,12 @@
             <div class="row justify-content-center g-4">
                 @foreach($letras as $item)
                     <div class="col-12 col-md-4 col-lg-3">
-                        {{-- El enlace usa el ID (ej: 18) y el texto usa la letra (ej: CIENCIA) --}}
                         <a href="{{ route('acceso.alumnos', $item->id) }}" class="card-step bg-warning text-dark shadow text-decoration-none">
                             <i class="bi bi-person-video2"></i>
-                            <span class="fw-bold">{{ $item->letra }}</span>
+                            {{-- Usamos nl2br para que el \n del Seeder se convierta en un intro real --}}
+                            <span class="fw-bold" style="font-size: 2.0rem; line-height: 1.1;">
+                                {!! nl2br(e($item->letra)) !!}
+                            </span>
                         </a>
                     </div>
                 @endforeach

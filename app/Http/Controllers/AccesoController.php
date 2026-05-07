@@ -24,11 +24,16 @@ class AccesoController extends Controller
 
     public function modalidades($etapa)
     {
-        // Buscamos modalidades únicas para esa etapa
+        // --- LÓGICA PERSONALIZADA: ESO ---
+        // Si el usuario elige ESO, saltamos el paso de modalidad y vamos a niveles
+        if ($etapa === 'ESO') {
+            return redirect()->route('acceso.niveles', [$etapa, 'comun']);
+        }
+
         $modalidades = $this->cursoService->getModalidadesPorEtapa($etapa);
         
-        // Si no hay modalidades (es null), saltamos directo a niveles
-        if ($modalidades->count() <= 1 && $modalidades->first() == null) {
+        // Comprobación de seguridad por si no hay modalidades registradas
+        if ($modalidades->count() <= 1 && ($modalidades->first() == null || $modalidades->first() == 'comun')) {
             return redirect()->route('acceso.niveles', [$etapa, 'comun']);
         }
     
@@ -37,21 +42,24 @@ class AccesoController extends Controller
     
     public function niveles($etapa, $modalidad)
     {
-        // Pasamos la modalidad para filtrar
         $niveles = $this->cursoService->getNivelesPorEtapa($etapa, $modalidad);
         return view('acceso-niveles', compact('niveles', 'etapa', 'modalidad'));
     }
 
     public function letras($etapa, $modalidad, $nivel)
     {
-        // Pasamos los 3 parámetros al service para obtener las letras correctas
         $letras = $this->cursoService->getLetrasPorNivel($etapa, $modalidad, $nivel);
 
-        // CRÍTICO: Añadir 'modalidad' al compact para que la vista la reciba
+        // --- LÓGICA PERSONALIZADA: FP ---
+        // En FP, la "letra" es el código del ciclo (DAW, SMR...). Como ya eligieron la 
+        // modalidad antes, aquí solo habrá 1 resultado. Saltamos directo a los alumnos.
+        if ($etapa === 'FP' && $letras->count() === 1) {
+            return redirect()->route('acceso.alumnos', $letras->first()->id);
+        }
+
         return view('acceso-letras', compact('letras', 'etapa', 'modalidad', 'nivel'));
     }
     
-
     public function alumnos($curso_id)
     {
         $curso = $this->cursoService->getCursoPorId($curso_id);
@@ -59,7 +67,6 @@ class AccesoController extends Controller
         
         $tiempoEsperaSegundos = 300; 
 
-        // Al pasar $curso, ya llevamos la modalidad dentro del objeto
         return view('acceso-alumnos', compact('alumnos', 'curso', 'tiempoEsperaSegundos'));
     }
 }
