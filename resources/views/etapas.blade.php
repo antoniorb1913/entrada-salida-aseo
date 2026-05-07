@@ -31,8 +31,7 @@
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-custom py-3 shadow-sm">
+    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño

@@ -37,7 +37,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; }
+        body { background-color: #f4f7f6; padding-top: 5%; }
+
+    @media (max-width: 576px) {
+        body {
+            padding-top: 30%;
+        }
+    }
+        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
         .student-card { 
             transition: all 0.2s; 
             border-radius: 15px; 
@@ -63,7 +70,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar bg-white shadow-sm py-3 mb-4">
+    <nav class="navbar navbar-custom bg-white py-3 shadow-sm mb-4 fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="fw-bold">
                 <i class="bi bi-person-badge me-2"></i> 
@@ -86,11 +93,11 @@
                     }
                 @endphp
     
-                <a href="{{ route('acceso') }}" class="btn btn-outline-danger btn-sm">
+                <a href="{{ route('acceso') }}" class="btn btn-outline-danger d-flex align-items-center">
                     <i class="bi bi-house-door"></i> Inicio
                 </a>
     
-                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary d-flex align-items-center">
                     <i class="bi bi-arrow-left"></i> Volver
                 </a>
             </div>
