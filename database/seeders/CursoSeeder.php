@@ -44,6 +44,7 @@ class CursoSeeder extends Seeder
                 
                 $modalidad = null;
             }
+            
             elseif (str_contains($descripcionRaw, 'Bachillerato')) {
                 $etapa = 'BACHILLERATO';
                 $modalidad = $descripcionRaw; 
@@ -51,17 +52,20 @@ class CursoSeeder extends Seeder
                 $letra = mb_substr($grupoRaw, 2);
             } 
             else {
+                // --- LÓGICA PARA FP ---
                 $etapa = 'FP';
                 $modalidad = $descripcionRaw; 
                 $nivel = mb_substr($grupoRaw, -1) . 'º';
-                $letra = mb_substr($grupoRaw, 0, -1);
+                
+                // Ponemos la letra a null para que no exista ese paso en la navegación
+                $letra = null; 
             }
         
             Curso::create([
                 'etapas'    => $etapa,
                 'modalidad' => $modalidad,
                 'nivel'     => $nivel,
-                'letra'     => $letra ?: 'A',
+                'letra'     => $letra, // Eliminamos el ?: 'A' para que acepte el null
             ]);
         }
         

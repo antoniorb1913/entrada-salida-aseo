@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('acceso')->group(function () {
         Route::get('/', [AccesoController::class, 'index'])->name('acceso');
         Route::get('/modalidades/{etapa}', [AccesoController::class, 'modalidades'])->name('acceso.modalidades');
-        Route::get('/niveles/{etapa}/{modalidad}', [AccesoController::class, 'niveles'])->name('acceso.niveles');
+        Route::get('/acceso/niveles/{etapa}/{modalidad}', [AccesoController::class, 'niveles'])->name('acceso.niveles');
         Route::get('/letras/{etapa}/{modalidad}/{nivel}', [AccesoController::class, 'letras'])->name('acceso.letras');
         Route::get('/alumnos/{curso_id}', [AccesoController::class, 'alumnos'])->name('acceso.alumnos');
     });

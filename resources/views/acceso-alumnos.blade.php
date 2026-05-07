@@ -65,8 +65,30 @@
 <body>
     <nav class="navbar bg-white shadow-sm py-3 mb-4">
         <div class="container">
-            <span class="fw-bold"><i class="bi bi-person-badge me-2"></i> {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</span>
-            <a href="{{ route('acceso.letras', ['etapa' => $curso->etapas, 'modalidad' => $curso->modalidad ?? 'comun', 'nivel' => $curso->nivel]) }}" class="btn btn-outline-secondary btn-sm">
+            <span class="fw-bold">
+                <i class="bi bi-person-badge me-2"></i> 
+                {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra ?? '' }}
+            </span>
+    
+            @php
+                // LA LÓGICA DEFINITIVA
+                if ($curso->letra === null) {
+                    // Si no hay letra (como en tu FP), volvemos a Niveles (1º, 2º)
+                    $urlVolver = route('acceso.niveles', [
+                        'etapa' => $curso->etapas, 
+                        'modalidad' => $curso->modalidad ?? 'comun'
+                    ]);
+                } else {
+                    // Si hay letra (ESO/BACH), volvemos a las Letras (cuadros amarillos)
+                    $urlVolver = route('acceso.letras', [
+                        'etapa' => $curso->etapas, 
+                        'modalidad' => $curso->modalidad ?? 'comun', 
+                        'nivel' => $curso->nivel
+                    ]);
+                }
+            @endphp
+    
+            <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>
