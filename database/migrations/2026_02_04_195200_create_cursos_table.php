@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
             $table->string('etapas');
-            $table->string('modalidad')->nullable(); // Esta ya la tendrías así
+            $table->string('modalidad')->nullable();
             $table->string('nivel');
-            $table->string('letra')->nullable();    // <--- AÑADE ESTO AQUÍ
+            $table->string('letra')->nullable();
             $table->timestamps();
         });
     }
