@@ -15,8 +15,7 @@
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 50px 20px;
-            height: 100%;
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;

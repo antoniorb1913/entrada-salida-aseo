@@ -15,8 +15,7 @@
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 50px 20px;
-            height: 100%;
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -70,10 +69,5 @@
             </div>
         </div>
     </main>
-
-    <footer class="text-center py-4 text-muted">
-        <small>TFG - Sistema de Registro de Asistencia al Aseo</small>
-    </footer>
-
 </body>
 </html>
