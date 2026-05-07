@@ -38,7 +38,7 @@
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
-            <a href="{{ route('acceso.niveles', $etapa) }}" class="btn btn-outline-secondary">
+            <a href="{{ route('acceso.niveles', [$etapa, $modalidad]) }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i> Volver a Niveles
             </a>
         </div>

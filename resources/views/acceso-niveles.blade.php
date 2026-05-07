@@ -56,7 +56,7 @@
                 @foreach($niveles as $nivel)
                     <div class="col-12 col-md-4 col-lg-3">
                         {{-- Usamos color btn-success para diferenciar que es el paso 2 --}}
-                        <a href="{{ route('acceso.letras', [$etapa, $nivel]) }}" class="card-step bg-success text-white shadow text-decoration-none">
+                        <a href="{{ route('acceso.letras', [$etapa, $modalidad, $nivel]) }}" class="card-step bg-success text-white shadow text-decoration-none">
                             <i class="bi bi-layers"></i>
                             <span class="fw-bold">{{ $nivel }}</span>
                         </a>

@@ -9,7 +9,7 @@ class Curso extends Model
 {
     protected $table = "cursos";
 
-    protected $fillable = ['nivel', 'letra'];
+    protected $fillable = ['modalidad', 'nivel', 'letra'];
 
     protected $hidden = ["updated_at", "created_at"];
 

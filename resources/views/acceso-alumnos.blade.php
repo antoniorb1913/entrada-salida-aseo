@@ -66,7 +66,7 @@
     <nav class="navbar bg-white shadow-sm py-3 mb-4">
         <div class="container">
             <span class="fw-bold"><i class="bi bi-person-badge me-2"></i> {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</span>
-            <a href="{{ route('acceso.letras', ['etapa' => $curso->etapas, 'nivel' => $curso->nivel]) }}" class="btn btn-outline-secondary btn-sm">
+            <a href="{{ route('acceso.letras', ['etapa' => $curso->etapas, 'modalidad' => $curso->modalidad ?? 'comun', 'nivel' => $curso->nivel]) }}" class="btn btn-outline-secondary btn-sm">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>

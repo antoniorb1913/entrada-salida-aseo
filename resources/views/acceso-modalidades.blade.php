@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Seleccionar Etapa</title>
+    <title>Seleccionar Modalidad - {{ $etapa }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -28,7 +28,7 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
         }
         .card-step i { font-size: 3.5rem; margin-bottom: 15px; }
-        .card-step span { font-size: 1.5rem; font-weight: 700; }
+        .card-step span { font-size: 1.3rem; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -38,50 +38,42 @@
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
-            
-            {{-- EL BOTÓN DINÁMICO: Cerrar Sesión para el Profe, Volver para el Admin --}}
-            @if(auth()->user()->rol === 'profesor')
-                <a href="{{ route('logout') }}" 
-                class="btn btn-outline-danger d-flex align-items-center"
-                onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
-                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
-                </a>
-            @else
-                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-2"></i> Volver al Panel
-                </a>
-            @endif
+            <a href="{{ route('acceso') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Volver a Etapas
+            </a>
         </div>
     </nav>
 
     <main class="main-content">
         <div class="container">
-            
-            {{-- Mensaje de Error (Si intentan entrar en Consultas sin permiso, aquí les sale el aviso) --}}
-            @if(session('error'))
-                <div class="alert alert-danger text-center mb-4 shadow-sm">
-                    <i class="bi bi-shield-lock-fill me-2"></i> {{ session('error') }}
-                </div>
-            @endif
-
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
-                <p class="text-muted">¿De qué etapa es el alumno?</p>
+                <h2 class="fw-bold text-secondary">Paso 2: Selecciona la Modalidad / Programa</h2>
+                <p class="text-muted text-uppercase">Etapa seleccionada: <strong>{{ $etapa }}</strong></p>
             </div>
 
             <div class="row justify-content-center g-4">
-                {{-- Recorremos las etapas que vienen del controlador --}}
-                @foreach($etapas as $etapa)
-                    <div class="col-12 col-md-4 col-lg-3">
-                        <a href="{{ route('acceso.modalidades', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
-                            <i class="bi bi-mortarboard"></i>
-                            <span class="text-uppercase fw-bold">{{ $etapa }}</span>
+                @foreach($modalidades as $mod)
+                    <div class="col-12 col-md-6 col-lg-4">
+                        {{-- 
+                            Si la modalidad es nula en la DB (curso común), 
+                            enviamos el string 'comun' para que la ruta funcione.
+                        --}}
+                        <a href="{{ route('acceso.niveles', [$etapa, $mod ?? 'comun']) }}" 
+                           class="card-step bg-info text-white shadow text-decoration-none">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <span class="text-uppercase">
+                                {{ $mod ?? 'Régimen General / Común' }}
+                            </span>
                         </a>
                     </div>
                 @endforeach
             </div>
         </div>
     </main>
+
+    <footer class="text-center py-4 text-muted">
+        <small>TFG - Sistema de Registro de Asistencia al Aseo</small>
+    </footer>
 
 </body>
 </html>

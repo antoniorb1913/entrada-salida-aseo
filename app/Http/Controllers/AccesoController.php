@@ -22,28 +22,44 @@ class AccesoController extends Controller
         return view('etapas', compact('etapas'));
     }
 
-    public function niveles($etapa)
+    public function modalidades($etapa)
     {
-        $niveles = $this->cursoService->getNivelesPorEtapa($etapa);
-        return view('acceso-niveles', compact('niveles', 'etapa'));
-    }
-
-    public function letras($etapa, $nivel)
-    {
-        $letras = $this->cursoService->getLetrasPorNivel($etapa, $nivel);
-        return view('acceso-letras', compact('letras', 'etapa', 'nivel'));
+        // Buscamos modalidades únicas para esa etapa
+        $modalidades = $this->cursoService->getModalidadesPorEtapa($etapa);
+        
+        // Si no hay modalidades (es null), saltamos directo a niveles
+        if ($modalidades->count() <= 1 && $modalidades->first() == null) {
+            return redirect()->route('acceso.niveles', [$etapa, 'comun']);
+        }
+    
+        return view('acceso-modalidades', compact('modalidades', 'etapa'));
     }
     
+    public function niveles($etapa, $modalidad)
+    {
+        // Pasamos la modalidad para filtrar
+        $niveles = $this->cursoService->getNivelesPorEtapa($etapa, $modalidad);
+        return view('acceso-niveles', compact('niveles', 'etapa', 'modalidad'));
+    }
+
+    public function letras($etapa, $modalidad, $nivel)
+    {
+        // Pasamos los 3 parámetros al service para obtener las letras correctas
+        $letras = $this->cursoService->getLetrasPorNivel($etapa, $modalidad, $nivel);
+
+        // CRÍTICO: Añadir 'modalidad' al compact para que la vista la reciba
+        return view('acceso-letras', compact('letras', 'etapa', 'modalidad', 'nivel'));
+    }
+    
+
     public function alumnos($curso_id)
     {
         $curso = $this->cursoService->getCursoPorId($curso_id);
         $alumnos = $this->cursoService->getAlumnosPorCurso($curso_id);
-
-        // --- DEFINIMOS EL TIEMPO FIJO AQUÍ (5 MINUTOS) ---
-        // 5 minutos * 60 segundos = 300
+        
         $tiempoEsperaSegundos = 300; 
 
-        // Añadimos 'tiempoEsperaSegundos' al compact
+        // Al pasar $curso, ya llevamos la modalidad dentro del objeto
         return view('acceso-alumnos', compact('alumnos', 'curso', 'tiempoEsperaSegundos'));
     }
 }
