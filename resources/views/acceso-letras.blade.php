@@ -40,10 +40,15 @@
     <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                    </a>
             </span>
             <a href="{{ route('acceso.niveles', [$etapa, $modalidad]) }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left me-2"></i> Volver a Niveles
+                <i class="bi bi-arrow-left me-2"></i> Volver
             </a>
         </div>
     </nav>

@@ -43,7 +43,7 @@
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
             <a href="{{ route('acceso') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left me-2"></i> Volver a Etapas
+                <i class="bi bi-arrow-left me-2"></i> Volver
             </a>
         </div>
     </nav>

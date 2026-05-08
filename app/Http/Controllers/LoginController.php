@@ -18,7 +18,26 @@ class LoginController extends Controller
     {
         $this->loginService = $loginService;
     }
+    public function showLoginForm() 
+    {
+        // Si el usuario YA está autenticado...
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            // Redirigir según el rol
+            if ($user->rol === 'admin') {
+                return redirect()->route('admin');
+            } elseif ($user->rol === 'profesor') {
+                return redirect()->route('acceso');
+            }
+            
+            // Si tienes más roles o un destino por defecto
+            return redirect()->route('acceso');
+        }
 
+        // Si NO está autenticado, mostramos la vista del login
+        return view('login'); // Asegúrate de que tu vista se llame login.blade.php
+    }
     public function login(LoginRequest $request) {
             
             $routeName = $this->loginService->executeLogin($request->only('nombre', 'password'));

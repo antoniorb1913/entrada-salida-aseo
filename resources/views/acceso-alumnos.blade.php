@@ -5,7 +5,7 @@
     // Asignamos las variables que ya usa el resto de tu HTML
     $maxSalidas = $config->max_salidas;
     $tiempoEspera = $config->tiempo_espera; 
-    $tCancelacion = $config->tiempo_cancelacion; // <-- AÑADIDO PARA LA CANCELACIÓN
+    $tCancelacion = $config->tiempo_cancelacion;
     
     $segundosFaltantes = 0;
     $ultimaSalida = null;
@@ -65,13 +65,18 @@
 <body>
     <nav class="navbar navbar-custom bg-white py-3 shadow-sm mb-4 fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
-            <span class="fw-bold">
-                <i class="bi bi-person-badge me-2 text-primary"></i> 
-                {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra ?? '' }}
+            <span class="navbar-brand mb-0 h1 text-dark fw-bold">
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                    </a>
             </span>
     
             <div class="d-flex gap-2">
                 @php
+                    // 2. Mantenemos tu lógica del botón Volver
                     if ($curso->letra === null) {
                         $urlVolver = route('acceso.niveles', [
                             'etapa' => $curso->etapas, 
@@ -85,20 +90,22 @@
                         ]);
                     }
                 @endphp
-    
-                <a href="{{ route('acceso') }}" class="btn btn-outline-danger d-flex align-items-center">
-                    <i class="bi bi-house-door"></i> Inicio
-                </a>
-    
+                
                 <a href="{{ $urlVolver }}" class="btn btn-outline-secondary d-flex align-items-center">
-                    <i class="bi bi-arrow-left"></i> Volver
+                    <i class="bi bi-arrow-left me-1"></i> Volver
                 </a>
             </div>
         </div>
     </nav>
 
     <div class="container mb-5 mt-5">
-        <h2 class="text-center mb-5 fw-bold">Selecciona al Alumno</h2>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-1">Selecciona al Alumno</h2>
+            <span class="fw-bold text-muted">
+                <i class="bi bi-person-badge me-2 text-primary"></i> 
+                {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
+            </span>
+        </div>
 
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
