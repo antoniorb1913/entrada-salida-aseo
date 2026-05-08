@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+        @media (max-width: 576px) {
+            body {
+                padding-top: 20%;
+            }
+        }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .card-step {
@@ -15,8 +20,7 @@
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 50px 20px;
-            height: 100%;
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -33,12 +37,12 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-custom py-3 shadow-sm">
+    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
-            <a href="{{ route('acceso.niveles', $etapa) }}" class="btn btn-outline-secondary">
+            <a href="{{ route('acceso.niveles', [$etapa, $modalidad]) }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i> Volver a Niveles
             </a>
         </div>
@@ -54,10 +58,12 @@
             <div class="row justify-content-center g-4">
                 @foreach($letras as $item)
                     <div class="col-12 col-md-4 col-lg-3">
-                        {{-- El enlace usa el ID (ej: 18) y el texto usa la letra (ej: CIENCIA) --}}
                         <a href="{{ route('acceso.alumnos', $item->id) }}" class="card-step bg-warning text-dark shadow text-decoration-none">
                             <i class="bi bi-person-video2"></i>
-                            <span class="fw-bold">{{ $item->letra }}</span>
+                            {{-- Usamos nl2br para que el \n del Seeder se convierta en un intro real --}}
+                            <span class="fw-bold" style="font-size: 2.0rem; line-height: 1.1;">
+                                {!! nl2br(e($item->letra)) !!}
+                            </span>
                         </a>
                     </div>
                 @endforeach

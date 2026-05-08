@@ -2,68 +2,73 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Etapas;
 use App\Models\Curso;
 use Illuminate\Database\Seeder;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class CursoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 1. ESO (1º a 4º, letras A a D)
-        foreach (['1º', '2º', '3º', '4º'] as $nivel) {
-            foreach (['A', 'B', 'C', 'D'] as $letra) {
-                Curso::create([
-                    'etapas' => Etapas::ESO, 
-                    'nivel'  => $nivel,
-                    'letra'  => $letra,
-                ]);
+        $filePath = base_path('Documentación/Estudios_Grupos_Final.xlsx');
+        
+        if (!file_exists($filePath)) {
+            $this->command->error("Archivo no encontrado en: $filePath");
+            return;
+        }
+
+        $spreadsheet = IOFactory::load($filePath);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $rows = $worksheet->toArray();
+
+        array_shift($rows); 
+
+        foreach ($rows as $row) {
+            $descripcionRaw = $row[0];
+            $grupoRaw = $row[1];
+            
+            $etapa = 'OTRA';
+            $modalidad = null;
+            $nivel = '';
+            $letra = '';
+        
+            if (str_contains($descripcionRaw, 'Secundaria')) {
+                $etapa = 'ESO';
+                $nivel = mb_substr($grupoRaw, 1, 1) . 'º';
+                
+                $letraBase = mb_substr($grupoRaw, 2);
+                $programa = str_contains($descripcionRaw, 'SB Inglés') ? '(Bilingüe)' : '';
+                
+                // IMPORTANTE: Usamos el palito | para separar la letra del programa
+                $letra = $letraBase . "\n" . $programa;
+                
+                $modalidad = null;
             }
-        }
-        // 2. Bachillerato (1º y 2º, letras A a D)
-        foreach (['1º', '2º'] as $nivel) {
-            foreach (['ARTES', 'CIENCIA', 'HUMANIDADES CCSS'] as $letra) {
-                Curso::create([
-                    'etapas' => Etapas::BACHILLERATO,
-                    'nivel'  => $nivel,
-                    'letra'  => $letra,
-                ]);
+            
+            elseif (str_contains($descripcionRaw, 'Bachillerato')) {
+                $etapa = 'BACHILLERATO';
+                $modalidad = $descripcionRaw; 
+                $nivel = mb_substr($grupoRaw, 1, 1) . 'º';
+                $letra = mb_substr($grupoRaw, 2);
+            } 
+            else {
+                // --- LÓGICA PARA FP ---
+                $etapa = 'FP';
+                $modalidad = $descripcionRaw; 
+                $nivel = mb_substr($grupoRaw, -1) . 'º';
+                
+                // Ponemos la letra a null para que no exista ese paso en la navegación
+                $letra = null; 
             }
-        }
-        // 3. FP Grado Medio (SMR) - 1º y 2º
-        foreach (['1º', '2º'] as $nivel) {
+        
             Curso::create([
-                'etapas' => Etapas::FP,
-                'nivel'  => 'SMR',
-                'letra'  => $nivel,
+                'etapas'    => $etapa,
+                'modalidad' => $modalidad,
+                'nivel'     => $nivel,
+                'letra'     => $letra, // Eliminamos el ?: 'A' para que acepte el null
             ]);
         }
-        // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1º', '2º'] as $nivel) {
-            Curso::create([
-                'etapas' => Etapas::FP,
-                'nivel'  => 'DAW',
-                'letra'  => $nivel,
-            ]);
-        }
-        // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1º', '2º'] as $nivel) {
-            Curso::create([
-                'etapas' => Etapas::FP,
-                'nivel'  => 'BASICA INFORMATICA',
-                'letra'  => $nivel,
-            ]);
-        }
-        // 4. FP Grado Superior (DAW) - 1º y 2º
-        foreach (['1º', '2º'] as $nivel) {
-            Curso::create([
-                'etapas' => Etapas::FP,
-                'nivel'  => 'BASICA VEHICULOS',
-                'letra'  => $nivel,
-            ]);
-        }
+        
+        $this->command->info('Cursos importados correctamente.');
     }
 }

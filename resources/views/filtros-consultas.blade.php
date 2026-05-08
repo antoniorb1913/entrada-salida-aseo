@@ -24,6 +24,11 @@
 
     <style>
         body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; }
+        @media (max-width: 576px) {
+            body {
+                padding-top: 20%;
+            }
+        }
         .navbar-custom { background-color: #fff; border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .form-card { background-color: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
@@ -31,7 +36,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm">
+    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-search me-2 {{ $config['color'] }}"></i>Consultas

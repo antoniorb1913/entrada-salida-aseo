@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Seleccionar Nivel - {{ $etapa }}</title>
+    <title>Seleccionar Modalidad - {{ $etapa }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -32,13 +32,13 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
         }
         .card-step i { font-size: 3.5rem; margin-bottom: 15px; }
-        .card-step span { font-size: 1.5rem; font-weight: 700; }
+        .card-step span { font-size: 1.3rem; font-weight: 700; }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
             </span>
@@ -51,24 +51,28 @@
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Paso 2: Selecciona el Nivel</h2>
-                <p class="text-muted text-uppercase">Etapa: <strong>{{ $etapa }}</strong></p>
+                <h2 class="fw-bold text-secondary">Paso 2: Selecciona la Modalidad / Programa</h2>
+                <p class="text-muted text-uppercase">Etapa seleccionada: <strong>{{ $etapa }}</strong></p>
             </div>
 
             <div class="row justify-content-center g-4">
-                {{-- Recorremos los niveles que el controlador envía (ej: 1, 2) --}}
-                @foreach($niveles as $nivel)
-                    <div class="col-12 col-md-4 col-lg-3">
-                        {{-- Usamos color btn-success para diferenciar que es el paso 2 --}}
-                        <a href="{{ route('acceso.letras', [$etapa, $modalidad, $nivel]) }}" class="card-step bg-success text-white shadow text-decoration-none">
-                            <i class="bi bi-layers"></i>
-                            <span class="fw-bold">{{ $nivel }}</span>
+                @foreach($modalidades as $mod)
+                    <div class="col-12 col-md-6 col-lg-4">
+                        {{-- 
+                            Si la modalidad es nula en la DB (curso común), 
+                            enviamos el string 'comun' para que la ruta funcione.
+                        --}}
+                        <a href="{{ route('acceso.niveles', [$etapa, $mod ?? 'comun']) }}" 
+                           class="card-step bg-info text-white shadow text-decoration-none">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <span class="text-uppercase">
+                                {{ $mod ?? 'Régimen General / Común' }}
+                            </span>
                         </a>
                     </div>
                 @endforeach
             </div>
         </div>
     </main>
-
 </body>
 </html>

@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+        @media (max-width: 576px) {
+        body {
+            padding-top: 20%;
+        }
+    }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .card-step {
@@ -15,8 +20,7 @@
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 50px 20px;
-            height: 100%;
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -32,8 +36,7 @@
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-custom py-3 shadow-sm">
+    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
@@ -73,7 +76,7 @@
                 {{-- Recorremos las etapas que vienen del controlador --}}
                 @foreach($etapas as $etapa)
                     <div class="col-12 col-md-4 col-lg-3">
-                        <a href="{{ route('acceso.niveles', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
+                        <a href="{{ route('acceso.modalidades', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
                             <i class="bi bi-mortarboard"></i>
                             <span class="text-uppercase fw-bold">{{ $etapa }}</span>
                         </a>
@@ -82,6 +85,5 @@
             </div>
         </div>
     </main>
-
 </body>
 </html>

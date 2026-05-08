@@ -14,9 +14,10 @@ return new class extends Migration
     {
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
-            $table->enum('etapas', Etapas::values()); // Ejemplo: 'ESO', 'Bachillerato', 'FP'
-            $table->string('nivel'); // Ejemplo: '1', '2', '3', '4'
-            $table->string('letra'); // Ejemplo: 'A', 'B', 'C'
+            $table->string('etapas');
+            $table->string('modalidad')->nullable();
+            $table->string('nivel');
+            $table->string('letra')->nullable();
             $table->timestamps();
         });
     }

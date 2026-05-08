@@ -23,10 +23,10 @@
             max-width: 400px;
         }
         .login-header {
-            background-color: #0d6efd;
+            background-color: #0d2a5a;
             padding: 30px;
             text-align: center;
-            color: white;
+            color: #ffffff;;
         }
         .login-header i {
             font-size: 3rem;
@@ -51,6 +51,30 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
         }
+        .btn-login {
+            background-color: #0d2a5a; /* Tu nuevo color azul oscuro */
+            border: none; /* Quitamos el borde para que se vea más limpio */
+            color: white; /* Aseguramos que el texto sea blanco */
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #163d7a; /* Un azul un poco más claro al pasar el ratón */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 42, 90, 0.3); /* Sombra con el tono de tu azul */
+        }
+
+        /* Evita que Bootstrap le ponga el azul claro por defecto al hacer clic */
+        .btn-login:active, .btn-login:focus {
+            background-color: #0d2a5a !important;
+            box-shadow: 0 0 0 0.25rem rgba(13, 42, 90, 0.25) !important;
+        }
     </style>
 </head>
 <body>
@@ -58,9 +82,8 @@
     <main class="container">
         <div class="login-card mx-auto bg-white">
             <div class="login-header">
-                <i class="bi bi-shield-lock-fill"></i>
+                <img src="{{ asset('img/BLANCO PNG.png') }}" alt="Logo Gestión de Aseos" style="max-width: 200px;">
                 <h4 class="mt-2 mb-0 fw-bold">Gestión de Aseos</h4>
-                <p class="small mb-0 opacity-75">Acceso para profesores</p>
             </div>
 
             <div class="p-4 p-md-5">
@@ -95,7 +118,7 @@
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-login">
+                        <button type="submit" class="btn btn-login">
                             Entrar ahora <i class="bi bi-chevron-right ms-2"></i>
                         </button>
                     </div>

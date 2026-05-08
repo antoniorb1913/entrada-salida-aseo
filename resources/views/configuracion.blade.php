@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 25%;
+            }
+        }
         .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
@@ -16,7 +22,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm">
+    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 <i class="bi bi-gear-fill me-2 text-primary"></i>Configuración Global
@@ -29,13 +35,13 @@
     
     
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <div class="alert alert-success alert-dismissible fade show shadow-sm mt-5 pt-4" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
     <main class="main-content">
-        <div class="container mb-5">
+        <div class="container mb-5 mt-5">
             <form action="{{ route('configuracion.guardar') }}" method="POST">
                 @csrf
                 
@@ -61,6 +67,17 @@
                                     <input type="number" name="tiempo_espera" class="form-control" value="{{ $tiempoEsperaMinutos }}" min="0" required>
                                     <span class="input-group-text">minutos</span>
                                 </div>
+                            </div>
+
+                            {{-- EL NUEVO PARÁMETRO DE CANCELACIÓN (Añadido) --}}
+                            <div class="mb-4">
+                                <label class="form-label">Tiempo de arrepentimiento (Cancelar)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-arrow-counterclockwise"></i></span>
+                                    <input type="number" name="tiempo_cancelacion" class="form-control" value="{{ $tiempoCancelacion }}" min="0" max="30" required>
+                                    <span class="input-group-text">segundos</span>
+                                </div>
+                                <div class="form-text">Segundos para poder anular la salida antes de que se registre.</div>
                             </div>
                         </div>
                     </div>
@@ -96,7 +113,7 @@
                                                 {{ $alumno->apellidos }}, {{ $alumno->nombre }}
                                             </span>
                                             {{-- Badge del curso (Fijo y alineado a la derecha) --}}
-                                            <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1.5 fw-bold flex-shrink-0 ms-auto">
+                                            <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
                                                 <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivelNombre }} {{ $letraNombre }} {{ $etapaNombre }}
                                             </span>
                                         </label>

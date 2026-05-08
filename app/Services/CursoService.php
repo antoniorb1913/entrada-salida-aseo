@@ -11,25 +11,44 @@ class CursoService
         return Curso::distinct()->pluck('etapas');
     }
     
-    // Asegúrate de que este nombre sea exacto: getNivelesPorEtapa
-    public function getNivelesPorEtapa($etapa) {
-        return Curso::where('etapas', strtoupper($etapa))
+    public function getModalidadesPorEtapa($etapa) {
+        return Curso::where('etapas', $etapa)
                     ->distinct()
-                    ->pluck('nivel');
+                    ->pluck('modalidad');
     }
-    public function getLetrasPorNivel($etapa, $nivel) {
-        // Cambiamos pluck() por get() para traer el ID y la LETRA
-        return Curso::where('etapas', strtoupper($etapa))
-                    ->where('nivel', $nivel)
-                    ->get(['id', 'letra']); 
+    
+    public function getNivelesPorEtapa($etapa, $modalidad) {
+        $query = Curso::where('etapas', $etapa);
+        
+        // Ajuste: Para la ESO (comun), filtramos explícitamente por null
+        if ($modalidad === 'comun' || is_null($modalidad)) {
+            $query->whereNull('modalidad');
+        } else {
+            $query->where('modalidad', $modalidad);
+        }
+        
+        return $query->distinct()->pluck('nivel');
     }
+
+    public function getLetrasPorNivel($etapa, $modalidad, $nivel) {
+        // Usamos la misma lógica de 'comun' que en niveles para ser consistentes
+        $query = Curso::where('etapas', $etapa)
+                      ->where('nivel', $nivel);
+
+        if ($modalidad === 'comun' || is_null($modalidad)) {
+            $query->whereNull('modalidad');
+        } else {
+            $query->where('modalidad', $modalidad);
+        }
+
+        return $query->get(['id', 'letra']); 
+    }
+
     public function getCursoPorId($curso_id) {
-        // Buscamos los datos del curso para el encabezado de la vista
         return Curso::findOrFail($curso_id);
     }
 
     public function getAlumnosPorCurso($curso_id) {
-        // Buscamos los alumnos que pertenecen a este ID de curso
         return Alumno::where('curso_id', $curso_id)
                     ->orderBy('apellidos')
                     ->get();
