@@ -11,7 +11,7 @@
 
         @media (max-width: 576px) {
             body {
-                padding-top: 25%;
+                padding-top: 10%;
             }
         }
         .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
@@ -29,7 +29,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             <a href="{{ route('admin') }}" class="btn btn-outline-secondary">
@@ -49,7 +49,10 @@
         <div class="container mb-5 mt-5">
             <form action="{{ route('configuracion.guardar') }}" method="POST">
                 @csrf
-                
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-secondary">Panel de configuración</h2>
+                    <p class="text-muted">Parametros para la entrada y salida al aseo</p>
+                </div>
                 <div class="row">
                     {{-- AJUSTES GLOBALES --}}
                     <div class="col-lg-5">

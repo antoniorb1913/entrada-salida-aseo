@@ -21,7 +21,7 @@
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 20px 20px; /* Padding grande para que sean altas */
+            padding: 15px 20px; /* Padding grande para que sean altas */
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -49,7 +49,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             <a href="{{ route('admin') }}" class="btn btn-outline-secondary">
@@ -61,8 +61,8 @@
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary" style="font-size: 2.5rem;">Selecciona el Tipo de Consulta</h2>
-                <p class="text-muted text-uppercase fw-bold mt-2">FILTROS DE HISTORIAL</p>
+                <h2 class="fw-bold text-secondary">Selecciona el Tipo de Consulta</h2>
+                <p class="text-muted fs-5">Filtros para el historial de registros</p>
             </div>
 
             @if(session('error'))

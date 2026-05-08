@@ -193,3 +193,7 @@ Fecha --> 04/04/2026
   2. Adaptar el diseño a dispositivos moviles (responsive).
   3. Flujo de los cursos (ETAPAS > MODALIDADES > CURSO > LETRA > ALUMNOS) --> No siempre es así.
   4. Tiempo de espera al pulsar salir al aseo, por si le da sin querer y poder cancelarlo.
+  
+  Fecha --> 04/05/2026 - 09/05/2026
+
+

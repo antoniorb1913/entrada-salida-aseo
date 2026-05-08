@@ -42,7 +42,7 @@
 
     @media (max-width: 576px) {
         body {
-            padding-top: 30%;
+            padding-top: 20%;
         }
     }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
@@ -70,7 +70,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
     
@@ -101,7 +101,7 @@
     <div class="container mb-5 mt-5">
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-1">Selecciona al Alumno</h2>
-            <span class="fw-bold text-muted">
+            <span class="fw-bold text-muted fs-5">
                 <i class="bi bi-person-badge me-2 text-primary"></i> 
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>

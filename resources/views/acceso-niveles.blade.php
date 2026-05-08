@@ -40,7 +40,7 @@
     <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
             </span>
             <a href="{{ route('acceso') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i> Volver
@@ -51,8 +51,19 @@
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Paso 2: Selecciona el Nivel</h2>
-                <p class="text-muted text-uppercase">Etapa: <strong>{{ $etapa }}</strong></p>
+                <h2 class="fw-bold text-secondary">Paso 3: Selecciona la Letra/Grupo</h2>
+                
+                @if(str_contains(strtolower($etapa), 'eso'))
+                    {{-- Si es ESO, mostramos solo la etapa y el nivel --}}
+                    <p class="text-muted text-uppercase">
+                        Etapa seleccionada: <strong>{{ $etapa }}</strong>
+                    </p>
+                @else
+                    {{-- Si es Bachillerato o FP, mostramos el nivel y la modalidad --}}
+                    <p class="text-muted text-uppercase">
+                        modalidad: <strong>{{ $modalidad }}</strong>
+                    </p>
+                @endif
             </div>
 
             <div class="row justify-content-center g-4">

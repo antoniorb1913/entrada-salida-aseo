@@ -43,7 +43,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             <a href="{{ route('registros') }}" class="btn btn-outline-secondary">

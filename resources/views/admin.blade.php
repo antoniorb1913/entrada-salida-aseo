@@ -49,7 +49,12 @@
     <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
         <div class="container">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-shield-lock me-2 text-primary"></i>Página Admin
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                    </a>
             </span>
             <a href="{{ route('logout') }}" 
             class="btn btn-outline-danger d-flex align-items-center"
@@ -63,7 +68,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Panel de Control General</h2>
-                <p class="text-muted">Gestión de recursos y controles del sistema</p>
+                <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
             </div>
 
             <div class="row justify-content-center g-4">

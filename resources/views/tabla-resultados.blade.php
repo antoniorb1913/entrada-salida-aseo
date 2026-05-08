@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        @media (max-width: 576px) {
+            body {
+                padding-top: 20%;
+            }
+        }
         .table-card { 
             background-color: #ffffff; 
             border-radius: 20px; 
@@ -61,7 +66,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             <a href="{{ route('registros') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>

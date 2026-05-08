@@ -44,7 +44,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             <a href="{{ route('acceso.niveles', [$etapa, $modalidad]) }}" class="btn btn-outline-secondary">
@@ -57,7 +57,16 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 3: Selecciona la Letra/Grupo</h2>
-                <p class="text-muted text-uppercase">Curso: <strong>{{ $etapa }} {{ $nivel }}</strong></p>
+                @if(str_contains(strtolower($etapa), 'eso'))
+
+                <p class="text-muted text-uppercase">
+                    Curso: <strong>{{ $nivel }}</strong>
+                </p>
+            @else
+                <p class="text-muted text-uppercase">
+                    Curso: <strong>{{ $nivel }} {{ $modalidad }}</strong>
+                </p>
+            @endif
             </div>
 
             <div class="row justify-content-center g-4">

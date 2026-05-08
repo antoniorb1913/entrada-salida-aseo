@@ -43,7 +43,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                     <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Baño
+                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
                     </a>
             </span>
             
@@ -74,7 +74,7 @@
 
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
-                <p class="text-muted">¿De qué etapa es el alumno?</p>
+                <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
             </div>
 
             <div class="row justify-content-center g-4">
