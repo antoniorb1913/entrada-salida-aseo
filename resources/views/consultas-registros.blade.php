@@ -10,14 +10,18 @@
         body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
-        
+        @media (max-width: 576px) {
+            body {
+                padding-top: 20%;
+            }
+        }
         /* El estilo exacto de tus tarjetas amarillas */
         .card-step {
             transition: all 0.3s ease;
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 60px 20px; /* Padding grande para que sean altas */
+            padding: 20px 20px; /* Padding grande para que sean altas */
             height: 100%;
             display: flex;
             flex-direction: column;
