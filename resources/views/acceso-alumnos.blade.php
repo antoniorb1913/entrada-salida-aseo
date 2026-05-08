@@ -5,6 +5,7 @@
     // Asignamos las variables que ya usa el resto de tu HTML
     $maxSalidas = $config->max_salidas;
     $tiempoEspera = $config->tiempo_espera; 
+    $tCancelacion = $config->tiempo_cancelacion; // <-- AÑADIDO PARA LA CANCELACIÓN
     
     $segundosFaltantes = 0;
     $ultimaSalida = null;
@@ -58,22 +59,14 @@
             border-color: #dc3545 !important;
             background-color: #fff5f5 !important;
         }
-        /* Estrellita para las excepciones médicas */
-        .excepcion-badge { 
-            position: absolute; 
-            top: -10px; 
-            right: -10px; 
-            font-size: 1.4rem; 
-            color: #ffc107; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+        .btn-confirmar-salida { min-width: 100px; } /* Mantiene el tamaño del botón estable */
     </style>
 </head>
 <body>
     <nav class="navbar navbar-custom bg-white py-3 shadow-sm mb-4 fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="fw-bold">
-                <i class="bi bi-person-badge me-2"></i> 
+                <i class="bi bi-person-badge me-2 text-primary"></i> 
                 {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra ?? '' }}
             </span>
     
@@ -104,7 +97,7 @@
         </div>
     </nav>
 
-    <div class="container mb-5">
+    <div class="container mb-5 mt-5">
         <h2 class="text-center mb-5 fw-bold">Selecciona al Alumno</h2>
 
         @if(session('error'))
@@ -131,7 +124,7 @@
                         return \Carbon\Carbon::parse($reg->fecha_salida)->isToday();
                     })->count();
 
-                    // 2. LA LÓGICA MAESTRA: Ha llegado al límite SOLO SI (no tiene excepción Y tiene >= salidas maximas)
+                    // 2. LA LÓGICA MAESTRA
                     $limiteAlcanzado = !$alumno->excepcion_limite && ($salidasHoy >= $maxSalidas);
                 @endphp
                 
@@ -170,14 +163,15 @@
                                 @if(!$registroActivo)
                                     {{-- 3. EL BOTÓN OBEDECE A LA NUEVA LÓGICA --}}
                                     @if(!$limiteAlcanzado)
-                                        <form action="{{ route('registro.salida', $alumno->id) }}" method="POST">
+                                        <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
                                             @if($segundosFaltantes > 0)
                                                 <button type="button" class="btn btn-secondary btn-sm" disabled>
                                                     <i class="bi bi-hourglass-split"></i> Espera
                                                 </button>
                                             @else
-                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                {{-- BOTÓN DE CANCELACIÓN (Añadidos clase y data-tiempo) --}}
+                                                <button type="button" class="btn btn-primary btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
                                                     <i class="bi bi-door-open"></i> Salida
                                                 </button>
                                             @endif
@@ -239,17 +233,68 @@
                     const icono = this.querySelector('i');
 
                     if (numeroReal.style.display === 'none') {
-                        // Mostrar número
                         numeroReal.style.display = 'inline';
                         asteriscos.style.display = 'none';
                         icono.classList.remove('bi-eye-slash-fill');
                         icono.classList.add('bi-eye-fill', 'text-primary');
                     } else {
-                        // Ocultar número
                         numeroReal.style.display = 'none';
                         asteriscos.style.display = 'inline';
                         icono.classList.remove('bi-eye-fill', 'text-primary');
                         icono.classList.add('bi-eye-slash-fill');
+                    }
+                });
+            });
+
+            // --- 3. LÓGICA DEL BOTÓN DE CANCELAR (CUENTA ATRÁS) ---
+            document.querySelectorAll('.btn-confirmar-salida').forEach(boton => {
+                let timeoutId = null;
+                let intervaloId = null;
+                let cancelando = false;
+
+                boton.addEventListener('click', function() {
+                    const formulario = this.closest('form');
+                    const tiempoOriginal = parseInt(this.getAttribute('data-tiempo'));
+                    
+                    // Si el tiempo está en 0 en la config, envía directo
+                    if(tiempoOriginal <= 0) {
+                        formulario.submit();
+                        return;
+                    }
+
+                    let tiempoRestante = tiempoOriginal;
+
+                    if (!cancelando) {
+                        // FASE 1: Empieza la cuenta regresiva
+                        cancelando = true;
+                        this.classList.replace('btn-primary', 'btn-warning');
+                        this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
+
+                        intervaloId = setInterval(() => {
+                            tiempoRestante--;
+                            if (tiempoRestante > 0) {
+                                this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
+                            } else {
+                                clearInterval(intervaloId);
+                            }
+                        }, 1000);
+
+                        timeoutId = setTimeout(() => {
+                            // Se acabó el tiempo: Enviamos el formulario
+                            this.disabled = true;
+                            this.innerHTML = `<i class="bi bi-hourglass-split"></i> Enviando...`;
+                            formulario.submit();
+                        }, tiempoOriginal * 1000);
+
+                    } else {
+                        // FASE 2: El profesor pulsó de nuevo: Se cancela todo
+                        clearTimeout(timeoutId);
+                        clearInterval(intervaloId);
+                        cancelando = false;
+                        
+                        // Vuelve a su estado azul normal
+                        this.classList.replace('btn-warning', 'btn-primary');
+                        this.innerHTML = `<i class="bi bi-door-open"></i> Salida`;
                     }
                 });
             });

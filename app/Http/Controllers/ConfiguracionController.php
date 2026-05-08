@@ -18,29 +18,28 @@ class ConfiguracionController extends Controller
 
     public function index()
     {
-        // 1. Usamos el nuevo método centralizado del Modelo
+        // 1. Usamos el método centralizado del Modelo
         $config = Configuracion::todas();
         
-        // 2. Pasamos a minutos solo para la vista (la lógica de conversión vive aquí o en el Service)
+        // 2. Extraemos valores y preparamos para la vista
         $maxSalidas = $config->max_salidas;
-        $tiempoEsperaMinutos = $config->tiempo_espera / 60;
+        $tiempoEsperaMinutos = $config->tiempo_espera / 60; // Conversión a minutos para el usuario
+        $tiempoCancelacion = $config->tiempo_cancelacion; // Nuevo parámetro
 
         $alumnos = Alumno::with('curso')->orderBy('curso_id')->orderBy('apellidos')->get();
 
-        return view('configuracion', compact('maxSalidas', 'tiempoEsperaMinutos', 'alumnos'));
+        return view('configuracion', compact('maxSalidas', 'tiempoEsperaMinutos', 'tiempoCancelacion', 'alumnos'));
     }
 
     public function guardar(Request $request)
     {
-        // El camarero (Controller) le pasa el pedido al cocinero (Service)
-        
-        // 1. Guardar límites (el Service se encargará de pasarlo a segundos)
+        // El camarero le pasa los 3 datos al cocinero (Service)
         $this->configuracionService->guardarLimites(
             $request->max_salidas, 
-            $request->tiempo_espera
+            $request->tiempo_espera,
+            $request->tiempo_cancelacion // Pasamos el nuevo valor
         );
 
-        // 2. Gestionar alumnos VIP
         $this->configuracionService->actualizarExcepciones(
             $request->excepciones ?? []
         );
