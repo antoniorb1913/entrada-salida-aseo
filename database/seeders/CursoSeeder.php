@@ -37,7 +37,7 @@ class CursoSeeder extends Seeder
                 $nivel = mb_substr($grupoRaw, 1, 1) . 'º';
                 
                 $letraBase = mb_substr($grupoRaw, 2);
-                $programa = str_contains($descripcionRaw, 'SB Inglés') ? '(Bilingüe)' : '(No Bilingüe)';
+                $programa = str_contains($descripcionRaw, 'SB Inglés') ? '(Bilingüe)' : '';
                 
                 // IMPORTANTE: Usamos el palito | para separar la letra del programa
                 $letra = $letraBase . "\n" . $programa;
