@@ -13,42 +13,35 @@
             display: flex;
             flex-direction: column;
         }
+        @media (max-width: 576px) {
+            body {
+                padding-top: 20%;
+            }
+        }
+        .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {
             background-color: #ffffff;
             border-bottom: 2px solid #dee2e6;
         }
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 40px 0;
-        }
-        .card-btn {
+        .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
+        .card-step {
             transition: all 0.3s ease;
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            padding: 40px;
-            height: 100%;
+            padding: 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
         }
-        .card-btn:hover {
+        .card-step:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
         }
-        .card-btn i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-        }
-        .card-btn span {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+        .card-step i { font-size: 3.5rem; margin-bottom: 15px; }
+        .card-step span { font-size: 1.5rem; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -76,21 +69,21 @@
             <div class="row justify-content-center g-4">
                 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('acceso') }}" class="card-btn bg-primary text-white shadow">
+                    <a href="{{ route('acceso') }}" class="card-step bg-primary text-white shadow">
                         <i class="bi bi-door-open"></i>
                         <span>Acceso al Baño</span>
                     </a>
                 </div>
 
-<div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('configuracion.index') }}" class="card-btn bg-secondary text-white shadow">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <a href="{{ route('configuracion.index') }}" class="card-step bg-secondary text-white shadow">
                         <i class="bi bi-gear-fill"></i>
                         <span>Configuración</span>
                     </a>
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('registros') }}" class="card-btn bg-info text-white shadow">
+                    <a href="{{ route('registros') }}" class="card-step bg-info text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>
