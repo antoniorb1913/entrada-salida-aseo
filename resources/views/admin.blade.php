@@ -12,11 +12,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-        @media (max-width: 576px) {
-            body {
-                padding-top: 20%;
-            }
+            margin-top: 8%;
         }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {
@@ -74,7 +70,7 @@
         </div>
     </nav>
 
-    <main class="main-content">
+    <main class="main-content mt-5 pt-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Panel de Control General</h2>

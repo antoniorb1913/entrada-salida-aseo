@@ -7,13 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
-
-        @media (max-width: 576px) {
-            body {
-                padding-top: 10%;
-            }
-        }
+        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column;margin-top: 8%; }
         .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
@@ -57,8 +51,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-    <main class="main-content">
-        <div class="container mb-5 mt-5">
+    <main class="main-content mt-5 pt-5">
+        <div class="container">
             <form action="{{ route('configuracion.guardar') }}" method="POST">
                 @csrf
                 <div class="text-center mb-5">

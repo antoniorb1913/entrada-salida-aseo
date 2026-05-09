@@ -7,14 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
-        @media (max-width: 576px) {
-        body {
-            padding-top: 20%;
-        }
-    }
+        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column;margin-top: 8%; }
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
-        .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
+        .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; margin-top: 5%; }
         .card-step {
             transition: all 0.3s ease;
             border: none;
@@ -72,7 +67,7 @@
         </div>
     </nav>
 
-    <main class="main-content">
+    <main class="main-content mt-5 pt-5">
         <div class="container">
             
             {{-- Mensaje de Error (Si intentan entrar en Consultas sin permiso, aquí les sale el aviso) --}}
