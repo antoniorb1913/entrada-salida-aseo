@@ -14,7 +14,8 @@ class ProfesorSeeder extends Seeder
         // Creamos el primer usuario (administrador/profesor) de forma manual
         User::create([
             'nombre'    => 'Cipriano', 
-            'apellidos' => 'garcia hermandez',
+            'apellidos' => 'Garcia Hermandez',
+            'nombreUsuario' => 'cipriano.garcia',
             'email'     => 'cipriano.gracia@murciaeduca.es',
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
@@ -23,9 +24,34 @@ class ProfesorSeeder extends Seeder
         ]);
 
         User::create([
-            'nombre'    => 'admin', 
-            'apellidos' => 'admin',
-            'email'     => 'admin@admin.com',
+            'nombre'    => 'Jefatura', 
+            'apellidos' => 'Estudios',
+            'nombreUsuario' => 'jefatura.estudios',
+            'email'     => 'jefatura.estudios@amurciaeduca.es',
+            
+            // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
+            'password'  => Hash::make('1234'), 
+            'rol'       => 'admin'
+
+        ]);
+
+        User::create([
+            'nombre'    => 'María Carmen', 
+            'apellidos' => 'Marin Fernandez',
+            'nombreUsuario' => 'mariacarmen.marin4',
+            'email'     => 'mariacarmen.marin4@amurciaeduca.es',
+            
+            // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
+            'password'  => Hash::make('1234'), 
+            'rol'       => 'admin'
+
+        ]);
+
+        User::create([
+            'nombre'    => 'Enrique', 
+            'apellidos' => 'Villa Garres',
+            'nombreUsuario' => 'enrique.villa',
+            'email'     => 'enrique.villa@amurciaeduca.es',
             
             // Hash::make encripta la contraseña. ¡Nunca guardes claves en texto plano!
             'password'  => Hash::make('1234'), 

@@ -65,20 +65,32 @@
     <main class="main-content">
         <div class="container">
             
-            {{-- Mensaje de Error (Si intentan entrar en Consultas sin permiso, aquí les sale el aviso) --}}
+            {{-- Mensaje de Error --}}
             @if(session('error'))
                 <div class="alert alert-danger text-center mb-4 shadow-sm">
                     <i class="bi bi-shield-lock-fill me-2"></i> {{ session('error') }}
                 </div>
             @endif
-
+    
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
-                <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
+                {{-- BLOQUE DE BIENVENIDA: Con el mismo espacio que el dashboard --}}
+                {{-- BLOQUE DE BIENVENIDA DINÁMICO --}}
+                @if(auth()->user()->rol === 'profesor')
+                    <div class="mb-5"> 
+                        <h2 class="fw-normal text-muted mb-0" style="font-size: 1.6rem; letter-spacing: 1px;">Bienvenido/a,</h2>
+                        <h2 class="text-primary fw-bold display-6">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</h2>
+                        <hr class="w-25 mx-auto text-secondary mt-3 opacity-25">
+                    </div>
+                @endif
+    
+                {{-- BLOQUE DE TÍTULO PASO 1 --}}
+                <div>
+                    <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
+                    <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
+                </div>
             </div>
-
+    
             <div class="row justify-content-center g-4">
-                {{-- Recorremos las etapas que vienen del controlador --}}
                 @foreach($etapas as $etapa)
                     <div class="col-12 col-md-4 col-lg-3">
                         <a href="{{ route('acceso.modalidades', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">
@@ -91,4 +103,24 @@
         </div>
     </main>
 </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alerta = document.querySelector('.alert-danger');
+            if (alerta) {
+                setTimeout(() => {
+                    // Verificamos que bootstrap esté disponible para evitar errores
+                    if (typeof bootstrap !== 'undefined') {
+                        const bsAlert = new bootstrap.Alert(alerta);
+                        bsAlert.close();
+                    } else {
+                        // Si por lo que sea bootstrap no carga, la borramos a mano
+                        alerta.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
 </html>

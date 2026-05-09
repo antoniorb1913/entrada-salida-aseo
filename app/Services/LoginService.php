@@ -11,7 +11,7 @@ class LoginService
     {
         // 1. Intentamos el login
     if (!Auth::attempt($credentials)) {
-        throw new LoginFailedException('El nombre o la contraseña no son correctos.');
+        throw new LoginFailedException('El nombre de usuario o la contraseña no son correctos.');
     }
 
         // 2. Si tiene éxito, regeneramos sesión

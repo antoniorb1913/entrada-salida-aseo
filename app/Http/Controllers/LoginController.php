@@ -40,7 +40,7 @@ class LoginController extends Controller
     }
     public function login(LoginRequest $request) {
             
-            $routeName = $this->loginService->executeLogin($request->only('nombre', 'password'));
+            $routeName = $this->loginService->executeLogin($request->only('nombreUsuario', 'password'));
 
             return redirect()->route($routeName);
 

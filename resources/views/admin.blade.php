@@ -67,9 +67,19 @@
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Panel de Control General</h2>
-                <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
+                <div class="mb-5"> 
+                    <h2 class="fw-normal text-muted mb-0" style="font-size: 1.6rem; letter-spacing: 1px;">Bienvenido/a,</h2>
+                    <h2 class="text-primary fw-bold display-6">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</h2>
+                    <hr class="w-25 mx-auto text-secondary mt-3 opacity-25">
+                </div>
+            
+                <div>
+                    <h2 class="fw-bold text-secondary">Panel de Control General</h2>
+                    <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
+                </div>
             </div>
+    
+            {{-- ... el resto de tus tarjetas (Acceso al Baño, Configuración, etc.) --}}
 
             <div class="row justify-content-center g-4">
                 
