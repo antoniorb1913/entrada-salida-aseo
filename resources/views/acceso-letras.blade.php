@@ -56,7 +56,7 @@
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-secondary">Paso 3: Selecciona la Letra/Grupo</h2>
+                <h2 class="fw-bold text-secondary">Paso 4: Selecciona la Letra/Grupo</h2>
                 @if(str_contains(strtolower($etapa), 'eso'))
 
                 <p class="text-muted text-uppercase">
