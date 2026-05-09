@@ -102,7 +102,7 @@
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-1">Selecciona al Alumno</h2>
             <span class="fw-bold text-muted fs-5">
-                <i class="bi bi-person-badge me-2 text-primary"></i> 
+                <i class="bi bi-layers me-2 text-primary"></i> 
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>
         </div>

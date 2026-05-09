@@ -38,7 +38,7 @@ class AlumnoSeeder extends Seeder
             'nre'       => '793122',
             'nombre'    => 'Antonio', 
             'apellidos' => 'Rodríguez Test',
-            'curso_id'  => 8,
+            'curso_id'  => 48,
             'excepcion_limite' => true, 
         ]);
     }

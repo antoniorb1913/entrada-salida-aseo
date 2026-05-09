@@ -105,12 +105,13 @@
                                 @foreach($alumnos as $alumno)
                                     @php
                                         // Extraemos el valor seguro para evitar el error del Enum
-                                        $etapaNombre = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
-                                        $nivelNombre = $alumno->curso->nivel ?? '';
-                                        $letraNombre = $alumno->curso->letra ?? '';
+                                        $etapa = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
+                                        $modalidad = $alumno->curso->modalidad ?? '';
+                                        $nivel = $alumno->curso->nivel ?? '';
+                                        $letra = $alumno->curso->letra ?? '';
                                         
                                         // Creamos un string de busqueda limpio
-                                        $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $etapaNombre . ' ' . $nivelNombre . ' ' . $letraNombre);
+                                        $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
                                     @endphp
 
                                     <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
@@ -122,7 +123,7 @@
                                             </span>
                                             {{-- Badge del curso (Fijo y alineado a la derecha) --}}
                                             <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
-                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivelNombre }} {{ $letraNombre }} {{ $etapaNombre }}
+                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
                                             </span>
                                         </label>
                                     </div>

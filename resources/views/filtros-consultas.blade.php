@@ -93,7 +93,7 @@
                                     <select name="curso_id" class="form-select form-select-lg" required>
                                         <option value="" selected disabled>Elige un curso...</option>
                                         @foreach($cursos as $curso)
-                                            <option value="{{ $curso->id }}">{{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</option>
+                                            <option value="{{ $curso->id }}">{{ $curso->nivel }} {{ $curso->letra }} {{ $curso->modalidad }}</option>
                                         @endforeach
                                     </select>
                                 </div>

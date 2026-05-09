@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;padding-top: 5%}
         @media (max-width: 576px) {
             body {
                 padding-top: 20%;
@@ -56,6 +56,13 @@
             align-items: center;
             padding: 40px 0;
         }
+        /* Estilo para centrar y dar espacio a la paginación */
+        .paginacion-centrada nav > div {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -103,7 +110,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->etapas ?? '' }}: {{ $reg->curso->letra ?? '' }}</span></td>
+                                    <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->letra ?? '' }} {{ $reg->curso->modalidad ?? '' }}</span></td>
                                     
                                     {{-- ARREGLO AQUÍ: El modelo User suele tener 'name', no 'nombre' y 'apellidos' por defecto --}}
                                     <td>
@@ -153,12 +160,15 @@
                     </table>
                 </div>
                 
-                {{-- Paginación centrada --}}
-                @if($registros->hasPages())
-                    <div class="d-flex justify-content-center mt-4 pb-2">
-                        {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
-                    </div>
-                @endif
+            {{-- Paginación centrada sin texto en inglés --}}
+            @if($registros->hasPages())
+            <div class="mt-4 pb-2">
+                {{-- Añadimos la clase 'gap-4' para dar espacio vertical entre el texto y los números --}}
+                <div class="paginacion-centrada d-flex justify-content-center text-center gap-4">
+                    {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+        @endif
             </div>
         </div>
     </main>
