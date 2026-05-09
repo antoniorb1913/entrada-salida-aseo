@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        @media (max-width: 576px) {
+        body {
+            padding-top: 20%;
+        }
+    }
         .table-card { 
             background-color: #ffffff; 
             border-radius: 20px; 

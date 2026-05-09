@@ -13,6 +13,11 @@
             display: flex;
             flex-direction: column;
         }
+        @media (max-width: 576px) {
+        body {
+            padding-top: 20%;
+        }
+    }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {
             background-color: #ffffff;
