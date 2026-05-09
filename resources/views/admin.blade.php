@@ -46,37 +46,39 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 @php
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
-                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
-                    </a>
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-1 text-primary"></i>Acceso al Aseo
+                </a>
             </span>
+    
             <a href="{{ route('logout') }}" 
-            class="btn btn-outline-danger d-flex align-items-center"
-            onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
-                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+               class="btn btn-outline-danger btn-sm py-1"
+               onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
             </a>
+        </div>
+    
+        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+            <div class="container text-center">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                </small>
+            </div>
         </div>
     </nav>
 
     <main class="main-content">
         <div class="container">
             <div class="text-center mb-5">
-                <div class="mb-5"> 
-                    <h2 class="fw-normal text-muted mb-0" style="font-size: 1.6rem; letter-spacing: 1px;">Bienvenido/a,</h2>
-                    <h2 class="text-primary fw-bold display-6">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</h2>
-                    <hr class="w-25 mx-auto text-secondary mt-3 opacity-25">
-                </div>
-            
-                <div>
-                    <h2 class="fw-bold text-secondary">Panel de Control General</h2>
-                    <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
-                </div>
+                <h2 class="fw-bold text-secondary">Panel de Control General</h2>
+                <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
             </div>
     
             {{-- ... el resto de tus tarjetas (Acceso al Baño, Configuración, etc.) --}}

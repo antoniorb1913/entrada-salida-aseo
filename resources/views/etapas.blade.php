@@ -36,61 +36,59 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 @php
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
-                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
-                    </a>
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                </a>
             </span>
             
-            {{-- EL BOTÓN DINÁMICO: Cerrar Sesión para el Profe, Volver para el Admin --}}
+            {{-- EL BOTÓN DINÁMICO --}}
             @if(auth()->user()->rol === 'profesor')
                 <a href="{{ route('logout') }}" 
-                class="btn btn-outline-danger d-flex align-items-center"
-                onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
+                   class="btn btn-outline-danger btn-sm d-flex align-items-center"
+                   onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
                     <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                 </a>
             @else
-                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary">
+                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left me-2"></i> Volver
                 </a>
             @endif
+        </div>
+    
+        {{-- Franja del nombre: Estrecha y centrada --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+            <div class="container text-center">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                </small>
+            </div>
         </div>
     </nav>
 
     <main class="main-content">
         <div class="container">
             
-            {{-- Mensaje de Error --}}
+            {{-- Mensaje de Error (Si intentan entrar en Consultas sin permiso, aquí les sale el aviso) --}}
             @if(session('error'))
                 <div class="alert alert-danger text-center mb-4 shadow-sm">
                     <i class="bi bi-shield-lock-fill me-2"></i> {{ session('error') }}
                 </div>
             @endif
-    
+
             <div class="text-center mb-5">
-                {{-- BLOQUE DE BIENVENIDA: Con el mismo espacio que el dashboard --}}
-                {{-- BLOQUE DE BIENVENIDA DINÁMICO --}}
-                @if(auth()->user()->rol === 'profesor')
-                    <div class="mb-5"> 
-                        <h2 class="fw-normal text-muted mb-0" style="font-size: 1.6rem; letter-spacing: 1px;">Bienvenido/a,</h2>
-                        <h2 class="text-primary fw-bold display-6">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</h2>
-                        <hr class="w-25 mx-auto text-secondary mt-3 opacity-25">
-                    </div>
-                @endif
-    
-                {{-- BLOQUE DE TÍTULO PASO 1 --}}
-                <div>
-                    <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
-                    <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
-                </div>
+                <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
+                <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
             </div>
-    
+
             <div class="row justify-content-center g-4">
+                {{-- Recorremos las etapas que vienen del controlador --}}
                 @foreach($etapas as $etapa)
                     <div class="col-12 col-md-4 col-lg-3">
                         <a href="{{ route('acceso.modalidades', $etapa) }}" class="card-step bg-primary text-white shadow text-decoration-none">

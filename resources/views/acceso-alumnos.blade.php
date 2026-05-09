@@ -63,20 +63,20 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom bg-white py-3 shadow-sm mb-4 fixed-top">
+    <nav class="navbar navbar-custom bg-white py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 @php
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
-                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
-                    </a>
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                </a>
             </span>
     
             <div class="d-flex gap-2">
                 @php
-                    // 2. Mantenemos tu lógica del botón Volver
+                    // Mantenemos intacta tu lógica de redirección
                     if ($curso->letra === null) {
                         $urlVolver = route('acceso.niveles', [
                             'etapa' => $curso->etapas, 
@@ -91,9 +91,19 @@
                     }
                 @endphp
                 
-                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary d-flex align-items-center">
+                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
                     <i class="bi bi-arrow-left me-1"></i> Volver
                 </a>
+            </div>
+        </div>
+    
+        {{-- Franja inferior estrecha para el nombre del usuario --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+            <div class="container text-center">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                </small>
             </div>
         </div>
     </nav>

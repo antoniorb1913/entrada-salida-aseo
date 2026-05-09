@@ -66,17 +66,31 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 @php
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
-                    <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                        <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
-                    </a>
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                </a>
             </span>
-            <a href="{{ route('registros') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
+    
+            <a href="{{ route('registros') }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                <i class="bi bi-arrow-left me-2"></i>Volver
+            </a>
+        </div>
+    
+        {{-- Franja inferior estrecha: Nombre con monigote verde "Online" --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+            <div class="container text-center">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    {{-- Icono en verde success para indicar sesión activa --}}
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                </small>
+            </div>
         </div>
     </nav>
     <main class="main-content">
