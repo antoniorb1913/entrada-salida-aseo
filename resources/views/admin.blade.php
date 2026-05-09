@@ -12,7 +12,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            margin-top: 8%;
         }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {

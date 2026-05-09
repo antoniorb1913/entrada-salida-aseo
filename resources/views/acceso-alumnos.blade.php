@@ -38,7 +38,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; padding-top: 10%; margin-top: 8%;}
+        body { background-color: #f4f7f6; padding-top: 5%; }
 
         .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
         .student-card { 
