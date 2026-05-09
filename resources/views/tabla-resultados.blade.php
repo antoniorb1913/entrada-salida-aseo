@@ -10,7 +10,7 @@
         body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
         @media (max-width: 576px) {
         body {
-            padding-top: 20%;
+            padding-top: 10%;
         }
     }
         .table-card { 

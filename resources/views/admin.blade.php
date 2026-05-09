@@ -15,7 +15,7 @@
         }
         @media (max-width: 576px) {
         body {
-            padding-top: 20%;
+            padding-top: 10%;
         }
     }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
