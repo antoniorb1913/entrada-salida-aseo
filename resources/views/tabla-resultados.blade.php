@@ -7,10 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column; padding-top: 5%;}
         @media (max-width: 576px) {
         body {
-            padding-top: 20%;
+            padding-top: 10%;
         }
     }
         .table-card { 
