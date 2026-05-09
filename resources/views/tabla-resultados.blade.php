@@ -14,6 +14,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
             overflow: hidden; 
             border: none; 
+            padding-top: 5%;
         }
         .table thead th { 
             background-color: #ffc107; 
