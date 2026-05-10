@@ -31,7 +31,7 @@
     }
         .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
-        .form-card { background-color: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .form-card { background-color: rgb(255, 252, 252); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .ts-wrapper.form-select-lg .ts-control { border-radius: 10px !important; padding: 12px 15px !important; font-size: 1.1rem !important; }
         .nav-color {
             background-color: rgb(246, 246, 244);
