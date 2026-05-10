@@ -38,14 +38,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;padding-top: 5%; }
+        body { background-color:rgb(244, 242, 238);min-height:50vh;display:flex;flex-direction:column;padding-top: 5%; }
         @media (max-width: 576px) {
         body {
             padding-top: 20%;
         }
     }
 
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+
         .student-card { 
             transition: all 0.2s; 
             border-radius: 15px; 
@@ -60,10 +64,27 @@
             background-color: #fff5f5 !important;
         }
         .btn-confirmar-salida { min-width: 100px; } /* Mantiene el tamaño del botón estable */
+        /* Color base del botón */
+        .salida-color {
+            background-color: rgb(88, 127, 175) !important;
+            color: white !important;
+            border: none;
+        }
+        .salida-color:hover, 
+        .salida-color:active, 
+        .salida-color:focus {
+            background-color: rgb(88, 127, 175) !important; 
+            color: white !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .contador-color {
+            background-color: rgb(68, 122, 187);
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom bg-white py-2 shadow-sm fixed-top">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
                 @php
@@ -98,7 +119,7 @@
         </div>
     
         {{-- Franja inferior estrecha para el nombre del usuario --}}
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
@@ -126,7 +147,7 @@
 
         @if($segundosFaltantes > 0)
             <div class="text-center mb-5">
-                <span class="badge bg-primary text-white fs-4 p-3 shadow-sm rounded-pill">
+                <span class="badge contador-color text-white fs-4 p-3 shadow-sm rounded-pill">
                     <i class="bi bi-stopwatch me-1"></i> Siguiente salida en: 
                     <span id="timer-display">{{ gmdate('i:s', $segundosFaltantes) }}</span>
                 </span>
@@ -183,13 +204,13 @@
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
                                             @if($segundosFaltantes > 0)
-                                                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                                <button type="button" class="btn salida-color btn-sm" disabled>
                                                     <i class="bi bi-hourglass-split"></i> Espera
                                                 </button>
                                             @else
                                                 {{-- BOTÓN DE CANCELACIÓN (Añadidos clase y data-tiempo) --}}
-                                                <button type="button" class="btn btn-primary btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
-                                                    <i class="bi bi-door-open"></i> Salida
+                                                <button type="button" class="btn salida-color btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
+                                                    <i class="bi bi-door-open text-white"></i> Salida
                                                 </button>
                                             @endif
                                         </form>
@@ -284,7 +305,7 @@
                     if (!cancelando) {
                         // FASE 1: Empieza la cuenta regresiva
                         cancelando = true;
-                        this.classList.replace('btn-primary', 'btn-warning');
+                        this.classList.replace('salida-color', 'btn-warning');
                         this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
 
                         intervaloId = setInterval(() => {
@@ -310,7 +331,7 @@
                         cancelando = false;
                         
                         // Vuelve a su estado azul normal
-                        this.classList.replace('btn-warning', 'btn-primary');
+                        this.classList.replace('btn-warning', 'salida-color');
                         this.innerHTML = `<i class="bi bi-door-open"></i> Salida`;
                     }
                 });

@@ -7,13 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; }
         @media (max-width: 576px) {
         body {
             padding-top: 10%;
         }
     }
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .card-step {
             transition: all 0.3s ease;
@@ -26,6 +26,12 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+        .modalidad-color {
+            background-color: #9b98b7;
         }
         .card-step:hover {
             transform: translateY(-10px);
@@ -54,7 +60,7 @@
         </div>
     
         {{-- Franja inferior estrecha para el nombre --}}
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
@@ -79,7 +85,7 @@
                             enviamos el string 'comun' para que la ruta funcione.
                         --}}
                         <a href="{{ route('acceso.niveles', [$etapa, $mod ?? 'comun']) }}" 
-                           class="card-step bg-info text-white shadow text-decoration-none">
+                           class="card-step modalidad-color text-white shadow text-decoration-none">
                             <i class="bi bi-journal-bookmark-fill"></i>
                             <span class="text-uppercase">
                                 {{ $mod ?? 'Régimen General / Común' }}

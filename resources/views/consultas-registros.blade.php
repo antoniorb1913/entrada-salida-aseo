@@ -7,14 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; }
         @media (max-width: 576px) {
         body {
             padding-top: 10%;
         }
     }
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
         /* El estilo exacto de tus tarjetas amarillas */
         .card-step {
             transition: all 0.3s ease;
@@ -28,7 +31,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background-color: #ffc107; /* El amarillo de tu captura */
+            background-color: #3a454d; /* El amarillo de tu captura */
             color: #212529; /* Texto oscuro para contrastar con el amarillo */
         }
         .card-step:hover {
@@ -59,7 +62,7 @@
         </div>
     
         {{-- Sub-franja inferior: Nombre del usuario con icono verde "Online" --}}
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     {{-- Icono en verde success para simular estado activo --}}
@@ -87,7 +90,7 @@
                 
                 {{-- Filtro 1: FECHA --}}
                 <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('consulta.fecha') }}" class="card-step shadow">
+                    <a href="{{ route('consulta.fecha') }}" class="card-step shadow text-white">
                         <i class="bi bi-calendar-event-fill"></i>
                         <span>FECHA</span>
                     </a>
@@ -95,7 +98,7 @@
 
                 {{-- Filtro 2: GRUPO --}}
                 <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('consulta.grupo') }}" class="card-step shadow">
+                    <a href="{{ route('consulta.grupo') }}" class="card-step shadow text-white">
                         <i class="bi bi-people-fill"></i>
                         <span>GRUPO</span>
                     </a>
@@ -103,7 +106,7 @@
 
                 {{-- Filtro 3: PROFESOR --}}
                 <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('consulta.profesor') }}" class="card-step shadow">
+                    <a href="{{ route('consulta.profesor') }}" class="card-step shadow text-white">
                         <i class="bi bi-person-video3"></i>
                         <span>PROFESOR</span>
                     </a>
@@ -111,7 +114,7 @@
 
                 {{-- Filtro 4: ALUMNO --}}
                 <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('consulta.alumno') }}" class="card-step shadow">
+                    <a href="{{ route('consulta.alumno') }}" class="card-step shadow text-white">
                         <i class="bi bi-person-badge-fill"></i>
                         <span>ALUMNO</span>
                     </a>

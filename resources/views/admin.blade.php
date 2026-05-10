@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         body {
-            background-color: #f4f7f6;
+            background-color: rgb(244, 242, 238);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -20,12 +20,12 @@
     }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {
-            background-color: #ffffff;
+            background-color: rgb(253, 252, 249);
             border-bottom: 2px solid #dee2e6;
         }
-        .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .card-step {
             transition: all 0.3s ease;
+            background-color: rgb(78, 94, 113);
             border: none;
             border-radius: 20px;
             text-decoration: none;
@@ -35,6 +35,12 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+        .fondo {
+            background-color: #96b7d3;
+        }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
         }
         .card-step:hover {
             transform: translateY(-10px);
@@ -64,7 +70,7 @@
             </a>
         </div>
     
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
@@ -86,7 +92,7 @@
             <div class="row justify-content-center g-4">
                 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('acceso') }}" class="card-step bg-primary text-white shadow">
+                    <a href="{{ route('acceso') }}" class="card-step text-white shadow">
                         <i class="bi bi-door-open"></i>
                         <span>Acceso al Baño</span>
                     </a>
@@ -100,7 +106,7 @@
                 </div>
 
                 <div class="col-12 col-md-4 col-lg-3">
-                    <a href="{{ route('registros') }}" class="card-step bg-info text-white shadow">
+                    <a href="{{ route('registros') }}" class="card-step fondo text-white shadow">
                         <i class="bi bi-journal-text"></i>
                         <span>Consultas</span>
                     </a>

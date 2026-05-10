@@ -7,14 +7,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column; padding-top: 5%;}
+        body {background-color:rgb(244, 242, 238);min-height:50vh;display:flex;flex-direction:column; padding-top: 5%;}
         @media (max-width: 576px) {
         body {
             padding-top: 10%;
         }
     }
         .table-card { 
-            background-color: #ffffff; 
+            background-color: rgb(255, 252, 252); 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
             overflow: hidden; 
@@ -22,7 +22,7 @@
             padding-top: 5%;
         }
         .table thead th { 
-            background-color: #ffc107; 
+            background-color: #f0be78; 
             color: #212529; 
             text-transform: uppercase; 
             border-bottom: none; 
@@ -48,8 +48,11 @@
             color: #666; 
         }
         .navbar-custom{
-            background-color:#fff;
+            background-color:rgb(253, 252, 249);
             border-bottom: 2px solid #dee2e6;
+        }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
         }
         .main-content{
             flex: 1;
@@ -84,7 +87,7 @@
         </div>
     
         {{-- Franja inferior estrecha: Nombre con monigote verde "Online" --}}
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     {{-- Icono en verde success para indicar sesión activa --}}

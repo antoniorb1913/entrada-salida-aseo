@@ -7,17 +7,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; }
         @media (max-width: 576px) {
         body {
             padding-top: 10%;
         }
     }
-        .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
+        .config-card { background-color: rgb(255, 252, 252); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .student-list { max-height: 350px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 10px; padding: 10px; background: #fafafa;}
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+        .guardar-color {
+            background-color: #2b5471;
+        }
     </style>
 </head>
 <body>
@@ -38,7 +44,7 @@
         </div>
     
         {{-- Franja inferior estrecha con el icono en VERDE activo --}}
-        <div class="w-100 border-top mt-2 pt-1 pb-1 bg-light">
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     {{-- Icono en verde success para indicar sesión activa --}}
@@ -145,7 +151,7 @@
                 </div>
 
                 <div class="text-end mt-2">
-                    <button type="submit" class="btn btn-primary btn-lg px-3 shadow-sm fw-bold">
+                    <button type="submit" class="btn guardar-color btn-lg px-3 text-white shadow-sm fw-bold">
                         <i class="bi bi-floppy-fill me-2"></i>Guardar Configuración
                     </button>
                 </div>
