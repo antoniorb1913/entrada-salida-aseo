@@ -39,6 +39,9 @@
         }
         .card-step i { font-size: 3.5rem; margin-bottom: 15px; }
         .card-step span { font-size: 1.5rem; font-weight: 700; }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>
@@ -62,9 +65,9 @@
         {{-- Franja inferior estrecha para el nombre del usuario --}}
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
-                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.80rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    Sesión de: <strong class="activo">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</strong>
                 </small>
             </div>
         </div>

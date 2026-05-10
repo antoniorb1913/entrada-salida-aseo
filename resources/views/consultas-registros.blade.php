@@ -41,6 +41,9 @@
         }
         .card-step i { font-size: 4.5rem; margin-bottom: 20px; }
         .card-step span { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>
@@ -64,10 +67,10 @@
         {{-- Sub-franja inferior: Nombre del usuario con icono verde "Online" --}}
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
-                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.80em;">
                     {{-- Icono en verde success para simular estado activo --}}
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    Sesión de: <strong class="activo">{{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}</strong>
                 </small>
             </div>
         </div>
