@@ -115,7 +115,7 @@
                     }
                 @endphp
                 
-                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left me-2"></i> Volver
                 </a>
             </div>
