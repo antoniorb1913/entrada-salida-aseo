@@ -49,7 +49,7 @@
     <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-door-open me-2 text-primary"></i>Control de salidas al aseo
+                <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
             </span>
     
             <a href="{{ route('acceso') }}" class="btn btn-outline-secondary btn-sm">
