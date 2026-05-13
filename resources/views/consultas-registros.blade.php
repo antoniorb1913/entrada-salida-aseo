@@ -41,6 +41,9 @@
         }
         .card-step i { font-size: 4.5rem; margin-bottom: 20px; }
         .card-step span { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>

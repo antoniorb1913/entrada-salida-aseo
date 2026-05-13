@@ -24,6 +24,9 @@
         .guardar-color {
             background-color: #2b5471;
         }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>

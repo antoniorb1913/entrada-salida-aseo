@@ -89,6 +89,9 @@
         .btn-check:focus + .btn, .btn:focus {
             box-shadow: none !important;
         }
+        .activo {
+            color: #278943;
+        }
         
     </style>
 </head>

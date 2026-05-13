@@ -81,6 +81,9 @@
         .contador-color {
             background-color: rgb(68, 122, 187);
         }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>

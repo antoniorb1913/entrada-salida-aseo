@@ -66,6 +66,9 @@
             align-items: center;
             gap: 15px;
         }
+        .activo {
+            color: #278943;
+        }
 
     </style>
 </head>
