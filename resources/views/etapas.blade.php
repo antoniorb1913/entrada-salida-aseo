@@ -49,7 +49,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                 <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                    <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control de salidas al aseo
                 </a>
             </span>
             
@@ -58,7 +58,7 @@
                 <a href="{{ route('logout') }}" 
                     class="btn btn-outline-danger btn-sm d-flex align-items-center"
                     onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
-                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                    <i class="bi bi-box-arrow-right me-2"></i> Salir
                 </a>
             @else
                 <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary btn-sm">
@@ -70,9 +70,14 @@
         {{-- Franja del nombre: Estrecha y centrada --}}
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
-                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
                 </small>
             </div>
         </div>

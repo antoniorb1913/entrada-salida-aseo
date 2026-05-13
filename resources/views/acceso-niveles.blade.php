@@ -46,7 +46,7 @@
     <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-door-open me-2 text-primary"></i>Acceso al Aseo
+                <i class="bi bi-door-open me-2 text-primary"></i>Control de salidas al aseo
             </span>
     
             <a href="{{ route('acceso') }}" class="btn btn-outline-secondary btn-sm">
@@ -57,9 +57,14 @@
         {{-- Franja inferior estrecha para el nombre del usuario --}}
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
-                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
                 </small>
             </div>
         </div>

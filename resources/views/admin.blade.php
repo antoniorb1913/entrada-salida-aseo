@@ -59,22 +59,27 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                 <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                    <i class="bi bi-door-open me-1 text-primary"></i>Acceso al Aseo
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control de salidas al aseo
                 </a>
             </span>
     
             <a href="{{ route('logout') }}" 
                class="btn btn-outline-danger btn-sm py-1"
                onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
-                <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+                <i class="bi bi-box-arrow-right me-1"></i> Salir
             </a>
         </div>
     
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
-                <small class="text-muted fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    Sesión de: {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
                 </small>
             </div>
         </div>
@@ -84,7 +89,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Panel de Control General</h2>
-                <p class="text-muted fs-5">Gestión de recursos y controles del sistema</p>
+                <p class="text-muted fs-5">Gestión de aseos, historial y configuración del sistema</p>
             </div>
     
             {{-- ... el resto de tus tarjetas (Acceso al Baño, Configuración, etc.) --}}
@@ -94,7 +99,7 @@
                 <div class="col-12 col-md-4 col-lg-3">
                     <a href="{{ route('acceso') }}" class="card-step text-white shadow">
                         <i class="bi bi-door-open"></i>
-                        <span>Acceso al Baño</span>
+                        <span>Acceso al Aseo</span>
                     </a>
                 </div>
 

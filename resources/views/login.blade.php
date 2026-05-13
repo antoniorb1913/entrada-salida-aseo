@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acceso al Sistema</title>
+    <title>Control de salidas al aseo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -84,7 +84,7 @@
         <div class="login-card mx-auto">
             <div class="login-header">
                 <img src="{{ asset('img/BLANCO PNG.png') }}" alt="Logo Gestión de Aseos" style="max-width: 200px;">
-                <h4 class="mt-2 mb-0 fw-bold">Gestión de Aseos</h4>
+                <h4 class="mt-2 mb-0 fw-bold">Control de salidas al aseo</h4>
             </div>
 
             <div class="p-4 p-md-5">
