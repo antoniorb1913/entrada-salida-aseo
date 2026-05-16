@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; padding-top: 2%;}
         @media (max-width: 576px) {
         body {
             padding-top: 10%;
