@@ -9,19 +9,17 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Middleware\SoloDireccion;
 
 // --- RUTAS PÚBLICAS ---
-Route::view('/', "login")->name('login');
+// Ahora pasa por el controlador para verificar si ya hay sesión iniciada
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/inicia-sesion', [LoginController::class, 'login'])->name('inicia-sesion');
 
 // --- ZONAS PROTEGIDAS (Requieren Login) ---
 Route::middleware('auth')->group(function () {
     
-    // 1. Dashboards según rol
-    Route::view('/admin', "admin")->name('admin');
-    
     // REDIRECCIÓN: El profesor se salta su página y va directo a los cursos
     Route::redirect('/profesor', '/acceso')->name('profesor');
 
-    // 2. Flujo de Selección para ir al Baño
+    // 1. Flujo de Selección para ir al Baño
     Route::prefix('acceso')->group(function () {
         Route::get('/', [AccesoController::class, 'index'])->name('acceso');
         Route::get('/modalidades/{etapa}', [AccesoController::class, 'modalidades'])->name('acceso.modalidades');
@@ -30,19 +28,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/alumnos/{curso_id}', [AccesoController::class, 'alumnos'])->name('acceso.alumnos');
     });
 
-    // 3. Lógica de Registro (Salida y Entrada)
+    // 2. Lógica de Registro (Salida y Entrada)
     Route::post('/registrar-salida/{alumno_id}', [RegistroController::class, 'registrar_salida_alumno'])->name('registro.salida');
     Route::post('/registrar-entrada/{alumno_id}', [RegistroController::class, 'registrar_entrada_alumno'])->name('registro.entrada');
 
-    // 4. Salida de sesión
+    // 3. Salida de sesión
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
     // ==========================================================
-    // 5. ZONA EXCLUSIVA (BLOQUEADA PARA EL PROFESOR)
+    // 4. ZONA EXCLUSIVA DIRECCIÓN (BLOQUEADA PARA EL PROFESOR)
     // ==========================================================
     Route::middleware(SoloDireccion::class)->group(function () {
         
+        // Dashboard de Admin protegido (antes estaba fuera de este grupo)
+        Route::view('/admin', "admin")->name('admin');
 
         // --- SISTEMA DE CONSULTAS Y FILTROS ---
         Route::prefix('registros')->group(function () {
@@ -51,14 +51,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/filtro-grupo', [ConsultaController::class, 'formGrupo'])->name('consulta.grupo');
             Route::get('/filtro-profesor', [ConsultaController::class, 'formProfesor'])->name('consulta.profesor');
             Route::get('/filtro-alumno', [ConsultaController::class, 'formAlumno'])->name('consulta.alumno');
-
             Route::get('/resultados', [ConsultaController::class, 'resultados'])->name('registros.resultados');
-
-
             Route::get('/registros/exportar', [RegistroController::class, 'exportar'])->name('consulta.exportar');
-            //------------------ Panel de configuración ----------------------//
 
-            // Rutas del Panel de Configuración
+            // --- Panel de configuración ---
             Route::get('/configuracion', [ConfiguracionController::class, 'index'])->name('configuracion.index');
             Route::post('/configuracion', [ConfiguracionController::class, 'guardar'])->name('configuracion.guardar');
         });

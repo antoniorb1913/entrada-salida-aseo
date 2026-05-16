@@ -7,29 +7,58 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; }
-
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; padding-top: 2%;}
         @media (max-width: 576px) {
-            body {
-                padding-top: 25%;
-            }
+        body {
+            padding-top: 10%;
         }
-        .config-card { background-color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
+    }
+        .config-card { background-color: rgb(255, 252, 252); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .student-list { max-height: 350px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 10px; padding: 10px; background: #fafafa;}
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+        .guardar-color {
+            background-color: #2b5471;
+        }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-gear-fill me-2 text-primary"></i>Configuración Global
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                </a>
             </span>
-            <a href="{{ route('admin') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left me-2"></i> Volver al Panel
+    
+            <a href="{{ route('admin') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-2"></i> Volver
             </a>
+        </div>
+    
+        {{-- Franja inferior estrecha con el icono en VERDE activo --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
+            <div class="container text-center">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
+                </small>
+            </div>
         </div>
     </nav>
     
@@ -40,11 +69,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-    <main class="main-content">
-        <div class="container mb-5 mt-5">
+    <main class="main-content mt-5 pt-5">
+        <div class="container">
             <form action="{{ route('configuracion.guardar') }}" method="POST">
                 @csrf
-                
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-secondary">Panel de configuración</h2>
+                    <p class="text-muted">Parametros para la entrada y salida al aseo</p>
+                </div>
                 <div class="row">
                     {{-- AJUSTES GLOBALES --}}
                     <div class="col-lg-5">
@@ -97,12 +129,13 @@
                                 @foreach($alumnos as $alumno)
                                     @php
                                         // Extraemos el valor seguro para evitar el error del Enum
-                                        $etapaNombre = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
-                                        $nivelNombre = $alumno->curso->nivel ?? '';
-                                        $letraNombre = $alumno->curso->letra ?? '';
+                                        $etapa = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
+                                        $modalidad = $alumno->curso->modalidad ?? '';
+                                        $nivel = $alumno->curso->nivel ?? '';
+                                        $letra = $alumno->curso->letra ?? '';
                                         
                                         // Creamos un string de busqueda limpio
-                                        $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $etapaNombre . ' ' . $nivelNombre . ' ' . $letraNombre);
+                                        $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
                                     @endphp
 
                                     <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
@@ -114,7 +147,7 @@
                                             </span>
                                             {{-- Badge del curso (Fijo y alineado a la derecha) --}}
                                             <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
-                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivelNombre }} {{ $letraNombre }} {{ $etapaNombre }}
+                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
                                             </span>
                                         </label>
                                     </div>
@@ -125,7 +158,7 @@
                 </div>
 
                 <div class="text-end mt-2">
-                    <button type="submit" class="btn btn-primary btn-lg px-3 shadow-sm fw-bold">
+                    <button type="submit" class="btn guardar-color btn-lg px-3 text-white shadow-sm fw-bold">
                         <i class="bi bi-floppy-fill me-2"></i>Guardar Configuración
                     </button>
                 </div>

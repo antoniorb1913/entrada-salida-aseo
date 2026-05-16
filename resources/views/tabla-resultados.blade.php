@@ -7,16 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body {background-color:#f4f7f6;min-height:50vh;display:flex;flex-direction:column;}
+        body {background-color:rgb(244, 242, 238);min-height:50vh;display:flex;flex-direction:column; padding-top: 5%;}
+        @media (max-width: 576px) {
+        body {
+            padding-top: 10%;
+        }
+    }
         .table-card { 
-            background-color: #ffffff; 
+            background-color: rgb(255, 252, 252); 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
             overflow: hidden; 
             border: none; 
+            padding-top: 5%;
         }
         .table thead th { 
-            background-color: #ffc107; 
+            background-color: #f0be78; 
             color: #212529; 
             text-transform: uppercase; 
             border-bottom: none; 
@@ -42,8 +48,11 @@
             color: #666; 
         }
         .navbar-custom{
-            background-color:#fff;
+            background-color:rgb(253, 252, 249);
             border-bottom: 2px solid #dee2e6;
+        }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
         }
         .main-content{
             flex: 1;
@@ -51,16 +60,51 @@
             align-items: center;
             padding: 40px 0;
         }
+        /* Estilo para centrar y dar espacio a la paginación */
+        .paginacion-centrada nav > div {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .activo {
+            color: #278943;
+        }
+
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1 text-dark fw-bold"><i class="bi bi-list-check me-2 text-warning"></i>Registros</span>
-            <a href="{{ route('registros') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="navbar-brand mb-0 h1 text-dark fw-bold">
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                </a>
+            </span>
+    
+            <a href="{{ route('registros') }}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+                <i class="bi bi-arrow-left me-2"></i>Volver
+            </a>
+        </div>
+    
+        {{-- Franja inferior estrecha: Nombre con monigote verde "Online" --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
+            <div class="container text-center">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
+                </small>
+            </div>
         </div>
     </nav>
-    <main class="main-content">
+    <main class="main-content mt-5 pt-5">
         <div class="container mb-5">
             <div class="table-card p-3">
                 <div class="d-flex gap-2 mb-3">
@@ -91,7 +135,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->etapas ?? '' }}: {{ $reg->curso->letra ?? '' }}</span></td>
+                                    <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->letra ?? '' }} {{ $reg->curso->modalidad ?? '' }}</span></td>
                                     
                                     {{-- ARREGLO AQUÍ: El modelo User suele tener 'name', no 'nombre' y 'apellidos' por defecto --}}
                                     <td>
@@ -141,12 +185,15 @@
                     </table>
                 </div>
                 
-                {{-- Paginación centrada --}}
-                @if($registros->hasPages())
-                    <div class="d-flex justify-content-center mt-4 pb-2">
-                        {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
-                    </div>
-                @endif
+            {{-- Paginación centrada sin texto en inglés --}}
+            @if($registros->hasPages())
+            <div class="mt-4 pb-2">
+                {{-- Añadimos la clase 'gap-4' para dar espacio vertical entre el texto y los números --}}
+                <div class="paginacion-centrada d-flex justify-content-center text-center gap-4">
+                    {{ $registros->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+        @endif
             </div>
         </div>
     </main>

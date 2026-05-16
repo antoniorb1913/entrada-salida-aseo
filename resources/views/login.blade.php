@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acceso al Sistema</title>
+    <title>Control de salidas al aseo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -15,6 +15,7 @@
             justify-content: center;
         }
         .login-card {
+            background-color: rgb(244, 242, 238);
             border: none;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -23,7 +24,7 @@
             max-width: 400px;
         }
         .login-header {
-            background-color: #0d2a5a;
+            background-color: rgb(78, 94, 113);
             padding: 30px;
             text-align: center;
             color: #ffffff;;
@@ -52,7 +53,7 @@
             box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
         }
         .btn-login {
-            background-color: #0d2a5a; /* Tu nuevo color azul oscuro */
+            background-color: rgb(78, 94, 113); /* Tu nuevo color azul oscuro */
             border: none; /* Quitamos el borde para que se vea más limpio */
             color: white; /* Aseguramos que el texto sea blanco */
             border-radius: 10px;
@@ -64,7 +65,7 @@
         }
 
         .btn-login:hover {
-            background-color: #163d7a; /* Un azul un poco más claro al pasar el ratón */
+            background-color: rgb(78, 94, 113); /* Un azul un poco más claro al pasar el ratón */
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(13, 42, 90, 0.3); /* Sombra con el tono de tu azul */
@@ -72,7 +73,7 @@
 
         /* Evita que Bootstrap le ponga el azul claro por defecto al hacer clic */
         .btn-login:active, .btn-login:focus {
-            background-color: #0d2a5a !important;
+            background-color: rgb(78, 94, 113) !important;
             box-shadow: 0 0 0 0.25rem rgba(13, 42, 90, 0.25) !important;
         }
     </style>
@@ -80,10 +81,10 @@
 <body>
 
     <main class="container">
-        <div class="login-card mx-auto bg-white">
+        <div class="login-card mx-auto">
             <div class="login-header">
                 <img src="{{ asset('img/BLANCO PNG.png') }}" alt="Logo Gestión de Aseos" style="max-width: 200px;">
-                <h4 class="mt-2 mb-0 fw-bold">Gestión de Aseos</h4>
+                <h4 class="mt-2 mb-0 fw-bold">Control de salidas al aseo</h4>
             </div>
 
             <div class="p-4 p-md-5">
@@ -105,7 +106,7 @@
                         <label for="nameInput" class="form-label fw-semibold">Nombre de usuario</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" class="form-control bg-light border-start-0" id="nameInput" name="nombre" placeholder="Ej: Cipriano" required autofocus>
+                            <input type="text" class="form-control bg-light border-start-0" id="nameInput" name="nombreUsuario" placeholder="Ej: pedro.lopez" required autofocus>
                         </div>
                     </div>
 

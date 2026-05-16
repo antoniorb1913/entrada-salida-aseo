@@ -186,3 +186,14 @@ Fecha --> 04/04/2026
   3. Configurar limite de salida, tiempo de espera y sin limite (por si un alumno por prescripcion medica tiene que mucha al baño).
   
   Fecha --> 10/04/2026 - 12/04/2026
+
+## Modalidad cursos, adaptación diseño a dispositivos moviles, flujo cursos, cooldown de salida al aseo.
+
+  1. Modalidades para los cursos (bachilletato y FP).
+  2. Adaptar el diseño a dispositivos moviles (responsive).
+  3. Flujo de los cursos (ETAPAS > MODALIDADES > CURSO > LETRA > ALUMNOS) --> No siempre es así.
+  4. Tiempo de espera al pulsar salir al aseo, por si le da sin querer y poder cancelarlo.
+  
+  Fecha --> 04/05/2026 - 09/05/2026
+
+

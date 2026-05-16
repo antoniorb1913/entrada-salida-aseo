@@ -5,7 +5,7 @@
     // Asignamos las variables que ya usa el resto de tu HTML
     $maxSalidas = $config->max_salidas;
     $tiempoEspera = $config->tiempo_espera; 
-    $tCancelacion = $config->tiempo_cancelacion; // <-- AÑADIDO PARA LA CANCELACIÓN
+    $tCancelacion = $config->tiempo_cancelacion;
     
     $segundosFaltantes = 0;
     $ultimaSalida = null;
@@ -38,14 +38,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; padding-top: 5%; }
-
-    @media (max-width: 576px) {
+        body { background-color:rgb(244, 242, 238);min-height:50vh;display:flex;flex-direction:column;padding-top: 5%; }
+        @media (max-width: 576px) {
         body {
-            padding-top: 30%;
+            padding-top: 20%;
         }
     }
-        .navbar-custom { background-color: #ffffff; border-bottom: 2px solid #dee2e6; }
+
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+
         .student-card { 
             transition: all 0.2s; 
             border-radius: 15px; 
@@ -60,18 +64,43 @@
             background-color: #fff5f5 !important;
         }
         .btn-confirmar-salida { min-width: 100px; } /* Mantiene el tamaño del botón estable */
+        /* Color base del botón */
+        .salida-color {
+            background-color: rgb(88, 127, 175) !important;
+            color: white !important;
+            border: none;
+        }
+        .salida-color:hover, 
+        .salida-color:active, 
+        .salida-color:focus {
+            background-color: rgb(88, 127, 175) !important; 
+            color: white !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .contador-color {
+            background-color: rgb(68, 122, 187);
+        }
+        .activo {
+            color: #278943;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom bg-white py-3 shadow-sm mb-4 fixed-top">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
-            <span class="fw-bold">
-                <i class="bi bi-person-badge me-2 text-primary"></i> 
-                {{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra ?? '' }}
+            <span class="navbar-brand mb-0 h1 text-dark fw-bold">
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                </a>
             </span>
     
             <div class="d-flex gap-2">
                 @php
+                    // Mantenemos intacta tu lógica de redirección
                     if ($curso->letra === null) {
                         $urlVolver = route('acceso.niveles', [
                             'etapa' => $curso->etapas, 
@@ -85,20 +114,37 @@
                         ]);
                     }
                 @endphp
-    
-                <a href="{{ route('acceso') }}" class="btn btn-outline-danger d-flex align-items-center">
-                    <i class="bi bi-house-door"></i> Inicio
+                
+                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-2"></i> Volver
                 </a>
+            </div>
+        </div>
     
-                <a href="{{ $urlVolver }}" class="btn btn-outline-secondary d-flex align-items-center">
-                    <i class="bi bi-arrow-left"></i> Volver
-                </a>
+        {{-- Franja inferior estrecha para el nombre del usuario --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
+            <div class="container text-center">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
+                </small>
             </div>
         </div>
     </nav>
 
     <div class="container mb-5 mt-5">
-        <h2 class="text-center mb-5 fw-bold">Selecciona al Alumno</h2>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-1">Selecciona al Alumno</h2>
+            <span class="fw-bold text-muted fs-5">
+                <i class="bi bi-layers me-2 text-primary"></i> 
+                {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
+            </span>
+        </div>
 
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
@@ -109,7 +155,7 @@
 
         @if($segundosFaltantes > 0)
             <div class="text-center mb-5">
-                <span class="badge bg-primary text-white fs-4 p-3 shadow-sm rounded-pill">
+                <span class="badge contador-color text-white fs-4 p-3 shadow-sm rounded-pill">
                     <i class="bi bi-stopwatch me-1"></i> Siguiente salida en: 
                     <span id="timer-display">{{ gmdate('i:s', $segundosFaltantes) }}</span>
                 </span>
@@ -166,13 +212,13 @@
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
                                             @if($segundosFaltantes > 0)
-                                                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                                <button type="button" class="btn salida-color btn-sm" disabled>
                                                     <i class="bi bi-hourglass-split"></i> Espera
                                                 </button>
                                             @else
                                                 {{-- BOTÓN DE CANCELACIÓN (Añadidos clase y data-tiempo) --}}
-                                                <button type="button" class="btn btn-primary btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
-                                                    <i class="bi bi-door-open"></i> Salida
+                                                <button type="button" class="btn salida-color btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
+                                                    <i class="bi bi-door-open text-white"></i> Salida
                                                 </button>
                                             @endif
                                         </form>
@@ -267,7 +313,7 @@
                     if (!cancelando) {
                         // FASE 1: Empieza la cuenta regresiva
                         cancelando = true;
-                        this.classList.replace('btn-primary', 'btn-warning');
+                        this.classList.replace('salida-color', 'btn-warning');
                         this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
 
                         intervaloId = setInterval(() => {
@@ -293,7 +339,7 @@
                         cancelando = false;
                         
                         // Vuelve a su estado azul normal
-                        this.classList.replace('btn-warning', 'btn-primary');
+                        this.classList.replace('btn-warning', 'salida-color');
                         this.innerHTML = `<i class="bi bi-door-open"></i> Salida`;
                     }
                 });

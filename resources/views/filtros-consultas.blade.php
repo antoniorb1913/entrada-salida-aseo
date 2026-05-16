@@ -4,10 +4,10 @@
     
     // Configuramos los detalles según el tipo
     $config = [
-        'alumno'   => ['icon' => 'bi-person-badge',  'color' => 'text-warning', 'title' => 'Filtro por Alumno/a'],
-        'profesor' => ['icon' => 'bi-person-video3', 'color' => 'text-success', 'title' => 'Filtro por Profesor/a'],
-        'grupo'    => ['icon' => 'bi-people-fill',   'color' => 'text-primary', 'title' => 'Filtro por Grupo'],
-        'fecha'    => ['icon' => 'bi-calendar-range', 'color' => 'text-danger',  'title' => 'Filtro por Fecha'],
+        'alumno'   => ['icon' => 'bi-person-badge',  'color' => 'color-alumno', 'color-fondo' => 'fondo-alumno', 'title' => 'Filtro por Alumno/a'],
+        'profesor' => ['icon' => 'bi-person-video3', 'color' => 'color-profesor', 'color-fondo' => 'fondo-profesor', 'title' => 'Filtro por Profesor/a'],
+        'grupo'    => ['icon' => 'bi-people-fill',   'color' => 'color-grupo', 'color-fondo' => 'fondo-grupo', 'title' => 'Filtro por Grupo'],
+        'fecha'    => ['icon' => 'bi-calendar-range', 'color' => 'color-fecha', 'color-fondo' => 'fondo-fecha', 'title' => 'Filtro por Fecha'],
     ][$tipo];
 @endphp
 
@@ -23,31 +23,112 @@
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 
     <style>
-        body { background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; font-family: 'Segoe UI', sans-serif;}
         @media (max-width: 576px) {
-            body {
-                padding-top: 20%;
-            }
+        body {
+            padding-top: 10%;
         }
-        .navbar-custom { background-color: #fff; border-bottom: 2px solid #dee2e6; }
+    }
+        .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
-        .form-card { background-color: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .form-card { background-color: rgb(255, 252, 252); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .ts-wrapper.form-select-lg .ts-control { border-radius: 10px !important; padding: 12px 15px !important; font-size: 1.1rem !important; }
+        .nav-color {
+            background-color: rgb(246, 246, 244);
+        }
+        .color-fecha {
+            color: #c0535a;
+        }
+        .color-grupo {
+            color: rgb(77, 106, 142);
+        }
+        .color-profesor {
+            color: #3d6851;
+        }
+        .color-alumno {
+            color: rgb(165, 152, 99);
+        }
+
+        /* BOTÓN FECHA (Rojizo) */
+        .fondo-fecha, .fondo-fecha:hover, .fondo-fecha:active, .fondo-fecha:focus {
+            background-color: #c0535a !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* BOTÓN GRUPO (Azulado) */
+        .fondo-grupo, .fondo-grupo:hover, .fondo-grupo:active, .fondo-grupo:focus {
+            background-color: rgb(77, 106, 142) !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* BOTÓN PROFESOR (Verdoso) */
+        .fondo-profesor, .fondo-profesor:hover, .fondo-profesor:active, .fondo-profesor:focus {
+            background-color: #3d6851 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* BOTÓN ALUMNO (Dorado/Oliva) */
+        .fondo-alumno, .fondo-alumno:hover, .fondo-alumno:active, .fondo-alumno:focus {
+            background-color: rgb(165, 152, 99) !important;
+            color: white !important;
+            border: none !important;
+        }
+        /* EFECTO DE ELEVACIÓN (Para que se note que pulsas sin cambiar el color) */
+        .fondo-fecha:hover, .fondo-grupo:hover, .fondo-profesor:hover, .fondo-alumno:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2) !important;
+            filter: none !important;
+        }
+        .fondo-fecha, .fondo-grupo, .fondo-profesor, .fondo-alumno {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        }
+        /* Ajuste para el botón en el HTML */
+        .btn-check:focus + .btn, .btn:focus {
+            box-shadow: none !important;
+        }
+        .activo {
+            color: #278943;
+        }
+        
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-custom py-3 shadow-sm fixed-top">
-        <div class="container">
+    <nav class="navbar navbar-custom py-2 shadow-sm fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
             <span class="navbar-brand mb-0 h1 text-dark fw-bold">
-                <i class="bi bi-search me-2 {{ $config['color'] }}"></i>Consultas
+                @php
+                    $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
+                @endphp
+                <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                </a>
             </span>
-            <a href="{{ route('registros') }}" class="btn btn-outline-secondary">
+    
+            <a href="{{ route('registros') }}" class="btn btn-outline-secondary btn-sm">
                 <i class="bi bi-arrow-left me-2"></i>Volver
             </a>
         </div>
+    
+        {{-- Franja inferior: Sesión activa con icono verde --}}
+        <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
+            <div class="container text-center">
+                <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    <i class="bi bi-person-circle me-1 text-success"></i>
+                    
+                    <span class="text-secondary">Sesión de:</span>
+                    
+                    <span class="text-success">
+                        {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
+                    </span>
+                </small>
+            </div>
+        </div>
     </nav>
 
-    <main class="main-content">
+    <main class="main-content mt-5 pt-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 col-lg-6">
@@ -88,7 +169,7 @@
                                     <select name="curso_id" class="form-select form-select-lg" required>
                                         <option value="" selected disabled>Elige un curso...</option>
                                         @foreach($cursos as $curso)
-                                            <option value="{{ $curso->id }}">{{ $curso->etapas }} {{ $curso->nivel }} {{ $curso->letra }}</option>
+                                            <option value="{{ $curso->id }}">{{ $curso->nivel }} {{ $curso->letra }} {{ $curso->modalidad }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -107,7 +188,7 @@
                                 </div>
                             @endif
                             
-                            <button type="submit" class="btn btn-lg rounded-pill fw-bold px-5 w-100 shadow-sm mt-2 {{ str_replace('text', 'btn', $config['color']) }} text-white">
+                            <button type="submit" class="btn btn-lg rounded-pill fw-bold px-5 w-100 shadow-sm mt-2 {{ $config['color-fondo'] }} text-white">
                                 <i class="bi bi-file-earmark-text me-2"></i>Ver Registros
                             </button>
                         </form>
@@ -120,14 +201,25 @@
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const el = document.getElementById('buscador-select');
-            if (el) {
-                new TomSelect(el, {
-                    create: false,
-                    allowEmptyOption: true,
-                    placeholder: "Escribe para buscar...",
-                });
-            }
+            // Configuramos los selectores que queremos que tengan buscador y scroll limitado
+            const selectores = ['#buscador-select', 'select[name="curso_id"]'];
+
+            selectores.forEach(selector => {
+                const el = document.querySelector(selector);
+                if (el) {
+                    new TomSelect(el, {
+                        create: false,
+                        allowEmptyOption: true,
+                        placeholder: "Selecciona una opción...",
+                        maxOptions: 50,
+                        render: {
+                            option: function(data, escape) {
+                                return '<div class="py-2">' + escape(data.text) + '</div>';
+                            }
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>
