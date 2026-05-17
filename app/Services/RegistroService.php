@@ -16,15 +16,26 @@ class RegistroService
         $hoy = now()->toDateString();
         
         // --- CONFIGURACIÓN DINÁMICA CENTRALIZADA ---
-        // Llamamos al método "todas" que nos devuelve el objeto con las reglas
         $config = Configuracion::todas();
 
-        // 1. Límite de salidas diarias
+        // === NUEVA VALIDACIÓN: CONTROL DE AFORO GLOBAL ===
+        // Contamos cuántas personas en total están fuera en el centro en este momento
+        $totalFueraActualmente = Registro::where('estado', Estado::FUERA)->count();
+        $limiteAforoGlobal = 5; // Puedes cambiar este 5 por $config->max_aforo si lo creas en tu BD
+
+        if ($totalFueraActualmente >= $limiteAforoGlobal) {
+            return [
+                'success' => false,
+                'error' => "Aforo completo en los aseos. No pueden salir más alumnos hasta que regrese alguno (Límite: {$limiteAforoGlobal})."
+            ];
+        }
+        // =================================================
+
+        // 1. Límite de salidas diarias (Tu código original sigue aquí abajo...)
         $salidasHoy = Registro::where('alumno_id', $alumno_id)
                             ->whereDate('fecha_salida', $hoy)
                             ->count();
 
-        // Usamos $config->max_salidas en lugar de la variable suelta
         if ($salidasHoy >= $config->max_salidas && !$alumno->excepcion_limite) {
             return [
                 'success' => false, 
@@ -32,7 +43,7 @@ class RegistroService
             ];
         }
 
-        // 2. Salidas escalonadas
+        // 2. Salidas escalonadas (Tu código original...)
         $ultimaSalidaClase = Registro::where('curso_id', $alumno->curso_id)
                                     ->whereDate('fecha_salida', $hoy)
                                     ->latest('fecha_salida')
@@ -41,7 +52,6 @@ class RegistroService
         if ($ultimaSalidaClase && $ultimaSalidaClase->estado === Estado::FUERA) {
             $segundosDesdeSalida = intval(Carbon::parse($ultimaSalidaClase->fecha_salida)->diffInSeconds(now()));
             
-            // Usamos $config->tiempo_espera
             if ($segundosDesdeSalida < $config->tiempo_espera) {
                 $faltan = $config->tiempo_espera - $segundosDesdeSalida;
                 $tiempoFormateado = gmdate('i:s', $faltan);
@@ -53,7 +63,7 @@ class RegistroService
             }
         }
 
-        // 3. Registro de la salida (El resto se queda igual)
+        // 3. Registro de la salida si todo lo anterior pasa con éxito
         Registro::create([
             'alumno_id'    => $alumno_id,
             'profesor_id'  => $profesor_id,
@@ -113,5 +123,21 @@ class RegistroService
         // Ordenar por la salida más reciente y paginar
         // Usamos appends para que al cambiar de página en la tabla se mantengan los filtros en la URL
         return $query->orderBy('fecha_salida', 'desc')->paginate(15);
+    }
+    /**
+ * Obtiene el estado del aforo actual del centro.
+ */
+    public function obtenerAlumnosFuera(): object
+    {
+        $totalFuera = Registro::where('estado', Estado::FUERA)->count();
+        $config = Configuracion::todas();
+        $limite = $config->max_aforo ?? 5; 
+
+        // IMPORTANTE: Asegúrate de añadir el (object) aquí delante
+        return (object) [
+            'total' => $totalFuera,
+            'limite' => $limite,
+            'completo' => ($totalFuera >= $limite)
+        ];
     }
 }

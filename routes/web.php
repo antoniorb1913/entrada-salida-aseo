@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(SoloDireccion::class)->group(function () {
         
         // Dashboard de Admin protegido (antes estaba fuera de este grupo)
-        Route::view('/admin', "admin")->name('admin');
+        Route::get('/admin', [RegistroController::class, 'dashboard'])->name('admin');
 
         // --- SISTEMA DE CONSULTAS Y FILTROS ---
         Route::prefix('registros')->group(function () {

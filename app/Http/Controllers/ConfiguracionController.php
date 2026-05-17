@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\ConfiguracionService;
 use App\Models\Configuracion;
 use App\Models\Alumno;
+use App\Http\Requests\ConfiguracionRequest;
 
 class ConfiguracionController extends Controller
 {
@@ -31,11 +32,12 @@ class ConfiguracionController extends Controller
         return view('configuracion', compact('maxSalidas', 'tiempoEsperaMinutos', 'tiempoCancelacion', 'alumnos'));
     }
 
-    public function guardar(Request $request)
+    public function guardar(ConfiguracionRequest $request)
     {
         // El camarero le pasa los 3 datos al cocinero (Service)
         $this->configuracionService->guardarLimites(
             $request->max_salidas, 
+            $request->max_aforo,
             $request->tiempo_espera,
             $request->tiempo_cancelacion // Pasamos el nuevo valor
         );

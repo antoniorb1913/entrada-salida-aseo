@@ -1,3 +1,13 @@
+@php
+    // 1. Cargamos el "pack" de configuración centralizado
+    $config = \App\Models\Configuracion::todas();
+    
+    // Asignamos las variables que ya usa el resto de tu HTML
+    $maxSalidas = $config->max_salidas;
+    $tiempoEspera = $config->tiempo_espera; 
+    $tCancelacion = $config->tiempo_cancelacion;
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,10 +19,10 @@
     <style>
         body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column; padding-top: 2%;}
         @media (max-width: 576px) {
-        body {
-            padding-top: 10%;
+            body {
+                padding-top: 10%;
+            }
         }
-    }
         .config-card { background-color: rgb(255, 252, 252); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
         .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
@@ -62,20 +72,20 @@
         </div>
     </nav>
     
-    
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show shadow-sm mt-5 pt-4" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show shadow-sm mt-5 pt-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <main class="main-content mt-5 pt-5">
         <div class="container">
             <form action="{{ route('configuracion.guardar') }}" method="POST">
                 @csrf
                 <div class="text-center mb-5">
                     <h2 class="fw-bold text-secondary">Panel de configuración</h2>
-                    <p class="text-muted">Parametros para la entrada y salida al aseo</p>
+                    <p class="text-muted">Parámetros para la entrada y salida al aseo</p>
                 </div>
                 <div class="row">
                     {{-- AJUSTES GLOBALES --}}
@@ -83,6 +93,7 @@
                         <div class="config-card">
                             <h4 class="fw-bold mb-4 border-bottom pb-2"><i class="bi bi-sliders text-info me-2"></i>Límites</h4>
                             
+                            {{-- LÍMITE DE SALIDAS DIARIAS --}}
                             <div class="mb-4">
                                 <label class="form-label">Límite de salidas diarias</label>
                                 <div class="input-group">
@@ -92,6 +103,18 @@
                                 </div>
                             </div>
 
+                            {{-- NUEVO: AFORO MÁXIMO GLOBAL --}}
+                            <div class="mb-4">
+                                <label class="form-label">Maximo de alumnos en el aseo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-people-fill"></i></span>
+                                    <input type="number" name="max_aforo" class="form-control" value="{{ $config->max_aforo ?? 5 }}" min="1" required>
+                                    <span class="input-group-text">alumnos</span>
+                                </div>
+                                <div class="form-text">Límite simultáneo de alumnos fuera de clase en todo el centro.</div>
+                            </div>
+
+                            {{-- TIEMPO DE ESPERA --}}
                             <div class="mb-4">
                                 <label class="form-label">Tiempo de espera (Penalización)</label>
                                 <div class="input-group">
@@ -101,7 +124,7 @@
                                 </div>
                             </div>
 
-                            {{-- EL NUEVO PARÁMETRO DE CANCELACIÓN (Añadido) --}}
+                            {{-- TIEMPO DE ARREPENTIMIENTO --}}
                             <div class="mb-4">
                                 <label class="form-label">Tiempo de arrepentimiento (Cancelar)</label>
                                 <div class="input-group">
@@ -134,18 +157,18 @@
                                         $nivel = $alumno->curso->nivel ?? '';
                                         $letra = $alumno->curso->letra ?? '';
                                         
-                                        // Creamos un string de busqueda limpio
+                                        // Creamos un string de búsqueda limpio
                                         $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
                                     @endphp
 
                                     <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
                                         <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="alumno_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
                                         <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="alumno_{{ $alumno->id }}">
-                                            {{-- Nombre del alumno (Sin truncate y con flex-grow) --}}
+                                            {{-- Nombre del alumno --}}
                                             <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
                                                 {{ $alumno->apellidos }}, {{ $alumno->nombre }}
                                             </span>
-                                            {{-- Badge del curso (Fijo y alineado a la derecha) --}}
+                                            {{-- Badge del curso --}}
                                             <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
                                                 <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
                                             </span>
@@ -165,6 +188,7 @@
             </form>
         </div>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
@@ -179,7 +203,7 @@
             let alumnos = document.querySelectorAll('.student-item');
     
             alumnos.forEach(function(alumno) {
-                // 3. Normalizamos el texto de búsqueda del alumno (que ya viene del data-search)
+                // 3. Normalizamos el texto de búsqueda del alumno
                 let textoAlumno = normalizarTexto(alumno.getAttribute('data-search'));
                 
                 if (textoAlumno.includes(filtro)) {

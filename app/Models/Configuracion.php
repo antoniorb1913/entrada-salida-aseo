@@ -33,6 +33,7 @@ class Configuracion extends Model
             'max_salidas'        => self::obtener('max_salidas', 3),
             'tiempo_espera'      => self::obtener('tiempo_espera_segundos', 300),
             'tiempo_cancelacion' => self::obtener('tiempo_cancelacion', 5),
+            'max_aforo'          => self::obtener('max_aforo', 5),
         ];
     }
 }

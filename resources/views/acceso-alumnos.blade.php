@@ -144,6 +144,19 @@
                 <i class="bi bi-layers me-2 text-primary"></i> 
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>
+
+            {{-- MARCADOR DE AFORO GLOBAL --}}
+            <div class="mt-3">
+                @if($aforo->completo)
+                    <span class="badge bg-danger fs-5 p-2 px-3 rounded-pill shadow-sm animate__animated animate__headShake">
+                        <i class="bi bi-exclamation-octagon-fill me-2"></i>Aforo Completo: {{ $aforo->total }}/{{ $aforo->limite }} fuera
+                    </span>
+                @else
+                    <span class="badge salida-color bg-opacity-75 fs-6 p-2 px-3 rounded-pill">
+                        <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}/{{ $aforo->limite }}</strong>
+                    </span>
+                @endif
+            </div>
         </div>
 
         @if(session('error'))
@@ -177,7 +190,6 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card student-card shadow-sm p-3 position-relative {{ $registroActivo ? 'on-break' : '' }}">
                         
-
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h6 class="mb-0 fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</h6>
@@ -207,7 +219,6 @@
                             {{-- Botones de acción --}}
                             <div class="ms-2">
                                 @if(!$registroActivo)
-                                    {{-- 3. EL BOTÓN OBEDECE A LA NUEVA LÓGICA --}}
                                     @if(!$limiteAlcanzado)
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
@@ -215,8 +226,13 @@
                                                 <button type="button" class="btn salida-color btn-sm" disabled>
                                                     <i class="bi bi-hourglass-split"></i> Espera
                                                 </button>
+                                            @elseif($aforo->completo)
+                                                {{-- CONDICIÓN DE AFORO COMPLETO: Bloquea salidas si ya hay 5 alumnos fuera --}}
+                                                <button type="button" class="btn btn-secondary btn-sm" disabled title="Máximo de alumnos fuera alcanzado">
+                                                    <i class="bi bi-slash-circle"></i> Límite ({{ $aforo->total }})
+                                                </button>
                                             @else
-                                                {{-- BOTÓN DE CANCELACIÓN (Añadidos clase y data-tiempo) --}}
+                                                {{-- BOTÓN DE SALIDA NORMAL CON CUENTA ATRÁS --}}
                                                 <button type="button" class="btn salida-color btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
                                                     <i class="bi bi-door-open text-white"></i> Salida
                                                 </button>

@@ -4,27 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Services\CursoService;
+use App\Services\RegistroService; // <--- 1. IMPORTANTE: Importamos tu servicio de registros
 use Illuminate\Http\Request;
 
 class AccesoController extends Controller
 {
     protected $cursoService;
+    protected $registroService;
 
-    public function __construct(CursoService $cursoService)
+    // 3. Inyectamos ambos servicios en el constructor
+    public function __construct(CursoService $cursoService, RegistroService $registroService)
     {
         $this->cursoService = $cursoService;
+        $this->registroService = $registroService; // <--- Guardamos la instancia
     }
 
     public function index()
     {
         $etapas = $this->cursoService->getEtapasUnicas();
-        return view('etapas', compact('etapas'));
+        
+        $aforo = $this->registroService->obtenerAlumnosFuera();
+
+        return view('etapas', compact('etapas', 'aforo'));
     }
 
     public function modalidades($etapa)
     {
         if ($etapa === 'ESO') {
-            return $this->niveles($etapa, 'comun'); // Carga niveles directamente
+            return $this->niveles($etapa, 'comun'); 
         }
 
         $modalidades = $this->cursoService->getModalidadesPorEtapa($etapa);
@@ -36,20 +43,15 @@ class AccesoController extends Controller
         return view('acceso-modalidades', compact('modalidades', 'etapa'));
     }
     
-    // Verifica que reciba $etapa y $modalidad
     public function niveles($etapa, $modalidad)
     {
         $niveles = $this->cursoService->getNivelesPorEtapa($etapa, $modalidad);
     
-        // Lógica para FP: Si solo hay un curso para este nivel (porque no hay letras)
-        // saltamos directamente a la vista de alumnos.
         if ($etapa === 'FP') {
-            // Buscamos si existe un curso único para ese ciclo y nivel (asumiendo que letra es null)
-            // Si tu Service tiene un método para esto, úsalo. Si no, algo así:
             $curso = Curso::where('etapas', 'FP')
                         ->where('modalidad', $modalidad)
                         ->whereNull('letra') 
-                        ->first(); // Esto asume que el ID se gestionará después o en la vista de niveles
+                        ->first();
         }
     
         return view('acceso-niveles', compact('niveles', 'etapa', 'modalidad'));
@@ -59,8 +61,6 @@ class AccesoController extends Controller
     {
         $letras = $this->cursoService->getLetrasPorNivel($etapa, $modalidad, $nivel);
 
-        // --- CAMBIO PARA FP ---
-        // En lugar de redirect, llamamos al método alumnos() directamente
         if ($etapa === 'FP' && $letras->count() === 1) {
             return $this->alumnos($letras->first()->id);
         }
@@ -75,6 +75,9 @@ class AccesoController extends Controller
         
         $tiempoEsperaSegundos = 300; 
 
-        return view('acceso-alumnos', compact('alumnos', 'curso', 'tiempoEsperaSegundos'));
+        // 5. NUEVO: Le pedimos el aforo al RegistroService para la pantalla de tarjetas
+        $aforo = $this->registroService->obtenerAlumnosFuera();
+
+        return view('acceso-alumnos', compact('alumnos', 'curso', 'tiempoEsperaSegundos', 'aforo')); // <--- Pasamos $aforo
     }
 }
