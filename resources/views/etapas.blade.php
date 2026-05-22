@@ -105,16 +105,10 @@
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
                 <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
                 @if(auth()->user()->rol === 'profesor')
-                    <div class="text-center mb-4">
-                        @if($aforo->completo)
-                            <span class="badge bg-danger fs-5 p-2 px-3 rounded-pill shadow-sm animate__animated animate__headShake">
-                                <i class="bi bi-exclamation-octagon-fill me-2"></i>Aforo Completo: {{ $aforo->total }}/{{ $aforo->limite }} fuera
-                            </span>
-                        @else
-                            <span class="badge salida-color bg-opacity-75 fs-6 p-2 px-3 rounded-pill">
-                                <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}/{{ $aforo->limite }}</strong>
-                            </span>
-                        @endif
+                    <div class="mt-3 text-center">
+                        <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
+                            <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
+                        </span>
                     </div>
                 @endif
             </div>

@@ -11,7 +11,7 @@ class ConfiguracionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // puedes retornar true aquí con total seguridad.
+        // Puedes retornar true aquí con total seguridad.
         return true; 
     }
 
@@ -22,7 +22,6 @@ class ConfiguracionRequest extends FormRequest
     {
         return [
             'max_salidas'        => 'required|integer|min:1',
-            'max_aforo'          => 'required|integer|min:1',
             'tiempo_espera'      => 'required|integer|min:0',
             'tiempo_cancelacion' => 'required|integer|min:0|max:30',
             'excepciones'        => 'nullable|array',

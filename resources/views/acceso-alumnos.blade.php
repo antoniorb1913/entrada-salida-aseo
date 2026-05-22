@@ -145,17 +145,11 @@
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>
 
-            {{-- MARCADOR DE AFORO GLOBAL --}}
-            <div class="mt-3">
-                @if($aforo->completo)
-                    <span class="badge bg-danger fs-5 p-2 px-3 rounded-pill shadow-sm animate__animated animate__headShake">
-                        <i class="bi bi-exclamation-octagon-fill me-2"></i>Aforo Completo: {{ $aforo->total }}/{{ $aforo->limite }} fuera
-                    </span>
-                @else
-                    <span class="badge salida-color bg-opacity-75 fs-6 p-2 px-3 rounded-pill">
-                        <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}/{{ $aforo->limite }}</strong>
-                    </span>
-                @endif
+            {{-- Un marcador simple, elegante y siempre visible --}}
+            <div class="mt-3 text-center">
+                <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
+                    <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
+                </span>
             </div>
         </div>
 
@@ -225,11 +219,6 @@
                                             @if($segundosFaltantes > 0)
                                                 <button type="button" class="btn salida-color btn-sm" disabled>
                                                     <i class="bi bi-hourglass-split"></i> Espera
-                                                </button>
-                                            @elseif($aforo->completo)
-                                                {{-- CONDICIÓN DE AFORO COMPLETO: Bloquea salidas si ya hay 5 alumnos fuera --}}
-                                                <button type="button" class="btn btn-secondary btn-sm" disabled title="Máximo de alumnos fuera alcanzado">
-                                                    <i class="bi bi-slash-circle"></i> Límite ({{ $aforo->total }})
                                                 </button>
                                             @else
                                                 {{-- BOTÓN DE SALIDA NORMAL CON CUENTA ATRÁS --}}

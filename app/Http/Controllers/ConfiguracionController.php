@@ -37,7 +37,6 @@ class ConfiguracionController extends Controller
         // El camarero le pasa los 3 datos al cocinero (Service)
         $this->configuracionService->guardarLimites(
             $request->max_salidas, 
-            $request->max_aforo,
             $request->tiempo_espera,
             $request->tiempo_cancelacion // Pasamos el nuevo valor
         );

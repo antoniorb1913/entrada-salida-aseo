@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Enums\Estado;
 use App\Models\Alumno;
 use App\Models\Registro;
-use App\Models\Configuracion; // Asegúrate de que esté el import
+use App\Models\Configuracion;
 use Carbon\Carbon;
 
 class RegistroService
@@ -18,20 +18,7 @@ class RegistroService
         // --- CONFIGURACIÓN DINÁMICA CENTRALIZADA ---
         $config = Configuracion::todas();
 
-        // === NUEVA VALIDACIÓN: CONTROL DE AFORO GLOBAL ===
-        // Contamos cuántas personas en total están fuera en el centro en este momento
-        $totalFueraActualmente = Registro::where('estado', Estado::FUERA)->count();
-        $limiteAforoGlobal = 5; // Puedes cambiar este 5 por $config->max_aforo si lo creas en tu BD
-
-        if ($totalFueraActualmente >= $limiteAforoGlobal) {
-            return [
-                'success' => false,
-                'error' => "Aforo completo en los aseos. No pueden salir más alumnos hasta que regrese alguno (Límite: {$limiteAforoGlobal})."
-            ];
-        }
-        // =================================================
-
-        // 1. Límite de salidas diarias (Tu código original sigue aquí abajo...)
+        // 1. Límite de salidas diarias (Tu código original)
         $salidasHoy = Registro::where('alumno_id', $alumno_id)
                             ->whereDate('fecha_salida', $hoy)
                             ->count();
@@ -120,24 +107,20 @@ class RegistroService
             $query->where('alumno_id', $request->alumno_id);
         }
     
-        // Ordenar por la salida más reciente y paginar
-        // Usamos appends para que al cambiar de página en la tabla se mantengan los filtros en la URL
         return $query->orderBy('fecha_salida', 'desc')->paginate(15);
     }
+
     /**
- * Obtiene el estado del aforo actual del centro.
- */
+     * Obtiene el número total de alumnos actualmente fuera del aula.
+     */
     public function obtenerAlumnosFuera(): object
     {
+        // Contamos cuántos registros tienen el estado FUERA
         $totalFuera = Registro::where('estado', Estado::FUERA)->count();
-        $config = Configuracion::todas();
-        $limite = $config->max_aforo ?? 5; 
 
-        // IMPORTANTE: Asegúrate de añadir el (object) aquí delante
+        // 🌟 RETORNO MODIFICADO: Devolvemos únicamente el total real de manera directa
         return (object) [
-            'total' => $totalFuera,
-            'limite' => $limite,
-            'completo' => ($totalFuera >= $limite)
+            'total' => $totalFuera
         ];
     }
 }

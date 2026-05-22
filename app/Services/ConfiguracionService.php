@@ -10,7 +10,7 @@ class ConfiguracionService
     /**
      * Procesa y guarda los límites numéricos de la aplicación.
      */
-    public function guardarLimites($maxSalidas, $maxAforo, $tiempoEsperaMinutos, $tiempoCancelacion)
+    public function guardarLimites($maxSalidas, $tiempoEsperaMinutos, $tiempoCancelacion)
     {
         // El servicio se encarga de la lógica matemática (pasar minutos a segundos)
         $tiempoEsperaSegundos = $tiempoEsperaMinutos * 60;
@@ -19,12 +19,7 @@ class ConfiguracionService
             ['clave' => 'max_salidas'],
             ['valor' => $maxSalidas]
         );
-
-        Configuracion::updateOrCreate(
-            ['clave' => 'max_aforo'],
-            ['valor' => $maxAforo]
-        );
-
+        
         Configuracion::updateOrCreate(
             ['clave' => 'tiempo_espera_segundos'],
             ['valor' => $tiempoEsperaSegundos]

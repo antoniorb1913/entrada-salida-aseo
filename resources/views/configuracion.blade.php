@@ -103,17 +103,6 @@
                                 </div>
                             </div>
 
-                            {{-- NUEVO: AFORO MÁXIMO GLOBAL --}}
-                            <div class="mb-4">
-                                <label class="form-label">Maximo de alumnos en el aseo</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light"><i class="bi bi-people-fill"></i></span>
-                                    <input type="number" name="max_aforo" class="form-control" value="{{ $config->max_aforo ?? 5 }}" min="1" required>
-                                    <span class="input-group-text">alumnos</span>
-                                </div>
-                                <div class="form-text">Límite simultáneo de alumnos fuera de clase en todo el centro.</div>
-                            </div>
-
                             {{-- TIEMPO DE ESPERA --}}
                             <div class="mb-4">
                                 <label class="form-label">Tiempo de espera (Penalización)</label>
