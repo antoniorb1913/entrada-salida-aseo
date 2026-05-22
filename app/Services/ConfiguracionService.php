@@ -19,7 +19,7 @@ class ConfiguracionService
             ['clave' => 'max_salidas'],
             ['valor' => $maxSalidas]
         );
-
+        
         Configuracion::updateOrCreate(
             ['clave' => 'tiempo_espera_segundos'],
             ['valor' => $tiempoEsperaSegundos]

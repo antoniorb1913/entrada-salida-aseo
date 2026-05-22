@@ -42,6 +42,11 @@
         .activo {
             color: #278943;
         }
+        .salida-color {
+            background-color: rgb(88, 127, 175) !important;
+            color: white !important;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +57,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                 <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control de Salidas
                 </a>
             </span>
             
@@ -99,6 +104,13 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
                 <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
+                @if(auth()->user()->rol === 'profesor')
+                    <div class="mt-3 text-center">
+                        <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
+                            <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
+                        </span>
+                    </div>
+                @endif
             </div>
 
             <div class="row justify-content-center g-4">

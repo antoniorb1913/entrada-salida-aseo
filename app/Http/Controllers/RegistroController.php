@@ -54,4 +54,14 @@ class RegistroController extends Controller
         // 4. Se lo pasamos al Exportador (Excel ahora recibirá la lista limpia)
         return Excel::download(new RegistrosExport($registros), $nombreArchivo);
     }
+
+    public function dashboard()
+    {
+        // Le pedimos el aforo al servicio de registros
+        $aforo = $this->registroService->obtenerAlumnosFuera();
+
+        // Cargamos la vista 'admin' pasándole el aforo
+        return view('admin', compact('aforo'));
+    }
+
 }

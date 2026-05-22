@@ -94,7 +94,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                 <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control de Salidas
                 </a>
             </span>
     
@@ -144,6 +144,13 @@
                 <i class="bi bi-layers me-2 text-primary"></i> 
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>
+
+            {{-- Un marcador simple, elegante y siempre visible --}}
+            <div class="mt-3 text-center">
+                <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
+                    <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
+                </span>
+            </div>
         </div>
 
         @if(session('error'))
@@ -177,7 +184,6 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card student-card shadow-sm p-3 position-relative {{ $registroActivo ? 'on-break' : '' }}">
                         
-
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <h6 class="mb-0 fw-bold">{{ $alumno->apellidos }}, {{ $alumno->nombre }}</h6>
@@ -207,7 +213,6 @@
                             {{-- Botones de acción --}}
                             <div class="ms-2">
                                 @if(!$registroActivo)
-                                    {{-- 3. EL BOTÓN OBEDECE A LA NUEVA LÓGICA --}}
                                     @if(!$limiteAlcanzado)
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
@@ -216,7 +221,7 @@
                                                     <i class="bi bi-hourglass-split"></i> Espera
                                                 </button>
                                             @else
-                                                {{-- BOTÓN DE CANCELACIÓN (Añadidos clase y data-tiempo) --}}
+                                                {{-- BOTÓN DE SALIDA NORMAL CON CUENTA ATRÁS --}}
                                                 <button type="button" class="btn salida-color btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
                                                     <i class="bi bi-door-open text-white"></i> Salida
                                                 </button>

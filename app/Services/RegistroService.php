@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Enums\Estado;
 use App\Models\Alumno;
 use App\Models\Registro;
-use App\Models\Configuracion; // Asegúrate de que esté el import
+use App\Models\Configuracion;
 use Carbon\Carbon;
 
 class RegistroService
@@ -16,15 +16,13 @@ class RegistroService
         $hoy = now()->toDateString();
         
         // --- CONFIGURACIÓN DINÁMICA CENTRALIZADA ---
-        // Llamamos al método "todas" que nos devuelve el objeto con las reglas
         $config = Configuracion::todas();
 
-        // 1. Límite de salidas diarias
+        // 1. Límite de salidas diarias (Tu código original)
         $salidasHoy = Registro::where('alumno_id', $alumno_id)
                             ->whereDate('fecha_salida', $hoy)
                             ->count();
 
-        // Usamos $config->max_salidas en lugar de la variable suelta
         if ($salidasHoy >= $config->max_salidas && !$alumno->excepcion_limite) {
             return [
                 'success' => false, 
@@ -32,7 +30,7 @@ class RegistroService
             ];
         }
 
-        // 2. Salidas escalonadas
+        // 2. Salidas escalonadas (Tu código original...)
         $ultimaSalidaClase = Registro::where('curso_id', $alumno->curso_id)
                                     ->whereDate('fecha_salida', $hoy)
                                     ->latest('fecha_salida')
@@ -41,7 +39,6 @@ class RegistroService
         if ($ultimaSalidaClase && $ultimaSalidaClase->estado === Estado::FUERA) {
             $segundosDesdeSalida = intval(Carbon::parse($ultimaSalidaClase->fecha_salida)->diffInSeconds(now()));
             
-            // Usamos $config->tiempo_espera
             if ($segundosDesdeSalida < $config->tiempo_espera) {
                 $faltan = $config->tiempo_espera - $segundosDesdeSalida;
                 $tiempoFormateado = gmdate('i:s', $faltan);
@@ -53,7 +50,7 @@ class RegistroService
             }
         }
 
-        // 3. Registro de la salida (El resto se queda igual)
+        // 3. Registro de la salida si todo lo anterior pasa con éxito
         Registro::create([
             'alumno_id'    => $alumno_id,
             'profesor_id'  => $profesor_id,
@@ -110,8 +107,20 @@ class RegistroService
             $query->where('alumno_id', $request->alumno_id);
         }
     
-        // Ordenar por la salida más reciente y paginar
-        // Usamos appends para que al cambiar de página en la tabla se mantengan los filtros en la URL
         return $query->orderBy('fecha_salida', 'desc')->paginate(15);
+    }
+
+    /**
+     * Obtiene el número total de alumnos actualmente fuera del aula.
+     */
+    public function obtenerAlumnosFuera(): object
+    {
+        // Contamos cuántos registros tienen el estado FUERA
+        $totalFuera = Registro::where('estado', Estado::FUERA)->count();
+
+        // 🌟 RETORNO MODIFICADO: Devolvemos únicamente el total real de manera directa
+        return (object) [
+            'total' => $totalFuera
+        ];
     }
 }

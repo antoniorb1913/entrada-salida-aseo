@@ -35,14 +35,13 @@ Route::middleware('auth')->group(function () {
     // 3. Salida de sesión
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
     // ==========================================================
     // 4. ZONA EXCLUSIVA DIRECCIÓN (BLOQUEADA PARA EL PROFESOR)
     // ==========================================================
     Route::middleware(SoloDireccion::class)->group(function () {
         
         // Dashboard de Admin protegido (antes estaba fuera de este grupo)
-        Route::view('/admin', "admin")->name('admin');
+        Route::get('/admin', [RegistroController::class, 'dashboard'])->name('admin');
 
         // --- SISTEMA DE CONSULTAS Y FILTROS ---
         Route::prefix('registros')->group(function () {

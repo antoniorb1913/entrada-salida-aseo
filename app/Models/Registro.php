@@ -44,4 +44,5 @@ class Registro extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+    
 }
