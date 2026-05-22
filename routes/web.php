@@ -35,7 +35,6 @@ Route::middleware('auth')->group(function () {
     // 3. Salida de sesión
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
     // ==========================================================
     // 4. ZONA EXCLUSIVA DIRECCIÓN (BLOQUEADA PARA EL PROFESOR)
     // ==========================================================
