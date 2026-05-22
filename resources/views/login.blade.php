@@ -84,7 +84,7 @@
         <div class="login-card mx-auto">
             <div class="login-header">
                 <img src="{{ asset('img/BLANCO PNG.png') }}" alt="Logo Gestión de Aseos" style="max-width: 200px;">
-                <h4 class="mt-2 mb-0 fw-bold">Control de salidas al aseo</h4>
+                <h4 class="mt-2 mb-0 fw-bold">Control de Salidas</h4>
             </div>
 
             <div class="p-4 p-md-5">

@@ -53,7 +53,7 @@
                     $urlInicio = (auth()->user()->rol === 'admin') ? route('admin') : route('acceso');
                 @endphp
                 <a href="{{ $urlInicio }}" class="text-decoration-none text-dark fw-bold">
-                    <i class="bi bi-door-open me-2 text-primary"></i>Control salidas al aseo
+                    <i class="bi bi-door-open me-2 text-primary"></i>Control de Salidas
                 </a>
             </span>
     
