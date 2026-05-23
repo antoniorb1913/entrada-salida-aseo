@@ -18,26 +18,26 @@ Esta aplicación es una plataforma web desarrollada para gestionar, monitorizar 
 
 ## Levantar proyecto (Local)
 
-  Levantar la base de datos:
+  ### Levantar la base de datos:
 
   ```bash
     docker compose up --build -d.
   ```
 
-  Crear migraciones y seeder:
+  ### Crear migraciones y seeder:
 
   ```bash
     php artisan migrate --seed
   ```
-  Visualizar proyecto:
+  ### Visualizar proyecto:
 
-    Tener proyecto en Laravel Herd y acceder a --> http://entrada-salida-aseo.test/.
+  Tener proyecto en Laravel Herd y acceder a --> http://entrada-salida-aseo.test/.
 
-    Sin Laravel Herd:
-    
-    ```bash
-      php artisan serve
-    ```
+  Sin Laravel Herd:
+  
+  ```bash
+    php artisan serve
+  ```
 
 ## Levantar proyecto (Dokploy).
 
