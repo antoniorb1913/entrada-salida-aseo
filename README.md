@@ -31,13 +31,13 @@ Esta aplicación es una plataforma web desarrollada para gestionar, monitorizar 
   ```
   Visualizar proyecto:
 
-  Tener proyecto en Laravel Herd y acceder a --> http://entrada-salida-aseo.test/.
+    Tener proyecto en Laravel Herd y acceder a --> http://entrada-salida-aseo.test/.
 
-  Sin Laravel Herd:
-  
-  ```bash
-    php artisan serve
-  ```
+    Sin Laravel Herd:
+    
+    ```bash
+      php artisan serve
+    ```
 
 ## Levantar proyecto (Dokploy).
 
