@@ -216,4 +216,8 @@ Fecha --> 18/05/2026 - 22/05/2026
 
   Fecha --> 23/05/2026 - 24/05/2026
 
+## Footer.
 
+  Footer de advertencia.
+
+Fecha --> 24/05/2026
