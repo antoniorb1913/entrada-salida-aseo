@@ -6,6 +6,7 @@ use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\SSOController;
 use App\Http\Middleware\SoloDireccion;
 
 // --- RUTAS PÚBLICAS ---
