@@ -137,7 +137,6 @@
                                     </td>
                                     <td><span class="badge bg-light text-dark border">{{ $reg->curso->nivel ?? '' }} {{ $reg->curso->letra ?? '' }} {{ $reg->curso->modalidad ?? '' }}</span></td>
                                     
-                                    {{-- ARREGLO AQUÍ: El modelo User suele tener 'name', no 'nombre' y 'apellidos' por defecto --}}
                                     <td>
                                         <i class="bi bi-person-workspace me-1 text-muted"></i>
                                         {{ $reg->profesor->apellidos ?? 'No asignado' }}, {{ $reg->profesor->nombre ?? 'No asignado' }}

@@ -128,36 +128,37 @@
     </main>
     @if(auth()->user()->rol === 'profesor')
         {{-- BANNER DE SENTIDO COMÚN (FOOTER) --}}
-        <footer class="mt-5 py-4 text-center w-100">
-            <div class="container">
-                <div class="d-inline-flex align-items-center bg-white px-4 py-2 rounded-pill shadow-sm border border-info-subtle">
-                    <i class="bi bi-info-circle-fill text-info fs-5 me-2"></i>
-                    <span class="text-muted" style="font-size: 0.95rem;">
-                        <strong>Recordatorio:</strong> El sistema es una herramienta de apoyo. Ante urgencias, siempre <strong>prevalece el sentido común</strong>.
-                    </span>
-                </div>
-            </div>
-        </footer>
+        @include('footer.footer')
     @endif
 </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Espera a que la página web termine de cargarse por completo
         document.addEventListener("DOMContentLoaded", function() {
+            
+            // Buscamos si hay algún cartel de error rojo en la pantalla (.alert-danger)
             const alerta = document.querySelector('.alert-danger');
+            
+            // Si el cartel de error existe...
             if (alerta) {
+                // Ponemos un temporizador para que se active justo a los 5 segundos (5000 milisegundos)
                 setTimeout(() => {
-                    // Verificamos que bootstrap esté disponible para evitar errores
+                    
+                    // Intentamos cerrar el cartel usando la herramienta oficial de Bootstrap 
+                    // para que haga un efecto de desvanecido suave muy elegante.
                     if (typeof bootstrap !== 'undefined') {
                         const bsAlert = new bootstrap.Alert(alerta);
-                        bsAlert.close();
+                        bsAlert.close(); // Cierra el cartel con animación
                     } else {
-                        // Si por lo que sea bootstrap no carga, la borramos a mano
-                        alerta.remove();
+                        // Si por algún problema de red Bootstrap no se hubiera cargado, 
+                        // borramos el cartel directamente del HTML "a la fuerza" para que no se quede bloqueado.
+                        alerta.remove(); 
                     }
-                }, 5000);
+                    
+                }, 5000); // 5000ms = 5 segundos de margen para que el profesor lo lea
             }
         });
-    </script>
+</script>
 </body>
 </html>
 </html>

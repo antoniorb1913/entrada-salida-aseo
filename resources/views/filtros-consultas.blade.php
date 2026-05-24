@@ -200,20 +200,31 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script>
+        // Espera a que la página cargue los elementos antes de aplicar los cambios visuales
         document.addEventListener("DOMContentLoaded", function() {
-            // Configuramos los selectores que queremos que tengan buscador y scroll limitado
+            
+            // 1. Metemos en una lista los IDs o nombres de los desplegables que queremos tunear
+            // En este caso, el buscador general y el desplegable donde se eligen los cursos
             const selectores = ['#buscador-select', 'select[name="curso_id"]'];
 
+            // 2. Recorremos esa lista para aplicar el cambio uno por uno
             selectores.forEach(selector => {
                 const el = document.querySelector(selector);
+                
+                // Si el desplegable existe en la pantalla actual...
                 if (el) {
+                    // Convertimos el desplegable nativo en un menú interactivo con esteroides
                     new TomSelect(el, {
-                        create: false,
-                        allowEmptyOption: true,
-                        placeholder: "Selecciona una opción...",
-                        maxOptions: 50,
+                        create: false,           // Evita que el usuario se invente opciones o escriba texto libre
+                        allowEmptyOption: true,  // Permite dejar la casilla vacía si Dirección quiere resetear los filtros
+                        placeholder: "Selecciona una opción...", // El texto de ayuda que sale de fondo
+                        maxOptions: 50,          // Límite de opciones visibles en el scroll a la vez para que la web no se sature
+                        
+                        // 3. Render: Nos permite personalizar el diseño visual (HTML/CSS) de las opciones
                         render: {
                             option: function(data, escape) {
+                                // Le mete un pequeño margen arriba y abajo (py-2) para que las opciones no estén pegadas y sea fácil 
+                                // pulsar en pantallas táctiles
                                 return '<div class="py-2">' + escape(data.text) + '</div>';
                             }
                         }
@@ -221,6 +232,6 @@
                 }
             });
         });
-    </script>
+</script>
 </body>
 </html>

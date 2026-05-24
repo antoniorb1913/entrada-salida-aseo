@@ -77,9 +77,15 @@ class RegistroService
         }
     }
 
-    public function buscarRegistros($request)
+    /**
+     * MÉTODO DE BÚSQUEDA CON FILTROS
+     * ¿Qué hace?: Recoge todos los filtros que ha puesto Dirección (fechas, curso, profesor o alumno).
+     * Construye la consulta para Postgres y, gracias al nuevo parámetro '$paraExportar', decide si devuelve
+     * los datos partidos de 15 en 15 (para que la web cargue rápido) o el listado completo (para el Excel).
+     */
+    public function buscarRegistros($request, $paraExportar = false) // <-- Añadimos este "chivato" con valor falso por defecto
     {
-        // Carga relaciones (Eager Loading) para evitar el problema N+1
+        // Carga relaciones (Eager Loading) para evitar el problema de consultas lentas N+1
         $query = Registro::with(['alumno', 'curso', 'profesor']);
     
         // 1. PRIORIDAD: Rango de fechas (incluye día único si inicio == fin)
@@ -107,7 +113,16 @@ class RegistroService
             $query->where('alumno_id', $request->alumno_id);
         }
     
-        return $query->orderBy('fecha_salida', 'desc')->paginate(15);
+        $query->orderBy('fecha_salida', 'desc');
+
+        // --- EL TRUCO INTELIGENTE ---
+        // Si el controlador nos avisa de que es para el Excel, saltamos la paginación y devolvemos TODO (.get())
+        if ($paraExportar) {
+            return $query->get();
+        }
+    
+        // Si es para la pantalla web normal, devolvemos solo 15 registros por página
+        return $query->paginate(15);
     }
 
     /**
