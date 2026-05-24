@@ -17,30 +17,11 @@ class LoginController extends Controller
     }
 
     /**
-     * MÉTODO SHOWLOGINFORM (Mostrar la pantalla de entrada)
-     * ¿Qué hace?: Se ejecuta cuando alguien escribe la web del sistema. Primero comprueba:
-     * Si el usuario YA estaba logueado de antes, en vez de volver a pedirle la contraseña, mira su rol y lo mete directo
-     * a su panel (al de Dirección si es 'admin' o a los cursos si es 'profesor').
+     * Si por algún motivo alguien llega al formulario de login 
+     * (por ejemplo, al intentar entrar sin sesión), lo mandamos al Hub.
      */
-    public function showLoginForm() 
-    {
-        // Si el usuario YA está autenticado...
-        if (Auth::check()) {
-            $user = Auth::user();
-            
-            // Redirigir según el rol
-            if ($user->rol === 'admin') {
-                return redirect()->route('admin');
-            } elseif ($user->rol === 'profesor') {
-                return redirect()->route('acceso');
-            }
-            
-            // Si tienes más roles o un destino por defecto
-            return redirect()->route('acceso');
-        }
-
-        // Si NO está autenticado, mostramos la vista del login
-        return view('login'); // Asegúrate de que tu vista se llame login.blade.php
+    public function showLoginForm() {
+        return redirect('http://localhost:8000')->with('info', 'Debes iniciar sesión en el Hub.');
     }
 
     /**
@@ -63,14 +44,14 @@ class LoginController extends Controller
      * y limpia el token de seguridad.
      */
     public function logout(Request $request) {
-        // 1. Cerramos la sesión del usuario
         Auth::logout();
         
-        // 2. Limpiamos y refrescamos la sesión para que sea segura
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        // 3. Enviamos al usuario de vuelta al formulario de login
-        return redirect()->route('login');
+        // --- CAMBIO CLAVE AQUÍ ---
+        // En lugar de volver al login de Baños, lo mandamos al Hub
+        // para que la salida sea completa.
+        return redirect('http://localhost:8000'); 
     }
 }

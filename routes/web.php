@@ -12,6 +12,7 @@ use App\Http\Middleware\SoloDireccion;
 // Ahora pasa por el controlador para verificar si ya hay sesión iniciada
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/inicia-sesion', [LoginController::class, 'login'])->name('inicia-sesion');
+Route::get('/auth/sso', [SSOController::class, 'loginViaToken'])->middleware('web');
 
 // --- ZONAS PROTEGIDAS (Requieren Login) ---
 Route::middleware('auth')->group(function () {
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/registrar-entrada/{alumno_id}', [RegistroController::class, 'registrar_entrada_alumno'])->name('registro.entrada');
 
     // 3. Salida de sesión
-    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/logout', [SSOController::class, 'logout'])->name('logout');
 
     // ==========================================================
     // 4. ZONA EXCLUSIVA DIRECCIÓN (BLOQUEADA PARA EL PROFESOR)
