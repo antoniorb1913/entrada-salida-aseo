@@ -40,15 +40,13 @@
     <style>
         body { background-color:rgb(244, 242, 238);min-height:50vh;display:flex;flex-direction:column;padding-top: 5%; }
         @media (max-width: 576px) {
-        body {
-            padding-top: 20%;
+            body {
+                padding-top: 20%;
+            }
         }
-    }
 
         .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
-        .nav-color {
-            background-color: rgb(246, 246, 244);
-        }
+        .nav-color { background-color: rgb(246, 246, 244); }
 
         .student-card { 
             transition: all 0.2s; 
@@ -63,7 +61,7 @@
             border-color: #dc3545 !important;
             background-color: #fff5f5 !important;
         }
-        .btn-confirmar-salida { min-width: 100px; } /* Mantiene el tamaño del botón estable */
+        
         /* Color base del botón */
         .salida-color {
             background-color: rgb(88, 127, 175) !important;
@@ -78,11 +76,20 @@
             transform: none !important;
             box-shadow: none !important;
         }
-        .contador-color {
-            background-color: rgb(68, 122, 187);
-        }
-        .activo {
-            color: #278943;
+        .contador-color { background-color: rgb(68, 122, 187); }
+        .activo { color: #278943; }
+
+        /* --- CLASE MÁGICA: TAMAÑO FIJO PARA BOTONES --- */
+        .btn-fijo {
+            width: 105px !important;
+            height: 55px !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1.2;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -100,7 +107,6 @@
     
             <div class="d-flex gap-2">
                 @php
-                    // Mantenemos intacta tu lógica de redirección
                     if ($curso->letra === null) {
                         $urlVolver = route('acceso.niveles', [
                             'etapa' => $curso->etapas, 
@@ -121,14 +127,11 @@
             </div>
         </div>
     
-        {{-- Franja inferior estrecha para el nombre del usuario --}}
         <div class="w-100 border-top mt-2 pt-1 pb-1 nav-color">
             <div class="container text-center">
                 <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    
                     <span class="text-secondary">Sesión de:</span>
-                    
                     <span class="text-success">
                         {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
                     </span>
@@ -145,7 +148,6 @@
                 {{ $curso->nivel }} {{ $curso->letra ?? '' }} {{ $curso->modalidad }}
             </span>
 
-            {{-- Un marcador simple, elegante y siempre visible --}}
             <div class="mt-3 text-center">
                 <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
                     <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
@@ -177,7 +179,6 @@
                         return \Carbon\Carbon::parse($reg->fecha_salida)->isToday();
                     })->count();
 
-                    // 2. LA LÓGICA MAESTRA
                     $limiteAlcanzado = !$alumno->excepcion_limite && ($salidasHoy >= $maxSalidas);
                 @endphp
                 
@@ -210,20 +211,20 @@
                                 @endif
                             </div>
 
-                            {{-- Botones de acción --}}
                             <div class="ms-2">
                                 @if(!$registroActivo)
                                     @if(!$limiteAlcanzado)
                                         <form action="{{ route('registro.salida', $alumno->id) }}" method="POST" class="form-salida">
                                             @csrf
                                             @if($segundosFaltantes > 0)
-                                                <button type="button" class="btn salida-color btn-sm" disabled>
-                                                    <i class="bi bi-hourglass-split"></i> Espera
+                                                {{-- Aplicamos btn-fijo --}}
+                                                <button type="button" class="btn btn-secondary btn-sm btn-fijo" disabled>
+                                                    <div><i class="bi bi-hourglass-split"></i> Espera</div>
                                                 </button>
                                             @else
-                                                {{-- BOTÓN DE SALIDA NORMAL CON CUENTA ATRÁS --}}
-                                                <button type="button" class="btn salida-color btn-sm btn-confirmar-salida" data-tiempo="{{ $tCancelacion }}">
-                                                    <i class="bi bi-door-open text-white"></i> Salida
+                                                {{-- Aplicamos btn-fijo --}}
+                                                <button type="button" class="btn salida-color btn-sm btn-confirmar-salida btn-fijo" data-tiempo="{{ $tCancelacion }}">
+                                                    <div><i class="bi bi-door-open"></i> Salida</div>
                                                 </button>
                                             @endif
                                         </form>
@@ -231,8 +232,9 @@
                                 @else
                                     <form action="{{ route('registro.entrada', $alumno->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                            <i class="bi bi-arrow-left-circle"></i> Volver
+                                        {{-- Aplicamos btn-fijo --}}
+                                        <button type="submit" class="btn btn-success btn-sm btn-fijo">
+                                            <div><i class="bi bi-arrow-left-circle"></i> Volver</div>
                                         </button>
                                     </form>
                                 @endif
@@ -247,7 +249,7 @@
             @endforelse
         </div>
     </div>
-    {{-- BANNER DE SENTIDO COMÚN (FOOTER) --}}
+
     <footer class="mt-5 py-4 text-center w-100">
         <div class="container">
             <div class="d-inline-flex align-items-center bg-white px-4 py-2 rounded-pill shadow-sm border border-info-subtle">
@@ -258,6 +260,7 @@
             </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -317,7 +320,6 @@
                     const formulario = this.closest('form');
                     const tiempoOriginal = parseInt(this.getAttribute('data-tiempo'));
                     
-                    // Si el tiempo está en 0 en la config, envía directo
                     if(tiempoOriginal <= 0) {
                         formulario.submit();
                         return;
@@ -329,33 +331,32 @@
                         // FASE 1: Empieza la cuenta regresiva
                         cancelando = true;
                         this.classList.replace('salida-color', 'btn-warning');
-                        this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
+                        // Inyectamos el HTML en dos líneas usando <div> y <small> para que encaje perfecto en el btn-fijo
+                        this.innerHTML = `<div><i class="bi bi-x-circle"></i> Cancelar</div><small class="fw-bold">(${tiempoRestante}s)</small>`;
 
                         intervaloId = setInterval(() => {
                             tiempoRestante--;
                             if (tiempoRestante > 0) {
-                                this.innerHTML = `<i class="bi bi-x-circle"></i> Cancelar (${tiempoRestante}s)`;
+                                this.innerHTML = `<div><i class="bi bi-x-circle"></i> Cancelar</div><small class="fw-bold">(${tiempoRestante}s)</small>`;
                             } else {
                                 clearInterval(intervaloId);
                             }
                         }, 1000);
 
                         timeoutId = setTimeout(() => {
-                            // Se acabó el tiempo: Enviamos el formulario
                             this.disabled = true;
-                            this.innerHTML = `<i class="bi bi-hourglass-split"></i> Enviando...`;
+                            this.innerHTML = `<div><i class="bi bi-hourglass-split"></i> Enviando</div>`;
                             formulario.submit();
                         }, tiempoOriginal * 1000);
 
                     } else {
-                        // FASE 2: El profesor pulsó de nuevo: Se cancela todo
+                        // FASE 2: Cancelación
                         clearTimeout(timeoutId);
                         clearInterval(intervaloId);
                         cancelando = false;
                         
-                        // Vuelve a su estado azul normal
                         this.classList.replace('btn-warning', 'salida-color');
-                        this.innerHTML = `<i class="bi bi-door-open"></i> Salida`;
+                        this.innerHTML = `<div><i class="bi bi-door-open"></i> Salida</div>`;
                     }
                 });
             });
