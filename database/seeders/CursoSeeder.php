@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Etapas;
 use App\Models\Curso;
 use Illuminate\Database\Seeder;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -33,7 +34,7 @@ class CursoSeeder extends Seeder
             $letra = '';
         
             if (str_contains($descripcionRaw, 'Secundaria')) {
-                $etapa = 'ESO';
+                $etapa = Etapas::ESO;
                 $nivel = mb_substr($grupoRaw, 1, 1) . 'º';
                 
                 $letraBase = mb_substr($grupoRaw, 2);
@@ -51,14 +52,14 @@ class CursoSeeder extends Seeder
             }
             
             elseif (str_contains($descripcionRaw, 'Bachillerato')) {
-                $etapa = 'BACHILLERATO';
+                $etapa = Etapas::BACHILLERATO;
                 $modalidad = $descripcionRaw; 
                 $nivel = mb_substr($grupoRaw, 1, 1) . 'º';
                 $letra = mb_substr($grupoRaw, 2);
             } 
             else {
                 // --- LÓGICA PARA FP ---
-                $etapa = 'FP';
+                $etapa = Etapas::FP;
                 $modalidad = $descripcionRaw; 
                 $nivel = mb_substr($grupoRaw, -1) . 'º';
                 
