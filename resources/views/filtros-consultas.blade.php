@@ -154,7 +154,7 @@
                             @elseif($tipo == 'profesor')
                                 <div class="mb-4 text-start">
                                     <label class="small fw-bold text-muted mb-2 text-uppercase">Listado de Profesores</label>
-                                    <select id="buscador-select" name="user_id" class="form-select-lg" required>
+                                    <select id="buscador-select" name="profesor_id" class="form-select-lg" required>
                                         <option value=""></option>
                                         @foreach($profesores as $profesor)
                                             <option value="{{ $profesor->id }}">{{ $profesor->apellidos }}, {{ $profesor->nombre }}</option>
