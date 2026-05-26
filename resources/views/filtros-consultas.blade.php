@@ -213,7 +213,7 @@
                 
                 // Si el desplegable existe en la pantalla actual...
                 if (el) {
-                    // Convertimos el desplegable nativo en un menú interactivo con esteroides
+                    // Convertimos el desplegable nativo en un menú interactivo.
                     new TomSelect(el, {
                         create: false,           // Evita que el usuario se invente opciones o escriba texto libre
                         allowEmptyOption: true,  // Permite dejar la casilla vacía si Dirección quiere resetear los filtros

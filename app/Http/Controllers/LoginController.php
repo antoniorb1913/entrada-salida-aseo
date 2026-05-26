@@ -21,7 +21,7 @@ class LoginController extends Controller
      * (por ejemplo, al intentar entrar sin sesión), lo mandamos al Hub.
      */
     public function showLoginForm() {
-        return redirect('http://localhost:8000')->with('info', 'Debes iniciar sesión en el Hub.');
+        return redirect('http://happs.cgarcher.dev')->with('info', 'Debes iniciar sesión en el Hub.');
     }
 
     /**
@@ -52,6 +52,6 @@ class LoginController extends Controller
         // --- CAMBIO CLAVE AQUÍ ---
         // En lugar de volver al login de Baños, lo mandamos al Hub
         // para que la salida sea completa.
-        return redirect('http://localhost:8000'); 
+        return redirect('http://happs.cgarcher.dev'); 
     }
 }

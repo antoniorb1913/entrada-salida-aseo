@@ -93,6 +93,6 @@ class SSOController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->away('http://localhost:8000/logout-total');
+        return redirect()->away('http://happs.cgarcher.dev/logout-total');
     }
 }

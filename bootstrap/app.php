@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         // Esta es la forma oficial de Laravel 11 para redirigir a los que no tienen sesión
-        $middleware->redirectGuestsTo('http://localhost:8000');
+        $middleware->redirectGuestsTo('http://happs.cgarcher.dev');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Aquí no hace falta poner nada para la redirección, 
