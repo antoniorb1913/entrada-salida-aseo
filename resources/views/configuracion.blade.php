@@ -48,6 +48,11 @@
             border-bottom-color: #fafafa !important;
             color: #212529;
         }
+        /* Ajuste estético para el banner de éxito */
+        .alerta-flotante {
+            margin-top: 5rem !important;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -82,9 +87,11 @@
     </nav>
     
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show shadow-sm mt-5 pt-4" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="container">
+            <div id="bannerSuccess" class="alert alert-success alert-dismissible fade show shadow-sm alerta-flotante mx-auto" role="alert" style="max-width: 600px;">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
     @endif
 
@@ -230,6 +237,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
+
+        // NUEVO: Temporizador para que la alerta de éxito desaparezca sola tras 3 segundos
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner = document.getElementById('bannerSuccess');
+            if (banner) {
+                setTimeout(() => {
+                    // Usamos la API nativa de Bootstrap para cerrarla con una transición suave (fade)
+                    const bsAlert = new bootstrap.Alert(banner);
+                    bsAlert.close();
+                }, 3000); // 3000 milisegundos = 3 segundos
+            }
+        });
         // Buscador inteligente en tiempo real que recorre todas las pestañas
         document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
             const normalizarTexto = (texto) => {
