@@ -26,7 +26,7 @@
         .config-card { background-color: rgb(255, 252, 252); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 30px; margin-bottom: 30px; }
         .form-label { font-weight: bold; color: #495057; }
         .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
-        .student-list { max-height: 350px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 10px; padding: 10px; background: #fafafa;}
+        .student-list { max-height: 350px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 0 0 10px 10px; padding: 10px; background: #fafafa; border-top: none;}
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .nav-color {
             background-color: rgb(246, 246, 244);
@@ -36,6 +36,17 @@
         }
         .activo {
             color: #278943;
+        }
+        .nav-tabs-custom .nav-link {
+            border: 1px solid #dee2e6;
+            color: #6c757d;
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        .nav-tabs-custom .nav-link.active {
+            background-color: #fafafa !important;
+            border-bottom-color: #fafafa !important;
+            color: #212529;
         }
     </style>
 </head>
@@ -61,9 +72,7 @@
             <div class="container text-center">
                 <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    
                     <span class="text-secondary">Sesión de:</span>
-                    
                     <span class="text-success">
                         {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
                     </span>
@@ -126,44 +135,84 @@
                         </div>
                     </div>
 
-                    {{-- BUSCADOR Y EXCEPCIONES --}}
+                    {{-- BUSCADOR Y PESTAÑAS DE ALUMNO --}}
                     <div class="col-lg-7">
                         <div class="config-card">
-                            <h4 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-heart text-danger me-2"></i>Excepciones Médicas</h4>
+                            <h4 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-people-fill text-primary me-2"></i>Permisos Especiales de Alumnos</h4>
                             
-                            {{-- EL BUSCADOR --}}
-                            <div class="input-group mb-3 shadow-sm">
+                            {{-- EL BUSCADOR GLOBAL --}}
+                            <div class="input-group mb-4 shadow-sm">
                                 <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                <input type="text" id="buscadorAlumnos" class="form-control border-start-0 ps-0" placeholder="Buscar por nombre, apellidos o curso...">
+                                <input type="text" id="buscadorAlumnos" class="form-control border-start-0 ps-0" placeholder="Buscar por nombre, apellidos o curso en cualquier pestaña...">
                             </div>
 
-                            <div class="student-list" id="listaAlumnos">
-                                @foreach($alumnos as $alumno)
-                                    @php
-                                        // Extraemos el valor seguro para evitar el error del Enum
-                                        $etapa = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
-                                        $modalidad = $alumno->curso->modalidad ?? '';
-                                        $nivel = $alumno->curso->nivel ?? '';
-                                        $letra = $alumno->curso->letra ?? '';
-                                        
-                                        // Creamos un string de búsqueda limpio
-                                        $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
-                                    @endphp
+                            {{-- ESTRUCTURA DE PESTAÑAS (TABS) --}}
+                            <ul class="nav nav-tabs nav-tabs-custom" id="tabAlumnos" role="tablist">
+                                <li class="nav-item flex-fill text-center" role="presentation">
+                                    <button class="nav-link w-100 active rounded-top-4" id="medicas-tab" data-bs-toggle="tab" data-bs-target="#medicas-pane" type="button" role="tab"><i class="bi bi-person-heart text-danger me-2"></i>Excepciones Médicas</button>
+                                </li>
+                                <li class="nav-item flex-fill text-center" role="presentation">
+                                    <button class="nav-link w-100 rounded-top-4" id="tutor-tab" data-bs-toggle="tab" data-bs-target="#tutor-pane" type="button" role="tab"><i class="bi bi-person-plus-fill text-warning me-2"></i>Requiere Acompañante</button>
+                                </li>
+                            </ul>
 
-                                    <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
-                                        <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="alumno_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
-                                        <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="alumno_{{ $alumno->id }}">
-                                            {{-- Nombre del alumno --}}
-                                            <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
-                                                {{ $alumno->apellidos }}, {{ $alumno->nombre }}
-                                            </span>
-                                            {{-- Badge del curso --}}
-                                            <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
-                                                <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
-                                            </span>
-                                        </label>
+                            {{-- CONTENIDO DE LAS PESTAÑAS --}}
+                            <div class="tab-content" id="tabAlumnosContent">
+                                
+                                {{-- PESTAÑA 1: EXCEPCIONES MÉDICAS --}}
+                                <div class="tab-pane fade show active" id="medicas-pane" role="tabpanel" aria-labelledby="medicas-tab">
+                                    <div class="student-list">
+                                        @foreach($alumnos as $alumno)
+                                            @php
+                                                $etapa = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
+                                                $modalidad = $alumno->curso->modalidad ?? '';
+                                                $nivel = $alumno->curso->nivel ?? '';
+                                                $letra = $alumno->curso->letra ?? '';
+                                                $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
+                                            @endphp
+                                            <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
+                                                {{-- ID corregido para evitar duplicidad --}}
+                                                <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="medica_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
+                                                <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="medica_{{ $alumno->id }}">
+                                                    <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
+                                                        {{ $alumno->apellidos }}, {{ $alumno->nombre }}
+                                                    </span>
+                                                    <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
+                                                        <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
+                                </div>
+
+                                {{-- PESTAÑA 2: REQUIERE ACOMPAÑANTE / TUTOR --}}
+                                <div class="tab-pane fade" id="tutor-pane" role="tabpanel" aria-labelledby="tutor-tab">
+                                    <div class="student-list">
+                                        @foreach($alumnos as $alumno)
+                                            @php
+                                                $etapa = $alumno->curso->etapas->value ?? $alumno->curso->etapas ?? '';
+                                                $modalidad = $alumno->curso->modalidad ?? '';
+                                                $nivel = $alumno->curso->nivel ?? '';
+                                                $letra = $alumno->curso->letra ?? '';
+                                                $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
+                                            @endphp
+                                            <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
+                                                {{-- ID corregido para evitar duplicidad --}}
+                                                <input class="form-check-input ms-0 me-3" type="checkbox" name="necesita_tutor[]" value="{{ $alumno->id }}" id="tutor_{{ $alumno->id }}" {{ $alumno->necesita_tutor ? 'checked' : '' }} style="transform: scale(1.3);">
+                                                <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="tutor_{{ $alumno->id }}">
+                                                    <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
+                                                        {{ $alumno->apellidos }}, {{ $alumno->nombre }}
+                                                    </span>
+                                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-1 fw-bold flex-shrink-0 ms-auto">
+                                                        <i class="bi bi-mortarboard-fill me-1"></i> {{ $nivel }} {{ $letra }} {{ $modalidad }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -181,43 +230,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Escucha cada vez que el usuario levanta el dedo de una tecla ('keyup') al escribir en el buscador
+        // Buscador inteligente en tiempo real que recorre todas las pestañas
         document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
-            
-            // =======================================================
-            // --- 1. FUNCIÓN INTELIGENTE DE LIMPIEZA DE TEXTO ---
-            // =======================================================
-            // ¿Qué hace?: Coge un texto cualquiera, le quita las tildes y lo pasa todo a minúsculas.
-            // Por ejemplo: Convierte "Ángel MARTÍNEZ" en "angel martinez".
             const normalizarTexto = (texto) => {
                 return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             };
     
-            // 2. Limpiamos y preparamos lo que el usuario acaba de escribir en la caja de texto
             let filtro = normalizarTexto(this.value);
-            
-            // Cogemos todas las tarjetas de alumnos que hay cargadas en la pantalla (.student-item)
             let alumnos = document.querySelectorAll('.student-item');
     
-            // =======================================================
-            // --- 2. FILTRADO FILA POR FILA (En tiempo real) ---
-            // =======================================================
-            // ¿Qué hace?: Recorre uno por uno todos los alumnos de la pantalla. Limpia su nombre (quitando 
-            // tildes) y comprueba si contiene las letras que ha escrito el usuario.
-            // ¿Para qué sirve?: Si el nombre coincide, deja la tarjeta a la vista ('block'). Si no coincide,
-            // esconde la tarjeta al instante ('none') sin necesidad de recargar la página web.
             alumnos.forEach(function(alumno) {
-                // Sacamos el nombre completo que guardamos oculto en el atributo 'data-search' y lo limpiamos
                 let textoAlumno = normalizarTexto(alumno.getAttribute('data-search'));
                 
-                // Si las letras del buscador están metidas dentro del nombre del alumno...
                 if (textoAlumno.includes(filtro)) {
-                    alumno.style.display = 'block';  // Se muestra en pantalla
+                    alumno.style.display = 'block';
                 } else {
-                    alumno.style.display = 'none';   // Se oculta
+                    alumno.style.display = 'none';
                 }
             });
         });
-</script>
+    </script>
 </body>
 </html>

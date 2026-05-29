@@ -55,6 +55,10 @@ class ConfiguracionController extends Controller
             $request->excepciones ?? []
         );
 
+        $this->configuracionService->actualizarTutor(
+            $request->necesita_tutor ?? []
+        );
+
         return redirect()->route('configuracion.index')->with('success', 'Configuración guardada correctamente.');
     }
 }

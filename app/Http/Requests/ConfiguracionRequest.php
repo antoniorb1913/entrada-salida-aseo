@@ -26,6 +26,8 @@ class ConfiguracionRequest extends FormRequest
             'tiempo_cancelacion' => 'required|integer|min:0|max:30',
             'excepciones'        => 'nullable|array',
             'excepciones.*'      => 'integer|exists:alumnos,id',
+            'necesita_tutor'     => 'nullable|array',
+            'necesita_tutor.*'   => 'integer|exists:alumnos,id',
         ];
     }
 }
