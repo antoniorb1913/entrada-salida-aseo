@@ -149,7 +149,7 @@
                             {{-- ESTRUCTURA DE PESTAÑAS (TABS) --}}
                             <ul class="nav nav-tabs nav-tabs-custom" id="tabAlumnos" role="tablist">
                                 <li class="nav-item flex-fill text-center" role="presentation">
-                                    <button class="nav-link w-100 active rounded-top-4" id="medicas-tab" data-bs-toggle="tab" data-bs-target="#medicas-pane" type="button" role="tab"><i class="bi bi-person-heart text-danger me-2"></i>E. Médicas</button>
+                                    <button class="nav-link w-100 active rounded-top-4" id="medicas-tab" data-bs-toggle="tab" data-bs-target="#medicas-pane" type="button" role="tab"><i class="bi bi-person-heart text-danger me-2"></i>Médicas</button>
                                 </li>
                                 <li class="nav-item flex-fill text-center" role="presentation">
                                     <button class="nav-link w-100 rounded-top-4" id="tutor-tab" data-bs-toggle="tab" data-bs-target="#tutor-pane" type="button" role="tab"><i class="bi bi-person-plus-fill text-warning me-2"></i>Acompañante</button>
