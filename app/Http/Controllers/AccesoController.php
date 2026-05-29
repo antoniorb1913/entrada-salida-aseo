@@ -58,13 +58,6 @@ class AccesoController extends Controller
     {
         $niveles = $this->cursoService->getNivelesPorEtapa($etapa, $modalidad);
     
-        if ($etapa === 'FP') {
-            $curso = Curso::where('etapas', 'FP')
-                        ->where('modalidad', $modalidad)
-                        ->whereNull('letra') 
-                        ->first();
-        }
-    
         return view('acceso-niveles', compact('niveles', 'etapa', 'modalidad'));
     }
 
