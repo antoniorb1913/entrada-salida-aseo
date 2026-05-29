@@ -158,7 +158,6 @@
                 }, 5000); // 5000ms = 5 segundos de margen para que el profesor lo lea
             }
         });
-</script>
+    </script>
 </body>
-</html>
 </html>
