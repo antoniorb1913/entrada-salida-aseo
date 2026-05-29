@@ -202,6 +202,12 @@
                                         <button type="button" class="btn btn-link text-secondary p-0 ms-2 btn-toggle-ojito" title="Mostrar/Ocultar">
                                             <i class="bi bi-eye-slash-fill"></i>
                                         </button>
+                                        @if($alumno->necesita_tutor)
+                                            <span class="ms-2 text-warning" title="Requiere acompañante obligatorio" style="cursor: help;">
+                                                <i class="bi bi-person-fill-add fs-5"></i>
+                                            </span>
+                                        @endif
+                                        
                                     </div>
                                 @endif
 

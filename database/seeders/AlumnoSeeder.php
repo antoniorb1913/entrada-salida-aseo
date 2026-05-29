@@ -28,6 +28,7 @@ class AlumnoSeeder extends Seeder
                     'curso_id'  => $curso->id,
                     // Por defecto la excepción médica será false
                     'excepcion_limite' => false, 
+                    'necesita_tutor' => false,
                 ]);
             }
         }
@@ -39,7 +40,8 @@ class AlumnoSeeder extends Seeder
             'nombre'    => 'Antonio', 
             'apellidos' => 'Rodríguez Test',
             'curso_id'  => 48,
-            'excepcion_limite' => true, 
+            'excepcion_limite' => true,
+            'necesita_tutor' => false,
         ]);
     }
 }

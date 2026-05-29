@@ -11,7 +11,7 @@ class Alumno extends Model
     protected $table = 'alumnos';
 
 
-    protected $fillable = ['nre','nombre', 'apellidos', 'curso_id', 'excepcion_limite'];
+    protected $fillable = ['nre','nombre', 'apellidos', 'curso_id', 'excepcion_limite', 'necesita_tutor'];
 
     protected $hidden = ["updated_at", "created_at"];
     
