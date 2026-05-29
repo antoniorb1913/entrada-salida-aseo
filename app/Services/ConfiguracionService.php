@@ -58,7 +58,7 @@ class ConfiguracionService
         // 1. Reseteamos a todos los alumnos a 'false' para limpiar lo que hubiera antes
         Alumno::query()->update(['necesita_tutor' => false]);
 
-        // 2. Activamos la excepción ('true') solo a los alumnos elegidos en el formulario
+        // 2. Activamos la nesecidad de tutor ('true') solo a los alumnos elegidos en el formulario
         if (!empty($necesita_tutor)) {
             Alumno::whereIn('id', $necesita_tutor)->update(['necesita_tutor' => true]);
         }
