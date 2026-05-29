@@ -221,3 +221,9 @@ Fecha --> 18/05/2026 - 22/05/2026
   Footer de advertencia.
 
 Fecha --> 24/05/2026
+
+## Acompañante al Alumno.
+
+  Implementar si el alumno necesita acompañante para salir del aula, misma logica que la de excepciones.
+
+Fecha --> 28/05/2026
