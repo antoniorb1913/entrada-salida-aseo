@@ -149,10 +149,10 @@
                             {{-- ESTRUCTURA DE PESTAÑAS (TABS) --}}
                             <ul class="nav nav-tabs nav-tabs-custom" id="tabAlumnos" role="tablist">
                                 <li class="nav-item flex-fill text-center" role="presentation">
-                                    <button class="nav-link w-100 active rounded-top-4" id="medicas-tab" data-bs-toggle="tab" data-bs-target="#medicas-pane" type="button" role="tab"><i class="bi bi-person-heart text-danger me-2"></i>Excepciones Médicas</button>
+                                    <button class="nav-link w-100 active rounded-top-4" id="medicas-tab" data-bs-toggle="tab" data-bs-target="#medicas-pane" type="button" role="tab"><i class="bi bi-person-heart text-danger me-2"></i>E. Médicas</button>
                                 </li>
                                 <li class="nav-item flex-fill text-center" role="presentation">
-                                    <button class="nav-link w-100 rounded-top-4" id="tutor-tab" data-bs-toggle="tab" data-bs-target="#tutor-pane" type="button" role="tab"><i class="bi bi-person-plus-fill text-warning me-2"></i>Requiere Acompañante</button>
+                                    <button class="nav-link w-100 rounded-top-4" id="tutor-tab" data-bs-toggle="tab" data-bs-target="#tutor-pane" type="button" role="tab"><i class="bi bi-person-plus-fill text-warning me-2"></i>Acompañante</button>
                                 </li>
                             </ul>
 
@@ -230,43 +230,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Escucha cada vez que el usuario levanta el dedo de una tecla ('keyup') al escribir en el buscador
+        // Buscador inteligente en tiempo real que recorre todas las pestañas
         document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
-            
-            // =======================================================
-            // --- 1. FUNCIÓN INTELIGENTE DE LIMPIEZA DE TEXTO ---
-            // =======================================================
-            // ¿Qué hace?: Coge un texto cualquiera, le quita las tildes y lo pasa todo a minúsculas.
-            // Por ejemplo: Convierte "Ángel MARTÍNEZ" en "angel martinez".
             const normalizarTexto = (texto) => {
                 return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             };
     
-            // 2. Limpiamos y preparamos lo que el usuario acaba de escribir en la caja de texto
             let filtro = normalizarTexto(this.value);
-            
-            // Cogemos todas las tarjetas de alumnos que hay cargadas en la pantalla (.student-item)
             let alumnos = document.querySelectorAll('.student-item');
     
-            // =======================================================
-            // --- 2. FILTRADO FILA POR FILA (En tiempo real) ---
-            // =======================================================
-            // ¿Qué hace?: Recorre uno por uno todos los alumnos de la pantalla. Limpia su nombre (quitando 
-            // tildes) y comprueba si contiene las letras que ha escrito el usuario.
-            // ¿Para qué sirve?: Si el nombre coincide, deja la tarjeta a la vista ('block'). Si no coincide,
-            // esconde la tarjeta al instante ('none') sin necesidad de recargar la página web.
             alumnos.forEach(function(alumno) {
-                // Sacamos el nombre completo que guardamos oculto en el atributo 'data-search' y lo limpiamos
                 let textoAlumno = normalizarTexto(alumno.getAttribute('data-search'));
                 
-                // Si las letras del buscador están metidas dentro del nombre del alumno...
                 if (textoAlumno.includes(filtro)) {
-                    alumno.style.display = 'block';  // Se muestra en pantalla
+                    alumno.style.display = 'block';
                 } else {
-                    alumno.style.display = 'none';   // Se oculta
+                    alumno.style.display = 'none';
                 }
             });
         });
-</script>
+    </script>
 </body>
 </html>
