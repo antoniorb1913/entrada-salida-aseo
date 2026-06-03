@@ -50,7 +50,7 @@ class SSOController extends Controller
                 $rolRecibido = 'admin';
             }
 
-            if ($rolRecibido === 'alumno') {
+            if ($rolRecibido === 'profesor') {
                 $rolRecibido = 'profesor';
             }
 
