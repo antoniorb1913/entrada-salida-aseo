@@ -62,7 +62,7 @@
             </span>
             
             {{-- EL BOTÓN DINÁMICO --}}
-            @if(auth()->user()->rol === 'profesor')
+            @if(auth()->user()->rol !== 'admin')
                 <a href="{{ route('logout') }}" 
                     class="btn btn-outline-danger btn-sm d-flex align-items-center"
                     onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
@@ -126,7 +126,7 @@
             </div>
         </div>
     </main>
-    @if(auth()->user()->rol === 'profesor')
+    @if(auth()->user()->rol !== 'admin')
         {{-- BANNER DE SENTIDO COMÚN (FOOTER) --}}
         @include('Footer.footer')
     @endif
