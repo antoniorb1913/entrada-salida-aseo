@@ -62,14 +62,14 @@
             </span>
             
             {{-- EL BOTÓN DINÁMICO --}}
-            @if(auth()->user()->rol !== 'admin')
+            @if(auth()->user()->rol === 'profesor')
                 <a href="{{ route('logout') }}" 
                     class="btn btn-outline-danger btn-sm d-flex align-items-center"
                     onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
                     <i class="bi bi-box-arrow-right me-2"></i> Salir
                 </a>
             @else
-                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('acceso') }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('consulta') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left me-2"></i> Volver
                 </a>
             @endif
@@ -100,41 +100,11 @@
                     <i class="bi bi-shield-lock-fill me-2"></i> {{ session('error') }}
                 </div>
             @endif
-            @if(session('debug_sso'))
-    <div style="background: #1a202c; color: #fff; padding: 20px; font-family: monospace; border-radius: 8px; margin: 20px; border: 2px solid #dd6b20; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <h3 style="color: #dd6b20; margin-top: 0; font-size: 1.25rem; margin-bottom: 15px;">🔍 DEBUG: Información de Roles Recibida</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-            <tr style="border-bottom: 1px solid #2d3748;">
-                <td style="padding: 8px 5px; font-weight: bold; width: 180px; color: #cbd5e0;">Email del Usuario:</td>
-                <td style="padding: 8px 5px; color: #e2e8f0;">{{ session('debug_sso')['email'] }}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2d3748;">
-                <td style="padding: 8px 5px; font-weight: bold; color: #cbd5e0;">Rol Global recibido:</td>
-                <td style="padding: 8px 5px; color: #63b3ed;">"{{ session('debug_sso')['rol_global'] }}"</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2d3748;">
-                <td style="padding: 8px 5px; font-weight: bold; color: #cbd5e0;">Rol Módulo recibido:</td>
-                <td style="padding: 8px 5px; color: #63b3ed;">"{{ session('debug_sso')['rol_modulo'] }}"</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2d3748;">
-                <td style="padding: 8px 5px; font-weight: bold; color: #cbd5e0;">Rol tras filtros:</td>
-                <td style="padding: 8px 5px; color: #4fd1c5;">"{{ session('debug_sso')['rol_recibido'] }}" <span style="font-size: 0.85em; color: #718096;">(Tratamiento de Alumno/Superadmin)</span></td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 5px; font-weight: bold; color: #cbd5e0;">Rol final guardado/leído:</td>
-                <td style="padding: 8px 5px; color: #48bb78; font-size: 1.1em; font-weight: bold;">"{{ session('debug_sso')['rol_final'] }}"</td>
-            </tr>
-        </table>
-        <p style="margin-bottom: 0; margin-top: 15px; font-size: 0.8em; color: #a0aec0; italic;">
-            * Nota: Este panel informativo es temporal. Si recargas la página (F5) desaparecerá de la pantalla.
-        </p>
-    </div>
-@endif
 
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
                 <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
-                @if(auth()->user()->rol !== 'admin')
+                @if(auth()->user()->rol === 'profesor')
                     <div class="mt-3 text-center">
                         <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
                             <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
@@ -156,7 +126,7 @@
             </div>
         </div>
     </main>
-    @if(auth()->user()->rol !== 'admin')
+    @if(auth()->user()->rol === 'profesor')
         {{-- BANNER DE SENTIDO COMÚN (FOOTER) --}}
         @include('Footer.footer')
     @endif
