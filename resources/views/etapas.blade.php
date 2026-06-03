@@ -69,7 +69,7 @@
                     <i class="bi bi-box-arrow-right me-2"></i> Salir
                 </a>
             @else
-                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ auth()->user()->rol === 'admin' ? route('admin') : route('acceso') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left me-2"></i> Volver
                 </a>
             @endif
