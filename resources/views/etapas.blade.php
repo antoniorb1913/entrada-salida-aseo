@@ -62,7 +62,7 @@
             </span>
             
             {{-- EL BOTÓN DINÁMICO --}}
-            @if(auth()->user()->rol === 'usuario')
+            @if(auth()->user()->rol === 'profesor')
                 <a href="{{ route('logout') }}" 
                     class="btn btn-outline-danger btn-sm d-flex align-items-center"
                     onclick="return confirm('¿Estás seguro de que quieres cerrar la sesión?');">
