@@ -52,10 +52,14 @@ class SSOController extends Controller
             if ($rolRecibido === 'superadmin') {
                 $rolRecibido = 'admin';
             }
+            if ($rolGlobal === 'admin') {
+                $rolRecibido = 'admin';
+            }
 
-            if ($rolRecibido === 'usuario') {
+            if ($rolGlobal === 'profesor') {
                 $rolRecibido = 'profesor';
             }
+
 
             if (!$user) {
                 // Sacamos el texto anterior a la '@' del email para usarlo como nombreUsuario (ej: 793120)
