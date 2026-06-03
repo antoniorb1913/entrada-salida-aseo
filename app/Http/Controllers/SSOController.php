@@ -19,9 +19,6 @@ class SSOController extends Controller
         }
 
         try {
-            // Log de respaldo en el servidor
-            Log::info('SSO - Intentando descifrar token recibido.');
-
             $data = Crypt::decrypt($token);
 
             if (now()->timestamp - $data['time'] > 60) {
@@ -52,6 +49,7 @@ class SSOController extends Controller
             if ($rolRecibido === 'superadmin') {
                 $rolRecibido = 'admin';
             }
+
             if ($rolGlobal === 'admin') {
                 $rolRecibido = 'admin';
             }
@@ -59,7 +57,6 @@ class SSOController extends Controller
             if ($rolGlobal === 'profesor') {
                 $rolRecibido = 'profesor';
             }
-
 
             if (!$user) {
                 // Sacamos el texto anterior a la '@' del email para usarlo como nombreUsuario (ej: 793120)
@@ -80,6 +77,8 @@ class SSOController extends Controller
                     'nombre'    => $nombre,
                     'apellidos' => $apellidos,
                     'rol'       => $rolFinal
+                    // Si en el update también te chillara por el nombreUsuario, puedes añadirlo aquí abajo:
+                    // 'nombreUsuario' => head(explode('@', $data['email'])),
                 ]);
             }
 
@@ -87,22 +86,14 @@ class SSOController extends Controller
             $request->session()->regenerate();
             $request->session()->put('sso_login', true);
 
-            // Preparamos el paquete de datos para enviarlo a la vista a través de la sesión
-            $debugSso = [
-                'email'        => $data['email'],
-                'rol_global'   => $rolGlobal,
-                'rol_modulo'   => $rolModulo,
-                'rol_recibido' => $rolRecibido,
-                'rol_final'    => $user->rol
-            ];
-
             if ($user->rol === 'admin') {
-                return redirect()->route('admin')->with('debug_sso', $debugSso); // Va al Dashboard de Dirección
+                return redirect()->route('admin'); // Va al Dashboard de Dirección
             }
 
-            return redirect()->route('acceso')->with('debug_sso', $debugSso); // El Profesor va directo a la selección de aulas/baños
+            return redirect()->route('acceso'); // El Profesor va directo a la selección de aulas/baños
 
         } catch (\Exception $e) {
+            // Volvemos a activar el log normal ahora que está solucionado
             Log::error('Error en SSO: ' . $e->getMessage());
             return redirect()->route('login')->with('error', 'Error en la comunicación SSO: ' . $e->getMessage());
         }
