@@ -97,7 +97,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Panel de Control General</h2>
-                <p class="text-muted fs-5">Gestión de aseos, historial y configuración del sistema</p>
+                <p class="text-muted fs-5">Control de salidas al aseos, configuración del sistema y historial</p>
                 <div class="mt-3 text-center">
                     <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
                         <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
