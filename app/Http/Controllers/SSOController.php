@@ -34,14 +34,22 @@ class SSOController extends Controller
             $user = User::where('email', $data['email'])->first();
             
             // --- LÓGICA DE SEGURIDAD PARA EL ROL ---
-            $rolRecibido = $data['rol'] ?? 'profesor';
+            $rolGlobal = strtolower($data['rol_global'] ?? ($data['rol'] ?? 'profesor'));
+            $rolModulo = strtolower($data['rol_modulo'] ?? 'profesor');
 
-            // Transformar superadmin a admin
+            // Regla principal: el rol que manda dentro de esta app es el rol del módulo
+            $rolRecibido = $rolModulo;
+
+            // Si el hub envía superadmin a nivel global, aquí entra como admin
+            if ($rolGlobal === 'superadmin') {
+                $rolRecibido = 'admin';
+            }
+
+            // Compatibilidad defensiva
             if ($rolRecibido === 'superadmin') {
                 $rolRecibido = 'admin';
             }
 
-            // Si el Hub envía 'alumno', lo forzamos a 'profesor' para este sistema
             if ($rolRecibido === 'alumno') {
                 $rolRecibido = 'profesor';
             }
@@ -59,7 +67,7 @@ class SSOController extends Controller
                     'rol'           => $rolRecibido 
                 ]);
             } else {
-                $rolFinal = ($user->rol === 'admin') ? 'admin' : $rolRecibido;
+                $rolFinal = ($user->rol === 'admin') ? 'admin' : $rolRecibido;                
                 
                 $user->update([
                     'nombre'    => $nombre,
