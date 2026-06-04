@@ -40,9 +40,9 @@ class CursoSeeder extends Seeder
                 $letraBase = mb_substr($grupoRaw, 2);
                 
                 if (str_contains($descripcionRaw, 'SB Inglés')) {
-                    $programa = '(Bilingüe)';
+                    $programa = 'ESO (Bilingüe)';
                 } else {
-                    $programa = '(Mejora)';
+                    $programa = 'ESO (Mejora)';
                 }
                 
                 // IMPORTANTE: Usamos el palito | para separar la letra del programa
