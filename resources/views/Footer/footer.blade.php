@@ -9,16 +9,16 @@
             </span>
         </div>
 
-                {{-- LEYENDA (Mismo tamaño exacto que el de arriba) --}}
-        <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-warning-subtle" 
+        {{-- LEYENDA EXCEPCIÓN MÉDICA (Corregido el icono a bi-person-heart y color a text-danger) --}}
+        <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-danger-subtle" 
              style="width: 100%; max-width: 850px;">
-            <i class="bi bi-person-heart-add text-warning fs-5 me-2"></i>
+            <i class="bi bi-person-heart text-danger fs-5 me-2"></i>
             <span class="text-muted" style="font-size: 0.95rem;">
-                Este símbolo indica que el alumno <strong>tiene una excepción médica</strong> para poder salir mas veces del limite de salidas.
+                Este símbolo indica que el alumno <strong>tiene una excepción médica</strong> para poder salir más veces del límite de salidas.
             </span>
         </div>
 
-        {{-- LEYENDA (Mismo tamaño exacto que el de arriba) --}}
+        {{-- LEYENDA ACOMPAÑANTE OBLIGATORIO --}}
         <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-warning-subtle" 
              style="width: 100%; max-width: 850px;">
             <i class="bi bi-person-fill-add text-warning fs-5 me-2"></i>
@@ -28,5 +28,4 @@
         </div>
 
     </div>
-    
 </footer>
