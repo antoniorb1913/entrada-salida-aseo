@@ -202,9 +202,18 @@
                                         <button type="button" class="btn btn-link text-secondary p-0 ms-2 btn-toggle-ojito" title="Mostrar/Ocultar">
                                             <i class="bi bi-eye-slash-fill"></i>
                                         </button>
+                                        
+                                        {{-- Icono de Acompañante Obligatorio --}}
                                         @if($alumno->necesita_tutor)
                                             <span class="ms-2 text-warning" title="Requiere acompañante obligatorio" style="cursor: help;">
                                                 <i class="bi bi-person-fill-add fs-5"></i>
+                                            </span>
+                                        @endif
+
+                                        {{-- NUEVO: Icono de Excepción de Límite (Excepción Médica) justo al lado --}}
+                                        @if($alumno->excepcion_limite)
+                                            <span class="ms-2 text-danger" title="Excepción médica (Sin límite de salidas)" style="cursor: help;">
+                                                <i class="bi bi-person-heart fs-5"></i>
                                             </span>
                                         @endif
                                         
