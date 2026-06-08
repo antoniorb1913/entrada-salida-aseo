@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Genero;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->string("nre");
             $table->string('nombre');
             $table->string('apellidos');
+            $table->enum('genero', Genero::values());
             $table->foreignId("curso_id")->constrained("cursos");
             $table->boolean('excepcion_limite')->default(false);
             $table->boolean('necesita_tutor')->default(false);

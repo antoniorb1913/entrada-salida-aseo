@@ -6,6 +6,10 @@
     $maxSalidas = $config->max_salidas;
     $tiempoEspera = $config->tiempo_espera; 
     $tCancelacion = $config->tiempo_cancelacion;
+    
+    // Asumimos que guardas el estado en las variables de tu configuración (true = disponible, false = averiado)
+    $aseoHombresDisponible = $config->aseo_hombres_disponible ?? true;
+    $aseoMujeresDisponible = $config->aseo_mujeres_disponible ?? true;
 @endphp
 
 <!DOCTYPE html>
@@ -139,6 +143,28 @@
                                 </div>
                                 <div class="form-text">Segundos para poder anular la salida antes de que se registre.</div>
                             </div>
+
+                            {{-- NUEVO: ESTADO DE LOS ASEOS (DISPONIBILIDAD / AVERÍAS) --}}
+                            <div class="mb-2 border-top pt-3">
+                                <label class="form-label mb-2"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Estado Operativo de Aseos</label>
+                                
+                                <div class="form-check form-switch mb-2">
+                                    <input type="hidden" name="aseo_hombres_disponible" value="0">
+                                    <input class="form-check-input" type="checkbox" name="aseo_hombres_disponible" value="1" id="switchHombres" {{ $aseoHombresDisponible ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-bold" for="switchHombres">
+                                        Aseo de Hombres Disponible
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-switch">
+                                    <input type="hidden" name="aseo_mujeres_disponible" value="0">
+                                    <input class="form-check-input" type="checkbox" name="aseo_mujeres_disponible" value="1" id="switchMujeres" {{ $aseoMujeresDisponible ? 'checked' : '' }}>
+                                    <label class="form-check-label fw-bold" for="switchMujeres">
+                                        Aseo de Mujeres Disponible
+                                    </label>
+                                </div>
+                                <div class="form-text mt-2">Si desmarcas un aseo, los profesores no podrán autorizar la salida de los alumnos de dicho género.</div>
+                            </div>
                         </div>
                     </div>
 
@@ -178,7 +204,6 @@
                                                 $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
                                             @endphp
                                             <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
-                                                {{-- ID corregido para evitar duplicidad --}}
                                                 <input class="form-check-input ms-0 me-3" type="checkbox" name="excepciones[]" value="{{ $alumno->id }}" id="medica_{{ $alumno->id }}" {{ $alumno->excepcion_limite ? 'checked' : '' }} style="transform: scale(1.3);">
                                                 <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="medica_{{ $alumno->id }}">
                                                     <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
@@ -205,7 +230,6 @@
                                                 $searchString = strtolower($alumno->apellidos . ' ' . $alumno->nombre . ' ' . $nivel . ' ' . $letra . ' ' . $modalidad);
                                             @endphp
                                             <div class="form-check form-switch mb-2 p-2 border-bottom student-item" data-search="{{ $searchString }}">
-                                                {{-- ID corregido para evitar duplicidad --}}
                                                 <input class="form-check-input ms-0 me-3" type="checkbox" name="necesita_tutor[]" value="{{ $alumno->id }}" id="tutor_{{ $alumno->id }}" {{ $alumno->necesita_tutor ? 'checked' : '' }} style="transform: scale(1.3);">
                                                 <label class="form-check-label d-flex align-items-center justify-content-between w-100 py-1" for="tutor_{{ $alumno->id }}">
                                                     <span class="fw-bold me-2 flex-grow-1 text-wrap" style="line-height: 1.2;">
@@ -237,19 +261,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-
-        // NUEVO: Temporizador para que la alerta de éxito desaparezca sola tras 3 segundos
         document.addEventListener("DOMContentLoaded", function() {
             const banner = document.getElementById('bannerSuccess');
             if (banner) {
                 setTimeout(() => {
-                    // Usamos la API nativa de Bootstrap para cerrarla con una transición suave (fade)
                     const bsAlert = new bootstrap.Alert(banner);
                     bsAlert.close();
-                }, 3000); // 3000 milisegundos = 3 segundos
+                }, 3000);
             }
         });
-        // Buscador inteligente en tiempo real que recorre todas las pestañas
+
         document.getElementById('buscadorAlumnos').addEventListener('keyup', function() {
             const normalizarTexto = (texto) => {
                 return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
