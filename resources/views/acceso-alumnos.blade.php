@@ -153,12 +153,13 @@
                 </span>
             </div>
         </div>
-        {{-- AVISO DE ASEOS AVERIADOS / NO OPERATIVOS --}}
-        @if(!$config->aseo_hombres_disponible || !$config->aseo_mujeres_disponible)
-        <div class="container mt-4">
+
+        {{-- INTEGRADO: AVISO DE ASEOS AVERIADOS / NO OPERATIVOS CON SOPORTE COMPLETO DE TIPOS --}}
+        @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
+        <div class="container mt-4 mb-4">
             <div class="row justify-content-center">
                 <div class="col-md-10">
-                    @if(!$config->aseo_hombres_disponible)
+                    @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false)
                         <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                             <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                             <div class="text-muted" style="font-size: 0.9rem;">
@@ -167,7 +168,7 @@
                         </div>
                     @endif
 
-                    @if(!$config->aseo_mujeres_disponible)
+                    @if($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
                         <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                             <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                             <div class="text-muted" style="font-size: 0.9rem;">
@@ -236,7 +237,7 @@
                                             </span>
                                         @endif
 
-                                        {{-- NUEVO: Icono de Excepción de Límite (Excepción Médica) justo al lado --}}
+                                        {{-- Icono de Excepción de Límite (Excepción Médica) --}}
                                         @if($alumno->excepcion_limite)
                                             <span class="ms-2 text-danger" title="Excepción médica (Sin límite de salidas)" style="cursor: help;">
                                                 <i class="bi bi-person-heart fs-5"></i>
@@ -296,15 +297,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // NOTA: 'DOMContentLoaded' significa que el código se activa automáticamente 
-            // en cuanto la página termina de cargarse en el navegador.
-
             // ==========================================
             // --- 1. LÓGICA DEL CRONÓMETRO GLOBAL ---
             // ==========================================
-            // ¿Qué hace?: Lee los segundos que le quedan a un alumno de margen y pinta una cuenta atrás.
-            // ¿Para qué sirve?: Muestra un reloj en plan (04:59, 04:58...) y, cuando llega a cero,
-            // refresca la página automáticamente para actualizar los colores de las tarjetas.
             let faltan = {{ intval($segundosFaltantes) }}; 
             const display = document.getElementById('timer-display');
 
@@ -312,38 +307,30 @@
                 const interval = setInterval(() => {
                     faltan--;
                     if (faltan <= 0) {
-                        clearInterval(interval); // Apaga el reloj
-                        window.location.reload(); // Refresca la pantalla
+                        clearInterval(interval); 
+                        window.location.reload(); 
                     } else {
-                        // Formatea los segundos para que siempre se vean dos dígitos (ej: "05" en vez de "5")
                         let m = Math.floor(faltan / 60);
                         let s = faltan % 60;
                         display.innerText = (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
                     }
-                }, 1000); // Se ejecuta cada 1 segundo
+                }, 1000);
             }
-
 
             // ==========================================
             // --- 2. LÓGICA DEL OJITO DE PRIVACIDAD ---
             // ==========================================
-            // ¿Qué hace?: Busca todos los botones que tengan la clase del "ojito". Al hacer clic, oculta el número
-            // real de salidas que lleva el alumno hoy y pone unos asteriscos (***), o al revés.
-            // ¿Para qué sirve?: Por privacidad. Si el profesor tiene la pantalla proyectada en clase, evita que
-            // todos los alumnos vean cuántas veces ha ido al baño su compañero, salvo que el profesor le dé al ojo para verlo.
             const botonesOjito = document.querySelectorAll('.btn-toggle-ojito');
 
             botonesOjito.forEach(boton => {
                 boton.addEventListener('click', function(e) {
-                    e.preventDefault(); // Evita que la página haga cosas raras al pulsar el icono
+                    e.preventDefault(); 
                     
-                    // Busca la tarjeta del alumno concreta donde se ha hecho clic
                     const contenedor = this.closest('div');
                     const numeroReal = contenedor.querySelector('.salidas-numero');
                     const asteriscos = contenedor.querySelector('.salidas-asteriscos');
                     const icono = this.querySelector('i');
 
-                    // Intercambia el texto por asteriscos y cambia el diseño del ojo (abierto / tachado)
                     if (numeroReal.style.display === 'none') {
                         numeroReal.style.display = 'inline';
                         asteriscos.style.display = 'none';
@@ -358,14 +345,9 @@
                 });
             });
 
-
             // ==========================================
-            // --- 3. LÓGICA DEL BOTÓN "ANTI-REPROCHES" (CANCELAR SALIDA) ---
+            // --- 3. LÓGICA DEL BOTÓN CANCELAR SALIDA ---
             // ==========================================
-            // ¿Qué hace?: Cuando el profesor pulsa "Salida", el botón se transforma en un botón amarillo de 
-            // "Cancelar" con una minicuenta atrás (ej: 5s, 4s...). Si no se toca, el formulario se envía solo al acabar el tiempo.
-            // ¿Para qué sirve?: Evita errores. Si el profesor se equivoca de alumno al hacer clic, tiene unos segundos de margen 
-            // para pulsar "Cancelar", detener el envío y evitar que se guarde una salida falsa en el historial de Postgres.
             document.querySelectorAll('.btn-confirmar-salida').forEach(boton => {
                 let timeoutId = null;
                 let intervaloId = null;
@@ -375,7 +357,6 @@
                     const formulario = this.closest('form');
                     const tiempoOriginal = parseInt(this.getAttribute('data-tiempo'));
                     
-                    // Si en la configuración se puso 0 segundos de margen, se envía instantáneo sin esperas
                     if(tiempoOriginal <= 0) {
                         formulario.submit();
                         return;
@@ -384,12 +365,10 @@
                     let tiempoRestante = tiempoOriginal;
 
                     if (!cancelando) {
-                        // --- FASE 1: Se pulsa por primera vez (Empieza la cuenta atrás para arrepentirse) ---
                         cancelando = true;
-                        this.classList.replace('salida-color', 'btn-warning'); // Se vuelve amarillo
+                        this.classList.replace('salida-color', 'btn-warning'); 
                         this.innerHTML = `<div><i class="bi bi-x-circle"></i> Cancelar</div><small class="fw-bold">(${tiempoRestante}s)</small>`;
 
-                        // Va bajando el número de los segundos en el botón cada segundo
                         intervaloId = setInterval(() => {
                             tiempoRestante--;
                             if (tiempoRestante > 0) {
@@ -399,7 +378,6 @@
                             }
                         }, 1000);
 
-                        // Si pasan los segundos sin que nadie cancele, bloquea el botón y envía los datos a Laravel
                         timeoutId = setTimeout(() => {
                             this.disabled = true;
                             this.innerHTML = `<div><i class="bi bi-hourglass-split"></i> Enviando</div>`;
@@ -407,18 +385,15 @@
                         }, tiempoOriginal * 1000);
 
                     } else {
-                        // --- FASE 2: El profesor se ha arrepentido y pulsa "Cancelar" ---
-                        clearTimeout(timeoutId); // Frena el envío automático
-                        clearInterval(intervaloId); // Para el segundero
+                        clearTimeout(timeoutId); 
+                        clearInterval(intervaloId); 
                         cancelando = false;
                         
-                        // Devuelve el botón a su estado verde original de "Salida" como si nada hubiera pasado
                         this.classList.replace('btn-warning', 'salida-color');
                         this.innerHTML = `<div><i class="bi bi-door-open"></i> Salida</div>`;
                     }
                 });
             });
-
         });
     </script>
 </body>

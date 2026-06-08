@@ -19,10 +19,10 @@
             flex-direction: column;
         }
         @media (max-width: 576px) {
-        body {
-            padding-top: 10%;
+            body {
+                padding-top: 10%;
+            }
         }
-    }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; }
         .navbar-custom {
             background-color: rgb(253, 252, 249);
@@ -109,11 +109,13 @@
                     </span>
                 </div>
             </div>
-            @if(!$config->aseo_hombres_disponible || !$config->aseo_mujeres_disponible)
-            <div class="container mt-4">
+
+            {{-- CORREGIDO: Ajustada la comparación para que detecte correctamente tanto false como el texto '0' --}}
+            @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
+            <div class="container mt-4 mb-4">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        @if(!$config->aseo_hombres_disponible)
+                        @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false)
                             <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                                 <div class="text-muted" style="font-size: 0.9rem;">
@@ -122,7 +124,7 @@
                             </div>
                         @endif
 
-                        @if(!$config->aseo_mujeres_disponible)
+                        @if($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
                             <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                                 <div class="text-muted" style="font-size: 0.9rem;">

@@ -1,4 +1,3 @@
-
 @php
     // Cargamos la configuración centralizada directamente en la vista
     $config = \App\Models\Configuracion::todas();
@@ -15,10 +14,8 @@
     <style>
         body { background-color: rgb(244, 242, 238); min-height: 100vh; display: flex; flex-direction: column;}
         @media (max-width: 576px) {
-        body {
-            padding-top: 10%;
+            body { padding-top: 10%; }
         }
-    }
         .navbar-custom { background-color: rgb(253, 252, 249); border-bottom: 2px solid #dee2e6; }
         .main-content { flex: 1; display: flex; align-items: center; padding: 40px 0; margin-top: 5%; }
         .card-step {
@@ -33,21 +30,15 @@
             justify-content: center;
             text-align: center;
         }
-        .nav-color {
-            background-color: rgb(246, 246, 244);
-        }
-        .etapas-color {
-            background-color: #c0535a;
-        }
+        .nav-color { background-color: rgb(246, 246, 244); }
+        .etapas-color { background-color: #c0535a; }
         .card-step:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
         }
         .card-step i { font-size: 3.5rem; margin-bottom: 15px; }
         .card-step span { font-size: 1.5rem; font-weight: 700; }
-        .activo {
-            color: #278943;
-        }
+        .activo { color: #278943; }
         .salida-color {
             background-color: rgb(88, 127, 175) !important;
             color: white !important;
@@ -86,9 +77,7 @@
             <div class="container text-center">
                 <small class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                     <i class="bi bi-person-circle me-1 text-success"></i>
-                    
                     <span class="text-secondary">Sesión de:</span>
-                    
                     <span class="text-success">
                         {{ auth()->user()->nombre }} {{ auth()->user()->apellidos }}
                     </span>
@@ -110,17 +99,20 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-secondary">Paso 1: Selecciona la Etapa</h2>
                 <p class="text-muted fs-5">¿De qué etapa es el alumno?</p>
+                
                 @if(auth()->user()->rol === 'profesor')
-                    <div class="mt-3 text-center">
+                    <div class="mt-3 text-center mb-4">
                         <span class="badge salida-color fs-6 p-2 px-3 rounded-pill">
                             <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
                         </span>
                     </div>
-                    @if(!$config->aseo_hombres_disponible || !$config->aseo_mujeres_disponible)
-                    <div class="container mt-4">
+
+                    {{-- CORREGIDO: Avisos de aseos averiados específicos para la sesión del profesor con tipado blindado --}}
+                    @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
+                    <div class="container mt-3 mb-3">
                         <div class="row justify-content-center">
                             <div class="col-md-10">
-                                @if(!$config->aseo_hombres_disponible)
+                                @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false)
                                     <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                                         <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                                         <div class="text-muted" style="font-size: 0.9rem;">
@@ -129,7 +121,7 @@
                                     </div>
                                 @endif
 
-                                @if(!$config->aseo_mujeres_disponible)
+                                @if($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
                                     <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
                                         <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
                                         <div class="text-muted" style="font-size: 0.9rem;">
@@ -157,16 +149,16 @@
             </div>
         </div>
     </main>
+
     @if(auth()->user()->rol === 'profesor')
         {{-- BANNER DE SENTIDO COMÚN (FOOTER) --}}
         @include('Footer.footer')
     @endif
-</body>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Espera a que la página web termine de cargarse por completo
         document.addEventListener("DOMContentLoaded", function() {
-            
             // Buscamos si hay algún cartel de error rojo en la pantalla (.alert-danger)
             const alerta = document.querySelector('.alert-danger');
             
@@ -174,18 +166,13 @@
             if (alerta) {
                 // Ponemos un temporizador para que se active justo a los 5 segundos (5000 milisegundos)
                 setTimeout(() => {
-                    
                     // Intentamos cerrar el cartel usando la herramienta oficial de Bootstrap 
-                    // para que haga un efecto de desvanecido suave muy elegante.
                     if (typeof bootstrap !== 'undefined') {
                         const bsAlert = new bootstrap.Alert(alerta);
                         bsAlert.close(); // Cierra el cartel con animación
                     } else {
-                        // Si por algún problema de red Bootstrap no se hubiera cargado, 
-                        // borramos el cartel directamente del HTML "a la fuerza" para que no se quede bloqueado.
                         alerta.remove(); 
                     }
-                    
                 }, 5000); // 5000ms = 5 segundos de margen para que el profesor lo lea
             }
         });
