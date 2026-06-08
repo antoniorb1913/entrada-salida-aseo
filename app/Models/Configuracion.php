@@ -30,9 +30,11 @@ class Configuracion extends Model
     public static function todas()
     {
         return (object) [
-            'max_salidas'        => self::obtener('max_salidas', 3),
-            'tiempo_espera'      => self::obtener('tiempo_espera_segundos', 300),
-            'tiempo_cancelacion' => self::obtener('tiempo_cancelacion', 5),
+            'max_salidas'              => self::obtener('max_salidas', 3),
+            'tiempo_espera'            => self::obtener('tiempo_espera_segundos', 300),
+            'tiempo_cancelacion'       => self::obtener('tiempo_cancelacion', 5),
+            'aseo_hombres_disponible'  => (bool) self::obtener('aseo_hombres_disponible', true),
+            'aseo_mujeres_disponible'  => (bool) self::obtener('aseo_mujeres_disponible', true),
         ];
     }
 }

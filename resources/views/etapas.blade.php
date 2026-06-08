@@ -1,3 +1,9 @@
+
+@php
+    // Cargamos la configuración centralizada directamente en la vista
+    $config = \App\Models\Configuracion::todas();
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
