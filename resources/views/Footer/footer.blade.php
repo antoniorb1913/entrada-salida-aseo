@@ -6,18 +6,18 @@
 <footer class="mt-5 py-4 text-center w-100">
     <div class="container d-flex flex-column align-items-center gap-3">
         
-        {{-- UNIFICADO Y REDISEÑADO: ÚNICO AVISO DINÁMICO CON ESTILO DE CÁPSULA FOOTER --}}
+        {{-- UNIFICADO: ÚNICO AVISO DINÁMICO EN FORMATO CÁPSULA CON FONDO AMARILLO/NARANJA SUAVE --}}
         @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
             @php
                 $hombresRoto = ($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false);
                 $mujeresRoto = ($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false);
             @endphp
 
-            <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-warning-subtle" 
-                style="width: 100%; max-width: 850px;">
-                <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
-                <span class="text-muted" style="font-size: 0.95rem;">
-                    <strong class="text-dark">Aviso importante:</strong> 
+            <div class="d-flex align-items-center justify-content-center bg-warning-subtle px-4 py-2 rounded-pill shadow-sm" 
+                 style="width: 100%; max-width: 850px;">
+                <i class="bi bi-exclamation-triangle-fill text-warning-emphasis fs-5 me-2"></i>
+                <span class="text-warning-emphasis" style="font-size: 0.95rem;">
+                    <strong>Aviso importante:</strong> 
                     @if($hombresRoto && $mujeresRoto)
                         Los aseos de <span class="text-danger fw-bold">HOMBRES</span> y <span class="text-danger fw-bold">MUJERES</span> se encuentran temporalmente fuera de servicio.
                     @elseif($hombresRoto)
