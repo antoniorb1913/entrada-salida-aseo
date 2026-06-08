@@ -1,8 +1,3 @@
-@php
-    // Cargamos la configuración centralizada directamente en la vista
-    $config = \App\Models\Configuracion::todas();
-@endphp
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -109,33 +104,6 @@
                     </span>
                 </div>
             </div>
-
-            {{-- CORREGIDO: Ajustada la comparación para que detecte correctamente tanto false como el texto '0' --}}
-            @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
-            <div class="container mt-4 mb-4">
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false)
-                            <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
-                                <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
-                                <div class="text-muted" style="font-size: 0.9rem;">
-                                    <strong class="text-dark">Aviso importante:</strong> El aseo de <span class="text-danger fw-bold">HOMBRES</span> se encuentra temporalmente averiado o fuera de servicio.
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
-                            <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
-                                <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
-                                <div class="text-muted" style="font-size: 0.9rem;">
-                                    <strong class="text-dark">Aviso importante:</strong> El aseo de <span class="text-danger fw-bold">MUJERES</span> se encuentra temporalmente averiado o fuera de servicio.
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            @endif
 
             {{-- Panel de Administrador (Acceso al aseo, Configuración y Consultas) --}}
 
