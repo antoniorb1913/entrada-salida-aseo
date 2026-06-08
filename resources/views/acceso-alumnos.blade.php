@@ -153,6 +153,32 @@
                 </span>
             </div>
         </div>
+        {{-- AVISO DE ASEOS AVERIADOS / NO OPERATIVOS --}}
+        @if(!$config->aseo_hombres_disponible || !$config->aseo_mujeres_disponible)
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    @if(!$config->aseo_hombres_disponible)
+                        <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
+                            <div class="text-muted" style="font-size: 0.9rem;">
+                                <strong class="text-dark">Aviso importante:</strong> El aseo de <span class="text-danger fw-bold">HOMBRES</span> se encuentra temporalmente averiado o fuera de servicio.
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(!$config->aseo_mujeres_disponible)
+                        <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3 mb-2" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
+                            <div class="text-muted" style="font-size: 0.9rem;">
+                                <strong class="text-dark">Aviso importante:</strong> El aseo de <span class="text-danger fw-bold">MUJERES</span> se encuentra temporalmente averiado o fuera de servicio.
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @endif
 
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
