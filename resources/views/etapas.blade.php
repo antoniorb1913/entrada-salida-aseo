@@ -1,8 +1,3 @@
-@php
-    // Cargamos la configuración centralizada directamente en la vista
-    $config = \App\Models\Configuracion::todas();
-@endphp
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -106,36 +101,6 @@
                             <i class="bi bi-people-fill me-2"></i>Alumnos fuera: <strong>{{ $aforo->total }}</strong>
                         </span>
                     </div>
-
-                    {{-- UNIFICADO: ÚNICO AVISO DINÁMICO DE ASEOS OPERATIVOS --}}
-                    @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
-                    @php
-                        $hombresRoto = ($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false);
-                        $mujeresRoto = ($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false);
-                    @endphp
-
-                    <div class="container mt-4 mb-4">
-                        <div class="row justify-content-center">
-                            <div class="col-md-10">
-                                <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3" role="alert">
-                                    <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
-                                    <div class="text-muted" style="font-size: 0.9rem;">
-                                        <strong class="text-dark">Aviso importante:</strong> 
-                                        
-                                        @if($hombresRoto && $mujeresRoto)
-                                            Los aseos de <span class="text-danger fw-bold">HOMBRES</span> y <span class="text-danger fw-bold">MUJERES</span> se encuentran temporalmente fuera de servicio.
-                                        @elseif($hombresRoto)
-                                            El aseo de <span class="text-danger fw-bold">HOMBRES</span> se encuentra temporalmente fuera de servicio.
-                                        @else
-                                            El aseo de <span class="text-danger fw-bold">MUJERES</span> se encuentra temporalmente fuera de servicio.
-                                        @endif
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
                 @endif
             </div>
 
