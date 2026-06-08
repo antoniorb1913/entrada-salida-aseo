@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Alumno;
-use App\Models\Curso; // Asegúrate de tener el modelo Curso
+use App\Models\Curso; 
+use App\Enums\Genero; // Asegúrate de que tu Enum está en esta ruta
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -11,37 +12,49 @@ class AlumnoSeeder extends Seeder
 {
     public function run(): void
     {
-        // Faker crea datos falsos reales
-        $faker = Faker::create('es_ES'); // Configuramos Faker en español
+        // Faker crea datos falsos reales configurado en español
+        $faker = Faker::create('es_ES'); 
 
-        // 1. Obtenemos todos los cursos que tienes en la base de datos (IDs del 1 al 30)
+        // 1. Obtenemos todos los cursos de la base de datos
         $cursos = Curso::all();
 
         foreach ($cursos as $curso) {
-            // 2. Por cada curso, creamos 20 alumnos
+            // 2. Por cada curso, creamos 20 alumnos de forma realista
             for ($i = 1; $i <= 20; $i++) {
+                
+                // Decidimos el género al azar (50% de probabilidad)
+                $generoAleatorio = $faker->randomElement(['MASCULINO', 'FEMENINO']);
+                
+                // Generamos el nombre acorde al género para que coincida
+                if ($generoAleatorio === 'MASCULINO') {
+                    $nombre = $faker->firstNameMale();
+                    $generoEnum = Genero::MASCULINO;
+                } else {
+                    $nombre = $faker->firstNameFemale();
+                    $generoEnum = Genero::FEMENINO;
+                }
+
                 Alumno::create([
-                    // Generamos un NRE aleatorio de 6-7 cifras único
-                    'nre'       => $faker->unique()->numberBetween(100000, 999999),
-                    'nombre'    => $faker->firstName(),
-                    'apellidos' => $faker->lastName() . ' ' . $faker->lastName(),
-                    'curso_id'  => $curso->id,
-                    // Por defecto la excepción médica será false
+                    'nre'              => $faker->unique()->numberBetween(100000, 999999),
+                    'nombre'           => $nombre,
+                    'apellidos'        => $faker->lastName() . ' ' . $faker->lastName(),
+                    'genero'           => $generoEnum, 
+                    'curso_id'         => $curso->id,
                     'excepcion_limite' => false, 
-                    'necesita_tutor' => false,
+                    'necesita_tutor'   => false,
                 ]);
             }
         }
 
-        // 3. (Opcional) Tus alumnos específicos para pruebas
-        // Puedes dejarlos aquí abajo si quieres tener usuarios controlados
+        // 3. Alumno específico para tus pruebas controladas
         Alumno::create([
-            'nre'       => '793122',
-            'nombre'    => 'Antonio', 
-            'apellidos' => 'Rodríguez Test',
-            'curso_id'  => 48,
+            'nre'              => '793122',
+            'nombre'           => 'Antonio', 
+            'apellidos'        => 'Rodríguez Test',
+            'genero'           => Genero::MASCULINO, 
+            'curso_id'         => 48,
             'excepcion_limite' => true,
-            'necesita_tutor' => false,
+            'necesita_tutor'   => false,
         ]);
     }
 }

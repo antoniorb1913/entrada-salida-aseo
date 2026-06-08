@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
-            $table->string('etapas');
+            $table->enum('etapas', Etapas::values());
             $table->string('modalidad')->nullable();
             $table->string('nivel');
             $table->string('letra')->nullable();
