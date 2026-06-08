@@ -4,37 +4,31 @@
 @endphp
 
 <footer class="mt-5 py-4 text-center w-100">
-    {{-- UNIFICADO: ÚNICO AVISO DINÁMICO DE ASEOS OPERATIVOS --}}
-    @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
-    @php
-        $hombresRoto = ($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false);
-        $mujeresRoto = ($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false);
-    @endphp
-
-    <div class="container mt-4 mb-4">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="alert alert-warning d-flex align-items-center shadow-sm border border-warning-subtle py-2 px-3" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
-                    <div class="text-muted" style="font-size: 0.9rem;">
-                        <strong class="text-dark">Aviso importante:</strong> 
-                        
-                        @if($hombresRoto && $mujeresRoto)
-                            Los aseos de <span class="text-danger fw-bold">HOMBRES</span> y <span class="text-danger fw-bold">MUJERES</span> se encuentran temporalmente fuera de servicio.
-                        @elseif($hombresRoto)
-                            El aseo de <span class="text-danger fw-bold">HOMBRES</span> se encuentra temporalmente fuera de servicio.
-                        @else
-                            El aseo de <span class="text-danger fw-bold">MUJERES</span> se encuentra temporalmente fuera de servicio.
-                        @endif
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-
     <div class="container d-flex flex-column align-items-center gap-3">
+        
+        {{-- UNIFICADO Y REDISEÑADO: ÚNICO AVISO DINÁMICO CON ESTILO DE CÁPSULA FOOTER --}}
+        @if($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false || $config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false)
+            @php
+                $hombresRoto = ($config->aseo_hombres_disponible == '0' || $config->aseo_hombres_disponible === false);
+                $mujeresRoto = ($config->aseo_mujeres_disponible == '0' || $config->aseo_mujeres_disponible === false);
+            @endphp
+
+            <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-warning-subtle" 
+                style="width: 100%; max-width: 850px;">
+                <i class="bi bi-exclamation-triangle-fill text-warning fs-5 me-2"></i>
+                <span class="text-muted" style="font-size: 0.95rem;">
+                    <strong class="text-dark">Aviso importante:</strong> 
+                    @if($hombresRoto && $mujeresRoto)
+                        Los aseos de <span class="text-danger fw-bold">HOMBRES</span> y <span class="text-danger fw-bold">MUJERES</span> se encuentran temporalmente fuera de servicio.
+                    @elseif($hombresRoto)
+                        El aseo de <span class="text-danger fw-bold">HOMBRES</span> se encuentra temporalmente fuera de servicio.
+                    @else
+                        El aseo de <span class="text-danger fw-bold">MUJERES</span> se encuentra temporalmente fuera de servicio.
+                    @endif
+                </span>
+            </div>
+        @endif
+
         {{-- RECORDATORIO PRINCIPAL --}}
         <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-info-subtle" 
              style="width: 100%; max-width: 850px;">
@@ -44,7 +38,7 @@
             </span>
         </div>
 
-        {{-- LEYENDA EXCEPCIÓN MÉDICA (Corregido el icono a bi-person-heart y color a text-danger) --}}
+        {{-- LEYENDA EXCEPCIÓN MÉDICA --}}
         <div class="d-flex align-items-center justify-content-center bg-white px-4 py-2 rounded-pill shadow-sm border border-danger-subtle" 
              style="width: 100%; max-width: 850px;">
             <i class="bi bi-person-heart text-danger fs-5 me-2"></i>
