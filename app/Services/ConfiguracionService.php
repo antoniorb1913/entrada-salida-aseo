@@ -8,12 +8,12 @@ use App\Models\Alumno;
 class ConfiguracionService
 {
     /**
-     * MÉTODO GUARDAR LÍMITES (La lógica de los números)
+     * MÉTODO GUARDAR LÍMITES (La lógica de los números y estado de los aseos)
      * ¿Qué hace?: Recoge los datos de configuración del formulario. Pasa los 
      * minutos a segundos y luego usa el comando `updateOrCreate` de Laravel (que significa: "si la clave ya existe en 
      * Postgres actualízala, y si no existe, créala desde cero").
      */
-    public function guardarLimites($maxSalidas, $tiempoEsperaMinutos, $tiempoCancelacion)
+    public function guardarLimites($maxSalidas, $tiempoEsperaMinutos, $tiempoCancelacion, $aseoHombres, $aseoMujeres)
     {
         // El servicio hace el cálculo para guardar el tiempo en segundos dentro de la base de datos
         $tiempoEsperaSegundos = $tiempoEsperaMinutos * 60;
@@ -35,6 +35,18 @@ class ConfiguracionService
             ['clave' => 'tiempo_cancelacion'],
             ['valor' => $tiempoCancelacion]
         );
+
+        // NUEVO: Guarda o actualiza el estado operativo del aseo de hombres
+        Configuracion::updateOrCreate(
+            ['clave' => 'aseo_hombres_disponible'],
+            ['valor' => $aseoHombres]
+        );
+
+        // NUEVO: Guarda o actualiza el estado operativo del aseo de mujeres
+        Configuracion::updateOrCreate(
+            ['clave' => 'aseo_mujeres_disponible'],
+            ['valor' => $aseoMujeres]
+        );
     }
 
     /**
@@ -53,6 +65,12 @@ class ConfiguracionService
             Alumno::whereIn('id', $excepcionesIds)->update(['excepcion_limite' => true]);
         }
     }
+
+    /**
+     * MÉTODO ACTUALIZAR TUTOR
+     * ¿Qué hace?: Pone a todos los alumnos a "falso" en la necesidad de tutor y luego
+     * activa en "verdadero" (`true`) únicamente a los seleccionados en el formulario.
+     */
     public function actualizarTutor($necesita_tutor = [])
     {
         // 1. Reseteamos a todos los alumnos a 'false' para limpiar lo que hubiera antes

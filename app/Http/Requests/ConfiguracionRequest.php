@@ -21,13 +21,15 @@ class ConfiguracionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'max_salidas'        => 'required|integer|min:1',
-            'tiempo_espera'      => 'required|integer|min:0',
-            'tiempo_cancelacion' => 'required|integer|min:0|max:30',
-            'excepciones'        => 'nullable|array',
-            'excepciones.*'      => 'integer|exists:alumnos,id',
-            'necesita_tutor'     => 'nullable|array',
-            'necesita_tutor.*'   => 'integer|exists:alumnos,id',
+            'max_salidas'             => 'required|integer|min:1',
+            'tiempo_espera'           => 'required|integer|min:0',
+            'tiempo_cancelacion'      => 'required|integer|min:0|max:30',
+            'excepciones'             => 'nullable|array',
+            'excepciones.*'           => 'integer|exists:alumnos,id',
+            'necesita_tutor'          => 'nullable|array',
+            'necesita_tutor.*'        => 'integer|exists:alumnos,id',
+            'aseo_hombres_disponible' => 'required|in:0,1',
+            'aseo_mujeres_disponible' => 'required|in:0,1',
         ];
     }
 }

@@ -14,7 +14,7 @@ class ConfiguracionController extends Controller
 
     public function __construct(ConfiguracionService $configuracionService)
     {
-        $this->configuracionService = $configuracionService;
+        $this->this->configuracionService = $configuracionService;
     }
 
     /**
@@ -41,16 +41,21 @@ class ConfiguracionController extends Controller
      * Recoge los números que se han puesto en el formulario y actualiza tanto los límites de tiempo
      * globales como la lista de alumnos con "excepciones médicos" (los que pueden salir más veces).
      */
+    /**
+     * MÉTODO GUARDAR (Procesar el formulario de cambios)
+     */
     public function guardar(ConfiguracionRequest $request)
     {
-        // Guarda los límites de salidas y tiempos
+        // Pasamos los límites Y el estado de los aseos al servicio
         $this->configuracionService->guardarLimites(
             $request->max_salidas, 
             $request->tiempo_espera,
-            $request->tiempo_cancelacion
+            $request->tiempo_cancelacion,
+            $request->aseo_hombres_disponible,
+            $request->aseo_mujeres_disponible
         );
 
-        // Guarda la lista de alumnos exceptuados (enfermedades, etc.)
+        // Guarda la lista de alumnos exceptuados
         $this->configuracionService->actualizarExcepciones(
             $request->excepciones ?? []
         );
