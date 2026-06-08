@@ -14,7 +14,7 @@ class ConfiguracionController extends Controller
 
     public function __construct(ConfiguracionService $configuracionService)
     {
-        $this->this->configuracionService = $configuracionService;
+        $this->configuracionService = $configuracionService;
     }
 
     /**
